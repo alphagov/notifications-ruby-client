@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'notifications/ruby/client/version'
+require 'notifications/client/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "notifications-ruby-client"
-  spec.version       = Notifications::Ruby::Client::VERSION
+  spec.version       = Notifications::Client::VERSION
   spec.authors       = ["dazahern", "Mario Andrés Correa"]
   spec.email         = ["macool@bitzesty.com"]
 

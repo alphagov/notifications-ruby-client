@@ -40,7 +40,7 @@ class RubyClient
 		then
 		request.set_form_data
 	({
-		
+
 		to: => to,
   		template: => template,
   		personalisation: => personalisation
@@ -48,7 +48,7 @@ class RubyClient
 	else
 		request.set_form_data
 	({
-		
+
 		to: => to,
   		template: => template
 	})
@@ -60,10 +60,7 @@ class RubyClient
 	puts response.code
 	puts response.body
 
-	
+
 	end
 
 end
-
-
-
