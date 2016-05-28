@@ -1,4 +1,5 @@
 require "spec_helper"
+require "pry"
 
 describe Notifications::Client do
   it "has a version number" do
@@ -26,9 +27,13 @@ describe Notifications::Client do
   }
 
   describe "client jwt token" do
+    let(:jwt_token) {
+      client.speaker.send(:jwt_token)
+    }
+
     let(:decoded_payload) {
       JWT.decode(
-        client.send(:jwt_token),
+        jwt_token,
         jwt_secret,
         true,
         algorithm: "HS256"
@@ -44,12 +49,45 @@ describe Notifications::Client do
   end
 
   describe "#send_email" do
-    it "should send valid notification" do
+    let(:mocked_response) {
+      {
+        data: {
+          notification: {
+            id: 1
+          }
+        }
+      }
+    }
 
+    before do
+      uri = URI.parse base_url
+      stub_request(
+        :post,
+        "#{uri.host}:#{uri.port}/notifications/email"
+      ).to_return(
+        body: mocked_response.to_json,
+        status: 201,
+        headers: { "Content-Type" => "application/json" }
+      )
+    end
+
+    let!(:sent_email) {
+      client.send_email(
+        to: "email@gov.uk",
+        template: "f6895ff7-86e0-4d38-80ab-c9525856c3ff"
+      )
+    }
+
+    it "should send valid notification" do
+      expect(sent_email).to be_a(
+        Notifications::Client::ResponseNotification
+      )
     end
 
     it "response includes id" do
-      # todo
+      expect(sent_email.id).to eq(
+        mocked_response[:data][:notification][:id]
+      )
     end
   end
 

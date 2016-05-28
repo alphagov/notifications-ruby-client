@@ -1,22 +1,25 @@
 require "notifications/client/version"
-require "jwt"
+require "notifications/client/speaker"
+require "notifications/client/response_notification"
 
 module Notifications
   class Client
-    def initialize(base_url, service_id, secret)
-      @secret = secret
-      @base_url = base_url
-      @service_id = service_id
+    attr_reader :speaker
+
+    ##
+    # @see Notifications::Client::Speaker#initialize
+    def initialize(*args)
+      @speaker = Speaker.new(*args)
     end
 
-    private
-
-    def jwt_token
-      payload = {
-        iss: @service_id,
-        iat: Time.now.to_i
-      }
-      JWT.encode payload, @secret, "HS256"
+    ##
+    # @see Notifications::Client::Speaker#post
+    def send_email(args)
+      response = speaker.post(
+        "email",
+        args
+      )
+      ResponseNotification.new response
     end
   end
 end
