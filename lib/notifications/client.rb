@@ -21,5 +21,15 @@ module Notifications
       )
       ResponseNotification.new response
     end
+
+    ##
+    # @see Notifications::Client::Speaker#post
+    def send_sms(args)
+      response = speaker.post(
+        "sms",
+        args
+      )
+      ResponseNotification.new response
+    end
   end
 end

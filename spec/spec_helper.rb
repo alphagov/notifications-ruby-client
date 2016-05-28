@@ -3,6 +3,8 @@ require 'notifications/client'
 require 'webmock/rspec'
 require 'factory_girl'
 
+Dir[Dir.pwd + "/spec/support/**/*.rb"].each { |f| require f }
+
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 

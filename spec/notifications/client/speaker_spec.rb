@@ -7,6 +7,12 @@ describe Notifications::Client do
     let(:jwt_token) {
       client.speaker.send(:jwt_token)
     }
+    let(:jwt_secret) {
+      attributes_for(:notifications_client)[:jwt_secret]
+    }
+    let(:jwt_service) {
+      attributes_for(:notifications_client)[:jwt_service]
+    }
 
     let(:decoded_payload) {
       JWT.decode(
@@ -18,7 +24,6 @@ describe Notifications::Client do
     }
 
     it "should have valid payload" do
-      # todo
       expect(
         decoded_payload.first["iss"]
       ).to eq(jwt_service)
