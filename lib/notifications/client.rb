@@ -15,21 +15,17 @@ module Notifications
     ##
     # @see Notifications::Client::Speaker#post
     def send_email(args)
-      response = speaker.post(
-        "email",
-        args
+      ResponseNotification.new(
+        speaker.send(:post, "email", args)
       )
-      ResponseNotification.new response
     end
 
     ##
     # @see Notifications::Client::Speaker#post
     def send_sms(args)
-      response = speaker.post(
-        "sms",
-        args
+      ResponseNotification.new(
+        speaker.send(:post, "sms", args)
       )
-      ResponseNotification.new response
     end
   end
 end

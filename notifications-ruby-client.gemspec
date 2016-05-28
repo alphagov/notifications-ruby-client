@@ -6,8 +6,8 @@ require 'notifications/client/version'
 Gem::Specification.new do |spec|
   spec.name          = "notifications-ruby-client"
   spec.version       = Notifications::Client::VERSION
-  spec.authors       = ["dazahern", "Mario Andrés Correa"]
-  spec.email         = ["daz.ahern@digital.cabinet-office.gov.uk", "macool@bitzesty.com"]
+  spec.authors       = ["dazahern", "bitzesty"]
+  spec.email         = ["daz.ahern@digital.cabinet-office.gov.uk", "support@bitzesty.com"]
 
   spec.summary       = "ruby client for notifications api"
   spec.homepage      = "https://github.com/alphagov/notifications-ruby-client"

@@ -6,6 +6,7 @@ module Notifications
   class Client
     class Speaker
       USER_AGENT = "NOTIFY-API-RUBY-CLIENT"
+
       ##
       # @param base_url [String] host URL. This is
       #   the address to which we perform the POST
@@ -18,6 +19,8 @@ module Notifications
         @base_url = base_url
         @service_id = service_id
       end
+
+      private
 
       ##
       # @param kind [String] 'email' or 'sms'
@@ -35,10 +38,8 @@ module Notifications
         )
         request.body = form_data
         response = http.request(request)
-        JSON.parse(response.body)["data"]
+        JSON.parse(response.body)
       end
-
-      private
 
       def http
         Net::HTTP.new(uri.host, uri.port)

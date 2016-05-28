@@ -4,7 +4,7 @@ module Notifications
       attr_reader :id
 
       def initialize(response)
-        @id = response["notification"]["id"]
+        @id = response["data"]["notification"]["id"]
       end
     end
   end

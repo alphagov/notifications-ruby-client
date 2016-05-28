@@ -6,22 +6,24 @@ FactoryGirl.define do
     jwt_secret "b646da86-2648-a663-ce2b-f26489a663cce2b"
 
     initialize_with do
-      new(
-        base_url,
-        jwt_service,
-        jwt_secret
-      )
+      new(base_url, jwt_service, jwt_secret)
     end
   end
 
+  ##
+  # stubbed. response from API
   factory :notifications_client_post_response,
-          class: Object do #stubbed
+          class: Notifications::Client::ResponseNotification do
     data do
       {
         notification: {
           id: 1
         }
       }
+    end
+
+    initialize_with do
+      new(data)
     end
   end
 end
