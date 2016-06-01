@@ -6,8 +6,6 @@ describe Notifications::Client do
   end
 
   describe "#base_url" do
-
-
     describe "default base url" do
       let(:client) { build :notifications_client }
 
