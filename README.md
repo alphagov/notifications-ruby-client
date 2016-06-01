@@ -1,7 +1,8 @@
 # GOV.UK notifications-ruby-client
 
 Ruby client for the GOV.UK Notifications API
-## Usage
+
+## Installation
 
 Prior to usage an account must be created through the notify admin console. This will allow access to the API credentials you application.
 
@@ -11,17 +12,18 @@ You can then install the gem or require it in your application.
 gem 'notifications-ruby-client'
 ```
 
+## Usage
+
 The client requires the credentials when initialising: `service_id` (Your service id) and `secret_id` (API KEY).
 
 ```ruby
 client = Notifications::Client.new(service_id, secret_id)
-client = Notifications::Client.new(service_id, secret)
 ```
 
 you can also override api endpoint
 
 ```ruby
-client = Notifications::Client.new(service_id, secret, base_url)
+client = Notifications::Client.new(service_id, secret_id, base_url)
 client.base_url # => Notifications::Client::PRODUCTION_BASE_URL
 ```
 
