@@ -1,6 +1,6 @@
 # GOV.UK notifications-ruby-client
 
-Ruby client for the GOV.UK Notifications API
+Ruby client for GOV.UK Notify
 
 ## Installation
 
