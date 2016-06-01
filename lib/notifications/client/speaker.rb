@@ -8,8 +8,8 @@ module Notifications
     class Speaker
       attr_reader :base_url
 
-      BASE_PATH = "/notifications"
-      USER_AGENT = "NOTIFY-API-RUBY-CLIENT/#{Notifications::Client::VERSION}"
+      BASE_PATH = "/notifications".freeze
+      USER_AGENT = "NOTIFY-API-RUBY-CLIENT/#{Notifications::Client::VERSION}".freeze
 
       ##
       # @param service_id [String] your service
@@ -24,7 +24,7 @@ module Notifications
         @base_url = base_url || PRODUCTION_BASE_URL
       end
 
-      private
+    private
 
       ##
       # @param kind [String] 'email' or 'sms'
@@ -49,7 +49,7 @@ module Notifications
       # @param id [String]
       # @param options [Hash] query
       # @see #perform_request!
-      def get(id=nil, options=nil)
+      def get(id = nil, options = nil)
         if !options.nil? && options.keys.any?
           path = "?" + URI.encode_www_form(options)
         end

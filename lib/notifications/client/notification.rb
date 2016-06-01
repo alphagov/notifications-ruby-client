@@ -14,8 +14,9 @@ module Notifications
         :created_at,
         :updated_at,
         :content_char_count
-      ]
-      attr_reader *FIELDS
+      ].freeze
+
+      attr_reader(*FIELDS)
 
       def initialize(notification)
         FIELDS.each do |field|

@@ -22,7 +22,6 @@ FactoryGirl.define do
             "id" => "f9043884-acac-46db-b2ea-f08cd8ec6d67",
             "original_file_name" => "Test run"
           },
-          "sent_at" => "2016-04-26T15:29:37.230976+00:00",
           "id" => "f163deaf-2d3f-4ec6-98fc-f23fa511518f",
           "content_char_count" => 490,
           "service" => "5cf87313-fddd-4482-a2ea-48e37320efd1",

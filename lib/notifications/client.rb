@@ -9,7 +9,7 @@ module Notifications
   class Client
     attr_reader :speaker
 
-    PRODUCTION_BASE_URL = "https://api.notifications.service.gov.uk"
+    PRODUCTION_BASE_URL = "https://api.notifications.service.gov.uk".freeze
 
     delegate :base_url,
              :base_url=,
@@ -61,7 +61,7 @@ module Notifications
     # @option options [String] :limit_days
     # @see Notifications::Client::Speaker#get
     # @return [NotificationsCollection]
-    def get_notifications(options={})
+    def get_notifications(options = {})
       NotificationsCollection.new(
         speaker.send(:get, nil, options)
       )
