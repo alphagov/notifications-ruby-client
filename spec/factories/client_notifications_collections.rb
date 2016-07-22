@@ -14,7 +14,7 @@ FactoryGirl.define do
           "next" => "/notifications?page=3&template_type=sms&status=delivered"
         },
         "notifications" => 2.times.map {
-          attributes_for(:client_notification)[:body]["notification"]
+          attributes_for(:client_notification)[:body]["data"]["notification"]
         }
       }
     end
