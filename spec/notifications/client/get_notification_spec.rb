@@ -23,7 +23,7 @@ describe Notifications::Client do
     before do
       stub_request(
         :get,
-        "#{uri.host}:#{uri.port}/notifications/#{id}"
+        "https://#{uri.host}:#{uri.port}/notifications/#{id}"
       ).to_return(body: mocked_response.to_json)
     end
 

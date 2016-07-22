@@ -8,7 +8,7 @@ RSpec.shared_examples "stub_post_request" do |kind|
   before do
     stub_request(
       :post,
-      "#{uri.host}:#{uri.port}/notifications/#{kind}"
+      "https://#{uri.host}:#{uri.port}/notifications/#{kind}"
     ).to_return(
       body: mocked_response.to_json,
       status: 201,
