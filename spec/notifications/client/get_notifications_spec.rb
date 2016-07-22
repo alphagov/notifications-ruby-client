@@ -19,7 +19,7 @@ describe Notifications::Client do
     before do
       stub_request(
         :get,
-        "#{uri.host}:#{uri.port}/notifications/"
+        "https://#{uri.host}:#{uri.port}/notifications/"
       ).to_return(body: mocked_response.to_json)
     end
 
@@ -66,7 +66,7 @@ describe Notifications::Client do
     before do
       stub_request(
         :get,
-        "#{uri.host}:#{uri.port}/notifications/?#{request_path}"
+        "https://#{uri.host}:#{uri.port}/notifications/?#{request_path}"
       ).to_return(body: mocked_response.to_json)
     end
 
@@ -74,7 +74,7 @@ describe Notifications::Client do
       notifications
       expect(WebMock).to have_requested(
         :get,
-        "#{uri.host}:#{uri.port}/notifications/"
+        "https://#{uri.host}:#{uri.port}/notifications/"
       ).with(query: options)
     end
 

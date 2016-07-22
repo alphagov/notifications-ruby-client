@@ -66,7 +66,7 @@ module Notifications
       # @raise [RequestError] if request is
       #   not successful
       def perform_request!(request)
-        response = http.request(request)
+        response = open(request)
         if response.is_a?(Net::HTTPClientError)
           raise RequestError.new(response)
         else
@@ -74,9 +74,11 @@ module Notifications
         end
       end
 
-      def http
+      def open(request)
         uri = URI.parse(@base_url)
-        Net::HTTP.new(uri.host, uri.port)
+        Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+          http.request(request)
+        end
       end
 
       def headers

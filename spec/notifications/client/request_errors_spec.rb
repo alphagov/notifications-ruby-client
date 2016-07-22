@@ -15,7 +15,7 @@ describe Notifications::Client do
     before do
       stub_request(
         :get,
-        "#{uri.host}:#{uri.port}/notifications/1"
+        "https://#{uri.host}:#{uri.port}/notifications/1"
       ).to_return(
         status: 403,
         body: error_response.to_json
