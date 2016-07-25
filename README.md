@@ -1,10 +1,12 @@
-# GOV.UK notifications-ruby-client
+# GOV.UK Notify Ruby client
 
-Ruby client for GOV.UK Notify
+API client for GOV.UK Notify written in Ruby.
+
+[![Build Status](https://travis-ci.org/alphagov/notifications-ruby-client.svg?branch=master)](https://travis-ci.org/alphagov/notifications-ruby-client)
 
 ## Installation
 
-Prior to usage an account must be created through the notify admin console. This will allow access to the API credentials you application.
+Prior to usage an account must be created through the Notify admin console. This will allow access to the API credentials you application.
 
 You can then install the gem or require it in your application.
 
