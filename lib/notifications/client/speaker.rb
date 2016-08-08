@@ -24,8 +24,6 @@ module Notifications
         @base_url = base_url || PRODUCTION_BASE_URL
       end
 
-    private
-
       ##
       # @param kind [String] 'email' or 'sms'
       # @param form_data [Hash]
@@ -56,6 +54,8 @@ module Notifications
         request = Net::HTTP::Get.new(path, headers)
         perform_request!(request)
       end
+
+      private
 
       ##
       # @return [Hash] JSON parsed response
