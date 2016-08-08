@@ -49,15 +49,11 @@ module Notifications
       # @param id [String]
       # @param options [Hash] query
       # @see #perform_request!
-      def get(id = nil, options = nil)
-        if !options.nil? && options.keys.any?
-          path = "?" + URI.encode_www_form(options)
-        end
-
-        request = Net::HTTP::Get.new(
-          "#{BASE_PATH}/#{id}#{path}",
-          headers
-        )
+      def get(id = nil, options = {})
+        path = BASE_PATH.dup
+        path << "/" << id if id
+        path << "?" << URI.encode_www_form(options) if options.any?
+        request = Net::HTTP::Get.new(path, headers)
         perform_request!(request)
       end
 
