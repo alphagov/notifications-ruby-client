@@ -45,7 +45,7 @@ module Notifications
     # @return [Notification]
     def get_notification(id)
       Notification.new(
-        speaker.get(id)["data"]["notification"]
+        speaker.get(id)
       )
     end
 

@@ -24,6 +24,8 @@ module Notifications
       attr_reader(*FIELDS)
 
       def initialize(notification)
+        notification = normalize(notification)
+
         FIELDS.each do |field|
           instance_variable_set(
             :"@#{field}",
@@ -45,6 +47,12 @@ module Notifications
             value
           end
         end
+      end
+
+      private
+
+      def normalize(notification)
+        notification.key?('data') ? notification['data']['notification'] : notification
       end
     end
   end
