@@ -3,17 +3,22 @@ module Notifications
     class Notification
       FIELDS = [
         :id,
+        :api_key,
+        :billable_units,
         :to,
+        :subject,
+        :body,
         :job,
+        :notification_type,
         :status,
         :service,
         :sent_at,
         :sent_by,
         :template,
+        :template_version,
         :reference,
         :created_at,
-        :updated_at,
-        :content_char_count
+        :updated_at
       ].freeze
 
       attr_reader(*FIELDS)

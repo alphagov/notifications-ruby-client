@@ -24,10 +24,15 @@ FactoryGirl.define do
               "original_file_name" => "Test run"
             },
             "id" => "f163deaf-2d3f-4ec6-98fc-f23fa511518f",
-            "content_char_count" => 490,
             "service" => "5cf87313-fddd-4482-a2ea-48e37320efd1",
             "reference" => "None",
-            "sent_by" => "mmg"
+            "sent_by" => "mmg",
+            "api_key" => "Test API key",
+            "billable_units" => 0,
+            "body" => "Test body",
+            "notification_type" => "email",
+            "subject" => "Test subject",
+            "template_version" => 10
           }
         }
       }
