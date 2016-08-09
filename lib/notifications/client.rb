@@ -26,7 +26,7 @@ module Notifications
     # @return [ResponseNotification]
     def send_email(args)
       ResponseNotification.new(
-        speaker.send(:post, "email", args)
+        speaker.post("email", args)
       )
     end
 
@@ -35,7 +35,7 @@ module Notifications
     # @return [ResponseNotification]
     def send_sms(args)
       ResponseNotification.new(
-        speaker.send(:post, "sms", args)
+        speaker.post("sms", args)
       )
     end
 
@@ -45,7 +45,7 @@ module Notifications
     # @return [Notification]
     def get_notification(id)
       Notification.new(
-        speaker.send(:get, id)["notification"]
+        speaker.get(id)
       )
     end
 
@@ -63,7 +63,7 @@ module Notifications
     # @return [NotificationsCollection]
     def get_notifications(options = {})
       NotificationsCollection.new(
-        speaker.send(:get, nil, options)
+        speaker.get(nil, options)
       )
     end
   end
