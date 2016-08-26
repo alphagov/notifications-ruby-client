@@ -27,10 +27,10 @@ module Notifications
         notification = normalize(notification)
 
         FIELDS.each do |field|
-          instance_variable_set(
-            :"@#{field}",
-            notification.fetch(field.to_s)
-          )
+            instance_variable_set(
+              :"@#{field}",
+              notification.fetch(field.to_s, nil)
+            )
         end
       end
 

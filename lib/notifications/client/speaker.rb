@@ -39,7 +39,7 @@ module Notifications
           "#{BASE_PATH}/#{kind}",
           headers
         )
-        request.body = form_data
+        request.body = form_data.is_a?(Hash) ? form_data.to_json : form_data
         perform_request!(request)
       end
 
