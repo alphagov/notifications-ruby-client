@@ -40,7 +40,7 @@ module Notifications
     end
 
     ##
-    # @param id [Integer]
+    # @param id [String]
     # @see Notifications::Client::Speaker#get
     # @return [Notification]
     def get_notification(id)

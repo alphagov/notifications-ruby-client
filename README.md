@@ -11,14 +11,13 @@ Prior to usage an account must be created through the Notify admin console. This
 You can then install the gem or require it in your application.
 
 ```
-gem 'notifications-ruby-client'
+gem install 'notifications-ruby-client'
 ```
 
-## Usage
-
-The client requires the credentials when initialising: `service_id` (Your service id) and `secret_id` (API KEY).
+## Getting started
 
 ```ruby
+require 'notifications-ruby-client'
 client = Notifications::Client.new(service_id, secret_id)
 ```
 
@@ -29,18 +28,29 @@ client = Notifications::Client.new(service_id, secret_id, base_url)
 client.base_url # => Notifications::Client::PRODUCTION_BASE_URL
 ```
 
-### send sms or email
+Generate an API key by logging in to GOV.UK Notify [GOV.UK Notify](https://www.notifications.service.gov.uk) and going to the API integration page.
 
-send sms or email providing recipient and template
+You will find your service ID on the API integration page.
+
+### Send a message
+
+Text message:
 
 ```ruby
-sms = client.send_sms(to: number, template: template_id)
-email = client.send_email(to: number, template: template_id)
+sms = client.send_sms(to: number, 
+                      template: template_id,
+                      personalisation: {
+                      name: "name",
+                      year: "2016"
+  }
+)
+
 ```
 
-additionally you may provide personalisation fields
-
+Email:
 ```ruby
+email = client.send_email(to: number, template: template_id)
+
 sms = client.send_sms(
   to: number,
   template: template_id,
@@ -51,31 +61,49 @@ sms = client.send_sms(
 ) # => Notifications::Client::ResponseNotification
 ```
 
-returns a `Notifications::Client::ResponseNotification`, which has the notification's id
+Find `template_id` by clicking **API info** for the template you want to send.
 
-### get notifications
+If a template has placeholders, you need to provide their values in `personalisation`. Otherwise do not pass in `personalisation`
 
-from an id
+If successful the response is a `Notifications::Client::ResponseNotification`, which has the notification id.
+Otherwise a Notifications::Client::RequestError is returned.
+
+
+### Get the status of one message
 
 ```ruby
-notification = client.get_notification(sms.id)
-notification.id         # => f163deaf-2d3f-4ec6-98fc-f23fa511518f
-notification.to         # => 07515 987 456
-notification.status     # => "delivered"
-notification.created_at # => 2016-04-26T15:29:36.891512+00:00
+notification = client.get_notification(id) # => Notifications::Client::Notification
+notification.id         # => uuid for the notification
+notification.to         # => recipient email address or mobile number
+notification.status     # => status of the message "created|pending|sent|delivered|permanent-failure|temporary-failure" 
+notification.created_at # => Date time the message was created
+notification.api_key    # => uuid for the api key (not the actual api key)
+notification.billable_units # => units billable or nil for email
+notification.subject    # => Subject of email or nil for sms
+notification.body       # => Body of message
+notification.job        # => job id if created by a csv or nil if message sent via api
+notification.notification_type # => sms | email
+notification.service    # => uuid for service
+notification.sent_at    # => Date time the message is sent to the provider or nil if status = "created"
+notification.sent_by    # => Name of the provider that sent the message or nil if status = "created"
+notification.template   # => Hash containing template id, name, version, template type sms|email
+notification.template_version # Template version number
+notification.reference  # => reference of the email or nil for sms
+notification.updated_at # => Date time that the notification was last updated
 ```
 
-or get them all
+### Get the status of all messages
 
 ```ruby
 notifications = client.get_notifications
-notifications.links # => { last: "", next: "" }
-notifications.total # => 162
+notifications.links # => {"last"=>"/notifications?page=4", "next"=>"/notifications?page=2"}
+notifications.total # => 202
 notifications.page_size # => 50
 notifications.collection # => [] (array of notification objects)
+
 ```
 
-query parameters are also supported
+Query parameters are also supported
 
 ```ruby
 client.get_notifications(
@@ -87,9 +115,9 @@ client.get_notifications(
 )
 ```
 
-### exceptions
+### Exceptions
 
-raised exceptions will contain error message and response status code
+Raised exceptions will contain error message and response status code
 
 ```ruby
 client = Notifications::Client.new(base_url, invalid, invalid)
@@ -97,3 +125,35 @@ rescue Notifications::Client::RequestError => e
 e.code # => 403
 e.message # => Invalid credentials
 ```
+<table>
+  <thead>
+    <tr>
+      <td> Code </td>
+      <td> Message </td>
+     </tr>
+  </thead>
+  <tbdoy>
+  <tr>
+    <td> 403 </td>
+    <td> {"token"=>["Invalid token: signature"]} </td>
+  </tr>
+  <tr>
+    <td> 403 </td>
+    <td> {"token"=>["Invalid token: expired"]} </td>
+  </tr>
+  <tr>
+    <td> 429 </td>
+    <td> Exceeded send limits (50) for today </td>
+  </tr>
+  <tr>
+    <td> 400 </td>
+    <td> Can’t send to this recipient using a team-only API key </td>
+  </tr>
+  <tr>
+    <td> 400 </td>
+    <td> Can’t send to this recipient when service is in trial 
+          mode - see https://www.notifications.service.gov.uk/trial-mode
+    </td>
+  </tr>
+  </tbody>
+</table>

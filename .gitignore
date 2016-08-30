@@ -7,3 +7,8 @@
 /pkg/
 /spec/reports/
 /tmp/
+.DS_Store
+/vendor
+environment.sh
+/.idea/
+/.idea/vcs.xml
