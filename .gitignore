@@ -12,3 +12,4 @@
 environment.sh
 /.idea/
 /.idea/vcs.xml
+docker.env
