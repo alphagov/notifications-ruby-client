@@ -10,6 +10,8 @@
 .DS_Store
 /vendor
 environment.sh
+docker.env
 /.idea/
 /.idea/vcs.xml
 docker.env
+vendor

@@ -11,7 +11,7 @@ def main
   test_get_notification_by_id_endpoint(client, email_notification.id, 'email')
   test_get_notification_by_id_endpoint(client, sms_notification.id, 'sms')
   test_get_all_notifications(client, sms_notification.id, email_notification.id)
-  p 'ruby client functional tests pass'
+  p 'ruby client integration tests pass'
   exit 0
 end
 
