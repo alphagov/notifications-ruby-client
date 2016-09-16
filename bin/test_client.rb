@@ -16,13 +16,15 @@ def main
 end
 
 def test_send_email_endpoint(client)
-  email_resp = client.send_email(to: ENV['FUNCTIONAL_TEST_EMAIL'], template: ENV['EMAIL_TEMPLATE_ID'])
+  email_resp = client.send_email(to: ENV['FUNCTIONAL_TEST_EMAIL'], template: ENV['EMAIL_TEMPLATE_ID'],
+                                 personalisation:Hash["name", "some name"])
   test_notification_response_data_type(email_resp, 'email')
   email_resp
 end
 
 def test_send_sms_endpoint(client)
-  sms_resp = client.send_sms(to: ENV['FUNCTIONAL_TEST_NUMBER'], template: ENV['SMS_TEMPLATE_ID'])
+  sms_resp = client.send_sms(to: ENV['FUNCTIONAL_TEST_NUMBER'], template: ENV['SMS_TEMPLATE_ID'],
+                             personalisation:Hash["name", "some name"])
   test_notification_response_data_type(sms_resp, 'sms')
   sms_resp
 end
