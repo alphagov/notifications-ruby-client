@@ -18,7 +18,7 @@ gem install 'notifications-ruby-client'
 ## Getting started
 
 ```ruby
-require 'notifications-ruby-client'
+require 'notifications/client'
 client = Notifications::Client.new(service_id, secret_id)
 ```
 
