@@ -2,7 +2,6 @@
 
 API client for GOV.UK Notify written in Ruby.
 
-[![Build Status](https://travis-ci.org/alphagov/notifications-ruby-client.svg?branch=master)](https://travis-ci.org/alphagov/notifications-ruby-client)
 [![Gem Version](https://badge.fury.io/rb/notifications-ruby-client.svg)](https://badge.fury.io/rb/notifications-ruby-client)
 
 ## Installation
