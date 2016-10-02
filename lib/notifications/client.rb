@@ -11,7 +11,9 @@ module Notifications
 
     PRODUCTION_BASE_URL = "https://api.notifications.service.gov.uk".freeze
 
-    delegate :base_url,
+    delegate :service_id,
+             :secret_token,
+             :base_url,
              :base_url=,
              to: :speaker
 
