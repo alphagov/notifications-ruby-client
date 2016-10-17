@@ -7,6 +7,8 @@ module Notifications
   class Client
     class Speaker
       attr_reader :base_url
+      attr_reader :service_id
+      attr_reader :secret_token
 
       BASE_PATH = "/notifications".freeze
       USER_AGENT = "NOTIFY-API-RUBY-CLIENT/#{Notifications::Client::VERSION}".freeze
@@ -18,10 +20,20 @@ module Notifications
       #   secret
       # @param base_url [String] host URL. This is
       #   the address to perform the requests
-      def initialize(service_id, secret_token, base_url = nil)
-        @service_id = service_id
-        @secret_token = secret_token
-        @base_url = base_url || PRODUCTION_BASE_URL
+      def initialize(service_id, secret_token = nil, base_url = nil)
+        if secret_token == nil and base_url == nil
+          @service_id = service_id[service_id.length - 73..service_id.length - 38]
+          @secret_token = service_id[service_id.length - 36..service_id.length]
+          @base_url = PRODUCTION_BASE_URL
+        elsif secret_token.start_with?("http") and base_url == nil
+          @service_id = service_id[service_id.length - 73..service_id.length - 38]
+          @secret_token = service_id[service_id.length - 36..service_id.length]
+          @base_url = secret_token
+        else
+          @service_id = service_id
+          @secret_token = secret_token[secret_token.length - 36..secret_token.length]
+          @base_url = base_url || PRODUCTION_BASE_URL
+        end
       end
 
       ##
