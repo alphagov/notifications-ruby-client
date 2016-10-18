@@ -18,19 +18,10 @@ gem install 'notifications-ruby-client'
 
 ```ruby
 require 'notifications/client'
-client = Notifications::Client.new(service_id, secret_id)
+client = Notifications::Client.new(api_key)
 ```
 
-you can also override api endpoint
-
-```ruby
-client = Notifications::Client.new(service_id, secret_id, base_url)
-client.base_url # => Notifications::Client::PRODUCTION_BASE_URL
-```
-
-Generate an API key by logging in to GOV.UK Notify [GOV.UK Notify](https://www.notifications.service.gov.uk) and going to the API integration page.
-
-You will find your service ID on the API integration page.
+Generate an API key by logging in to GOV.UK Notify [GOV.UK Notify](https://www.notifications.service.gov.uk) and going to the **API integration** page.
 
 ### Send a message
 
