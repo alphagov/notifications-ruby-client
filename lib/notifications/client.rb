@@ -3,7 +3,7 @@ require "notifications/client/speaker"
 require "notifications/client/notification"
 require "notifications/client/response_notification"
 require "notifications/client/notifications_collection"
-require 'active_support/core_ext/module/delegation'
+require "forwardable"
 
 module Notifications
   class Client
@@ -11,11 +11,8 @@ module Notifications
 
     PRODUCTION_BASE_URL = "https://api.notifications.service.gov.uk".freeze
 
-    delegate :service_id,
-             :secret_token,
-             :base_url,
-             :base_url=,
-             to: :speaker
+    extend Forwardable
+    def_delegators :speaker, :service_id, :secret_token, :base_url, :base_url=
 
     ##
     # @see Notifications::Client::Speaker#initialize
