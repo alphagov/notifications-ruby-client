@@ -40,10 +40,8 @@ sms = client.send_sms(to: number,
 
 Email:
 ```ruby
-email = client.send_email(to: number, template: template_id)
-
-sms = client.send_sms(
-  to: number,
+email = client.send_email(
+  to: email_address, 
   template: template_id,
   personalisation: {
     name: "name",
