@@ -84,7 +84,7 @@ module Notifications
 
       def open(request)
         uri = URI.parse(@base_url)
-        Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+        Net::HTTP.start(uri.host, uri.port, :ENV, use_ssl: uri.scheme == 'https') do |http|
           http.request(request)
         end
       end
