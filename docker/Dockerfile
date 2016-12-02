@@ -1,10 +1,12 @@
 FROM ruby:2.3.1-slim
 
-ARG APT_HTTP_PROXY
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ARG NO_PROXY
 
 RUN \
 	echo "Install Debian packages" \
-	&& ([ -z "$APT_HTTP_PROXY" ] || echo "Acquire::http::Proxy \"${APT_HTTP_PROXY}\";\n" > /etc/apt/apt.conf.d/99HttpProxy) \
+	&& ([ -z "$HTTP_PROXY" ] || echo "Acquire::http::Proxy \"${HTTP_PROXY}\";\n" > /etc/apt/apt.conf.d/99HttpProxy) \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends \
 		make \
