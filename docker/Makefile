@@ -7,4 +7,10 @@ help:
 
 .PHONY: build
 build:
-	docker build --pull -t govuk/notify-ruby-client-builder --build-arg APT_HTTP_PROXY="${HTTP_PROXY}" .
+	docker build \
+		--pull \
+		--build-arg HTTP_PROXY="${HTTP_PROXY}" \
+		--build-arg HTTPS_PROXY="${HTTP_PROXY}" \
+		--build-arg NO_PROXY="${NO_PROXY}" \
+		-t govuk/govuk/notify-ruby-client-builder \
+		.
