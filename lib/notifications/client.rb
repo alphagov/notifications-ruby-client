@@ -55,9 +55,8 @@ module Notifications
     # @option options [String] :status
     #   sending, delivered, permanently failed,
     #   temporarily failed, or technical failure
-    # @option options [String] :page
-    # @option options [String] :page_size
-    # @option options [String] :limit_days
+    # @option options [String] :reference
+    #   your reference for the notification
     # @see Notifications::Client::Speaker#get
     # @return [NotificationsCollection]
     def get_notifications(options = {})

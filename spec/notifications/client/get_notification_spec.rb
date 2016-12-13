@@ -23,7 +23,7 @@ describe Notifications::Client do
     before do
       stub_request(
         :get,
-        "https://#{uri.host}:#{uri.port}/notifications/#{id}"
+        "https://#{uri.host}:#{uri.port}/v2/notifications/#{id}"
       ).to_return(body: mocked_response.to_json)
     end
 
@@ -35,9 +35,14 @@ describe Notifications::Client do
 
     %w(
       id
-      to
+      reference
+      phone_number
+      type
       status
+      template
       created_at
+      sent_at
+      completed_at
     ).each do |field|
       it "expect to include #{field}" do
         expect(

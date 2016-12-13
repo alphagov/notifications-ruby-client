@@ -10,7 +10,7 @@ module Notifications
       attr_reader :service_id
       attr_reader :secret_token
 
-      BASE_PATH = "/notifications".freeze
+      BASE_PATH = "/v2/notifications".freeze
       USER_AGENT = "NOTIFY-API-RUBY-CLIENT/#{Notifications::Client::VERSION}".freeze
 
       ##
@@ -39,12 +39,18 @@ module Notifications
       ##
       # @param kind [String] 'email' or 'sms'
       # @param form_data [Hash]
-      # @option form_data [String] :to recipient
-      #   to notify (sms or email)
+      # @option form_data [String] :phone_number
+      #   phone number of the sms recipient
+      # @option form_data [String] :email_address
+      #   email address of the email recipent
       # @option form_data [String] :template
       #   template to render in notification
       # @option form_data [Hash] :personalisation
       #   fields to use in the template
+      # @option form_data [String] :reference
+      #   A reference specified by the service for the notification. Get all notifications can be filtered by this reference.
+      #   This reference can be unique or used used to refer to a batch of notifications.
+      #   Can be an empty string or nil, when you do not require a reference for the notifications.
       # @see #perform_request!
       def post(kind, form_data)
         request = Net::HTTP::Post.new(

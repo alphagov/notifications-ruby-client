@@ -7,14 +7,12 @@ FactoryGirl.define do
 
     body do
       {
-        "total" => 162,
-        "page_size" => 50,
         "links" => {
-          "last" => "/notifications?page=3&template_type=sms&status=delivered",
-          "next" => "/notifications?page=3&template_type=sms&status=delivered"
+          "current" => "/v2/notifications?page=3&template_type=sms&status=delivered",
+          "next" => "/v2/notifications?page=3&template_type=sms&status=delivered"
         },
         "notifications" => 2.times.map {
-          attributes_for(:client_notification)[:body]["data"]["notification"]
+          attributes_for(:client_notification)[:body]
         }
       }
     end
