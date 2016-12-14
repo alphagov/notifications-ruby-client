@@ -14,3 +14,4 @@
 * `Notifications::Client.get_all_notifications()` => the response object has changed.
   * You can also filter the collection of `Notifications` by `reference`. See the README for more information.
 * `Notifications::Client.get_notification(id)` => the response object has changed. See the README for more information.
+* Initializing a client only requires the api key. 

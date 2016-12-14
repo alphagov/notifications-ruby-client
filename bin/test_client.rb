@@ -5,7 +5,7 @@ require 'notifications/client/response_notification'
 require 'notifications/client/notification'
 
 def main
-  client = Notifications::Client.new(ENV['SERVICE_ID'], ENV['API_KEY'], ENV['NOTIFY_API_URL'])
+  client = Notifications::Client.new(ENV['API_KEY'], ENV['NOTIFY_API_URL'])
   email_notification = test_send_email_endpoint(client)
   sms_notification = test_send_sms_endpoint(client)
   test_get_notification_by_id_endpoint(client, email_notification.id, 'email')

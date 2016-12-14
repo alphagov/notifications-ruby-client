@@ -14,26 +14,13 @@ module Notifications
       USER_AGENT = "NOTIFY-API-RUBY-CLIENT/#{Notifications::Client::VERSION}".freeze
 
       ##
-      # @param service_id [String] your service
-      #   API identifier
-      # @param secret [String] your service API
-      #   secret
-      # @param base_url [String] host URL. This is
-      #   the address to perform the requests
-      def initialize(service_id, secret_token = nil, base_url = nil)
-        if secret_token == nil and base_url == nil
-          @service_id = service_id[service_id.length - 73..service_id.length - 38]
-          @secret_token = service_id[service_id.length - 36..service_id.length]
-          @base_url = PRODUCTION_BASE_URL
-        elsif secret_token.start_with?("http") and base_url == nil
-          @service_id = service_id[service_id.length - 73..service_id.length - 38]
-          @secret_token = service_id[service_id.length - 36..service_id.length]
-          @base_url = secret_token
-        else
-          @service_id = service_id
-          @secret_token = secret_token[secret_token.length - 36..secret_token.length]
-          @base_url = base_url || PRODUCTION_BASE_URL
-        end
+      # @param secret [String] your service API secret
+      # @param base_url [String] host URL. This is the address to perform the requests.
+      #                          If left nil the production url is used.
+      def initialize(secret_token = nil, base_url = nil)
+        @service_id = secret_token[secret_token.length - 73..secret_token.length - 38]
+        @secret_token = secret_token[secret_token.length - 36..secret_token.length]
+        @base_url = base_url || PRODUCTION_BASE_URL
       end
 
       ##

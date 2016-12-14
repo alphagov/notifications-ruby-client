@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
     "dazahern"
   ]
 
-  spec.email         = ["info@bitzesty.com", "daz.ahern@digital.cabinet-office.gov.uk"]
+  spec.email         = ["notify@digital.cabinet-office.gov.uk"]
 
   spec.summary       = "Ruby client for GOV.UK Notifications API"
   spec.homepage      = "https://github.com/alphagov/notifications-ruby-client"
