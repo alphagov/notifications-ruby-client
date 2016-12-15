@@ -57,6 +57,8 @@ module Notifications
     #   temporarily failed, or technical failure
     # @option options [String] :reference
     #   your reference for the notification
+    # @option options [String] :olderThanId
+    #   notification id to return notificaitons that are older than this id.
     # @see Notifications::Client::Speaker#get
     # @return [NotificationsCollection]
     def get_notifications(options = {})

@@ -305,10 +305,12 @@ Otherwise a `Notification::Client::RequestError` is raised
 ### Get the status of all messages
 
 ```ruby
+# See section below for a description of the arguments.
 args = Hash[
-			'template_type', 'sms',
+            'template_type', 'sms',
             'status', 'failed',
             'reference', 'your reference string'
+            'olderThanId', 'e194efd1-c34d-49c9-9915-e4267e01e92e' # => Notifications::Client::Notification
             ]
 notifications = client.get_notifications(args)
 ```
@@ -392,3 +394,8 @@ You can omit this argument to ignore the filter.
 This is the `reference` you gave at the time of sending the notification. The `reference` can be a unique identifier for the notification or an identifier for a batch of notifications.
 
 You can omit this argument to ignore the filter.
+
+
+#### `olderThanId`
+You can get the notifications older than a given `Notification.id`.
+You can pass an empty string or null to ignore the filter
