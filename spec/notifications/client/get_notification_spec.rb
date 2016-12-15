@@ -40,6 +40,7 @@ describe Notifications::Client do
       type
       status
       template
+      body
       created_at
       sent_at
       completed_at

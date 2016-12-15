@@ -26,6 +26,8 @@ FactoryGirl.define do
               "uri" => "/v2/templates/5e427b42-4e98-46f3-a047-32c4a87d26bb",
               "version" => 1
             },
+        "body" => "Body of the message",
+        "subject" => nil,
         "created_at" => "2016-11-29T11:12:30.12354Z",
         "sent_at" => "2016-11-29T11:12:40.12354Z",
         "completed_at" => "2016-11-29T11:12:52.12354Z"

@@ -16,6 +16,8 @@ module Notifications
         :type,
         :status,
         :template,
+        :body,
+        :subject,
         :sent_at,
         :created_at,
         :completed_at

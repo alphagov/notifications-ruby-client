@@ -114,6 +114,8 @@ def expected_fields_in_email_resp
      status
      sent_at
      template
+     body
+     subject
      created_at
 )
 end
@@ -138,6 +140,7 @@ def expected_fields_in_sms_resp
      status
      sent_at
      template
+     body
      created_at
    )
 end
@@ -151,7 +154,8 @@ def expected_fields_in_sms_resp_that_are_nil
      line_5
      line_5
      line_6
-     postcode)
+     postcode
+     subject)
 end
 
 def test_get_all_notifications(client, first_id, second_id)
