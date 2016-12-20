@@ -6,7 +6,7 @@ ARG NO_PROXY
 
 RUN \
 	echo "Install Debian packages" \
-	&& ([ -z "$HTTP_PROXY" ] || echo "Acquire::http::Proxy \"${HTTP_PROXY}\";\n" > /etc/apt/apt.conf.d/99HttpProxy) \
+	&& ([ -z "$HTTP_PROXY" ] || echo "Acquire::http::Proxy \"${HTTP_PROXY}\";" > /etc/apt/apt.conf.d/99HttpProxy) \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends \
 		make \
