@@ -28,7 +28,7 @@ Generate an API key by logging in to GOV.UK Notify [GOV.UK Notify](https://www.n
 Text message:
 
 ```ruby
-sms = client.send_sms(to: number, 
+sms = client.send_sms(to: number,
                       template: template_id,
                       personalisation: {
                       name: "name",
@@ -64,7 +64,7 @@ Otherwise a Notifications::Client::RequestError is returned.
 notification = client.get_notification(id) # => Notifications::Client::Notification
 notification.id         # => uuid for the notification
 notification.to         # => recipient email address or mobile number
-notification.status     # => status of the message "created|pending|sent|delivered|permanent-failure|temporary-failure" 
+notification.status     # => status of the message "created|pending|sent|delivered|permanent-failure|temporary-failure"
 notification.created_at # => Date time the message was created
 notification.api_key    # => uuid for the api key (not the actual api key)
 notification.billable_units # => units billable or nil for email
@@ -140,7 +140,7 @@ e.message # => Invalid credentials
   </tr>
   <tr>
     <td> 400 </td>
-    <td> Can’t send to this recipient when service is in trial 
+    <td> Can’t send to this recipient when service is in trial
           mode - see https://www.notifications.service.gov.uk/trial-mode
     </td>
   </tr>
