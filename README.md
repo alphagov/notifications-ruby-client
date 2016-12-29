@@ -205,10 +205,10 @@ Otherwise the client will raise a `Notifications::Client::RequestError`:
 
 ### Arguments
 #### `phone_number`
-The phone number of the recipient, only required for sms notifications.
+The phone number of the recipient, only required when using `client.send_sms`.
 
 #### `email_address`
-The email address of the recipient, only required for email notifications.
+The email address of the recipient, only required when using `client.send_email`.
 
 #### `template_id`
 Find by clicking **API info** for the template you want to send.
@@ -398,4 +398,4 @@ You can omit this argument to ignore the filter.
 
 #### `olderThanId`
 You can get the notifications older than a given `Notification.id`.
-You can pass an empty string or null to ignore the filter
+You can omit this argument to ignore this filter.

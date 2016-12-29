@@ -2,6 +2,7 @@
 
 ###Changed
 * Using version 2 of the notification-api.
+* A new `Notifications::Client` no longer requires the `service_id`, only the `api_key` is required.
 * `Notifications::Client.send_sms()` input parameters and the response object has changed, see the README for more information.
  ```ruby
     client.sendSms(phone_number, template_id, personalisation, reference)
@@ -14,4 +15,4 @@
 * `Notifications::Client.get_all_notifications()` => the response object has changed.
   * You can also filter the collection of `Notifications` by `reference`. See the README for more information.
 * `Notifications::Client.get_notification(id)` => the response object has changed. See the README for more information.
-* Initializing a client only requires the api key. 
+* Initializing a client only requires the api key.

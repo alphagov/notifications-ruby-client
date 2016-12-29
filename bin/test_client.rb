@@ -40,6 +40,15 @@ def test_notification_response_data_type(notification, message_type)
     p 'failed '+ message_type + 'id is not a String'
     exit 1
   end
+  field_should_not_be_nil(expected_fields_in_notification_response, notification, 'send_'+message_type)
+  hash_key_should_not_be_nil(expected_fields_in_template, notification.send('template'), 'send_'+message_type+'.template')
+  if message_type == 'email' then
+    hash_key_should_not_be_nil(expected_fields_in_email_content, notification.send('content'), 'send_'+message_type+'.content')
+  end
+  if message_type == 'sms' then
+    hash_key_should_not_be_nil(expected_fields_in_sms_content, notification.send('content'),'send_'+message_type+'.content')
+  end
+
 end
 
 def test_get_notification_by_id_endpoint(client, id, message_type)
@@ -49,13 +58,16 @@ def test_get_notification_by_id_endpoint(client, id, message_type)
     exit 1
   end
   if message_type == 'email' then
-    field_should_not_be_nil(expected_fields_in_email_resp, get_notification_response, 'send_email')
-    field_should_be_nil(expected_fields_in_email_resp_that_are_nil, get_notification_response, 'send_email')
+    field_should_not_be_nil(expected_fields_in_email_notification, get_notification_response, 'Notifications::Client::Notification for type email')
+    field_should_be_nil(expected_fields_in_email_notification_that_are_nil, get_notification_response, 'Notifications::Client::Notification for type email')
+    hash_key_should_not_be_nil(expected_fields_in_template, get_notification_response.send('template'), 'Notifications::Client::Notification.template for type email')
   end
   if message_type == 'sms' then
-    field_should_not_be_nil(expected_fields_in_sms_resp, get_notification_response, 'send_sms')
-    field_should_be_nil(expected_fields_in_sms_resp_that_are_nil, get_notification_response, 'send_sms')
+    field_should_not_be_nil(expected_fields_in_sms_notification, get_notification_response, 'Notifications::Client::Notification for type sms')
+    field_should_be_nil(expected_fields_in_sms_notification_that_are_nil, get_notification_response, 'Notifications::Client::Notification for type sms')
+    hash_key_should_not_be_nil(expected_fields_in_template, get_notification_response.send('template'), 'Notifications::Client::Notification.template for type sms')
   end
+
 end
 
 
@@ -88,6 +100,15 @@ def get_notification_for_id(client, id, message_type)
   get_notification_response
 end
 
+def hash_key_should_not_be_nil(fields, obj, method_name)
+  fields.each do |field|
+    if obj.has_value?(:"#{field}") then
+      p 'contract test failed because ' + field + ' should not be nil for ' + method_name + ' response'
+      exit 1
+    end
+  end
+end
+
 def field_should_not_be_nil(fields, obj, method_name)
   fields.each do |field|
     if obj.send(:"#{field}") == nil then
@@ -106,7 +127,29 @@ def field_should_be_nil(fields, obj, method_name)
   end
 end
 
-def expected_fields_in_email_resp
+
+def expected_fields_in_notification_response
+  %w(id
+     reference
+     content
+     template
+     uri
+)
+end
+
+def expected_fields_in_email_content
+  %w(from_email
+     body
+     subject
+)
+end
+
+def expected_fields_in_sms_content
+  %w(body
+     )
+end
+
+def expected_fields_in_email_notification
   %w(id
      reference
      email_address
@@ -120,7 +163,7 @@ def expected_fields_in_email_resp
 )
 end
 
-def expected_fields_in_email_resp_that_are_nil
+def expected_fields_in_email_notification_that_are_nil
   %w(phone_number
      line_1
      line_2
@@ -133,7 +176,7 @@ def expected_fields_in_email_resp_that_are_nil
      )
 end
 
-def expected_fields_in_sms_resp
+def expected_fields_in_sms_notification
   %w(id
      phone_number
      type
@@ -145,7 +188,7 @@ def expected_fields_in_sms_resp
    )
 end
 
-def expected_fields_in_sms_resp_that_are_nil
+def expected_fields_in_sms_notification_that_are_nil
   %w(email_address
      line_1
      line_2
@@ -156,6 +199,12 @@ def expected_fields_in_sms_resp_that_are_nil
      line_6
      postcode
      subject)
+end
+
+def expected_fields_in_template
+  %w(id
+     version
+     uri)
 end
 
 def test_get_all_notifications(client, first_id, second_id)

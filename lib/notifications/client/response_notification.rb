@@ -4,8 +4,6 @@ module Notifications
       FIELDS = [
       :id,
       :reference,
-      :type,
-      :status,
       :content,
       :template,
       :uri
