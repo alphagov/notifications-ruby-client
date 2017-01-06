@@ -3,28 +3,29 @@ module Notifications
     class Notification
       FIELDS = [
         :id,
-        :api_key,
-        :billable_units,
-        :to,
-        :subject,
-        :body,
-        :job,
-        :notification_type,
-        :status,
-        :service,
-        :sent_at,
-        :sent_by,
-        :template,
-        :template_version,
         :reference,
+        :email_address,
+        :phone_number,
+        :line_1,
+        :line_2,
+        :line_3,
+        :line_4,
+        :line_5,
+        :line_6,
+        :postcode,
+        :type,
+        :status,
+        :template,
+        :body,
+        :subject,
+        :sent_at,
         :created_at,
-        :updated_at
+        :completed_at
       ].freeze
 
       attr_reader(*FIELDS)
 
       def initialize(notification)
-        notification = normalize(notification)
 
         FIELDS.each do |field|
             instance_variable_set(:"@#{field}", notification.fetch(field.to_s, nil)
@@ -35,7 +36,7 @@ module Notifications
       [
         :sent_at,
         :created_at,
-        :updated_at
+        :completed_at
       ].each do |field|
         define_method field do
           begin
@@ -47,11 +48,6 @@ module Notifications
         end
       end
 
-      private
-
-      def normalize(notification)
-        notification.key?('data') ? notification['data']['notification'] : notification
-      end
     end
   end
 end

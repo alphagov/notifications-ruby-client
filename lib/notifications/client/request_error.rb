@@ -13,7 +13,7 @@ module Notifications
       end
 
       def message_from(body)
-        JSON.parse(body).fetch("message")
+        JSON.parse(body).fetch('errors')
       rescue JSON::ParserError
         body
       end

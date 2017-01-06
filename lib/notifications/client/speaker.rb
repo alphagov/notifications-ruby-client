@@ -10,41 +10,34 @@ module Notifications
       attr_reader :service_id
       attr_reader :secret_token
 
-      BASE_PATH = "/notifications".freeze
+      BASE_PATH = "/v2/notifications".freeze
       USER_AGENT = "NOTIFY-API-RUBY-CLIENT/#{Notifications::Client::VERSION}".freeze
 
       ##
-      # @param service_id [String] your service
-      #   API identifier
-      # @param secret [String] your service API
-      #   secret
-      # @param base_url [String] host URL. This is
-      #   the address to perform the requests
-      def initialize(service_id, secret_token = nil, base_url = nil)
-        if secret_token == nil and base_url == nil
-          @service_id = service_id[service_id.length - 73..service_id.length - 38]
-          @secret_token = service_id[service_id.length - 36..service_id.length]
-          @base_url = PRODUCTION_BASE_URL
-        elsif secret_token.start_with?("http") and base_url == nil
-          @service_id = service_id[service_id.length - 73..service_id.length - 38]
-          @secret_token = service_id[service_id.length - 36..service_id.length]
-          @base_url = secret_token
-        else
-          @service_id = service_id
-          @secret_token = secret_token[secret_token.length - 36..secret_token.length]
-          @base_url = base_url || PRODUCTION_BASE_URL
-        end
+      # @param secret [String] your service API secret
+      # @param base_url [String] host URL. This is the address to perform the requests.
+      #                          If left nil the production url is used.
+      def initialize(secret_token = nil, base_url = nil)
+        @service_id = secret_token[secret_token.length - 73..secret_token.length - 38]
+        @secret_token = secret_token[secret_token.length - 36..secret_token.length]
+        @base_url = base_url || PRODUCTION_BASE_URL
       end
 
       ##
       # @param kind [String] 'email' or 'sms'
       # @param form_data [Hash]
-      # @option form_data [String] :to recipient
-      #   to notify (sms or email)
+      # @option form_data [String] :phone_number
+      #   phone number of the sms recipient
+      # @option form_data [String] :email_address
+      #   email address of the email recipent
       # @option form_data [String] :template
       #   template to render in notification
       # @option form_data [Hash] :personalisation
       #   fields to use in the template
+      # @option form_data [String] :reference
+      #   A reference specified by the service for the notification. Get all notifications can be filtered by this reference.
+      #   This reference can be unique or used used to refer to a batch of notifications.
+      #   Can be an empty string or nil, when you do not require a reference for the notifications.
       # @see #perform_request!
       def post(kind, form_data)
         request = Net::HTTP::Post.new(

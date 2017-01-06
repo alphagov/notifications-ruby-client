@@ -1,11 +1,25 @@
 module Notifications
   class Client
     class ResponseNotification
-      attr_reader :id
+      FIELDS = [
+      :id,
+      :reference,
+      :content,
+      :template,
+      :uri
+    ].freeze
 
-      def initialize(response)
-        @id = response["data"]["notification"]["id"]
+
+      attr_reader(*FIELDS)
+
+      def initialize(notification)
+
+        FIELDS.each do |field|
+            instance_variable_set(:"@#{field}", notification.fetch(field.to_s, nil)
+            )
+        end
       end
+
     end
   end
 end
