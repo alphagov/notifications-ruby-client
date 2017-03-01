@@ -119,7 +119,7 @@ Email:
 ```ruby
 require 'notifications/client/response_notification'
 email = client.send_email(email_address: email_address,
-                          template: template_id,
+                          template_id: template_id,
                           personalisation: Hash[name: "name",
                                             year: "2016"
                                           ],
@@ -139,7 +139,7 @@ email => Notifications::Client::ResponseNotification
 
 email.id         # => uuid for the notification
 email.reference  # => Reference string you supplied in the request
-email.type       # => sms
+email.type       # => email
 email.status     # => status of the message "created|pending|sent|delivered|permanent-failure|temporary-failure"
 email.content    # => Hash containing body => the message sent to the recipient, with placeholders replaced.
                  #                    subject => subject of the message sent to the recipient, with placeholders replaced.
