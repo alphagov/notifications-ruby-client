@@ -29,13 +29,15 @@ Text message:
 
 ```ruby
 require 'notifications/client/response_notification'
-sms = client.send_sms(phone_number: number,
-                      template_id: template_id,
-                      personalisation: Hash[name: "name",
-                                        year: "2016",                      
-                                      ],
-                      reference: "your_reference_string"
-                      ) # => Notifications::Client::ResponseNotification
+sms = client.send_sms(
+  phone_number: number,
+  template_id: template_id,
+  personalisation: {
+    name: "name",
+    year: "2016",                      
+  }
+  reference: "your_reference_string"
+) # => Notifications::Client::ResponseNotification
 ```
 
 <details>
@@ -118,13 +120,15 @@ Email:
 
 ```ruby
 require 'notifications/client/response_notification'
-email = client.send_email(email_address: email_address,
-                          template: template_id,
-                          personalisation: Hash[name: "name",
-                                            year: "2016"
-                                          ],
-                          reference: "your_reference_string"
-                        ) # => Notifications::Client::ResponseNotification
+email = client.send_email(
+  email_address: email_address,
+  template_id: template_id,
+  personalisation: {
+    name: "name",
+    year: "2016"
+  },
+  reference: "your_reference_string"
+) # => Notifications::Client::ResponseNotification
 ```
 
 <details>
@@ -139,7 +143,7 @@ email => Notifications::Client::ResponseNotification
 
 email.id         # => uuid for the notification
 email.reference  # => Reference string you supplied in the request
-email.type       # => sms
+email.type       # => email
 email.status     # => status of the message "created|pending|sent|delivered|permanent-failure|temporary-failure"
 email.content    # => Hash containing body => the message sent to the recipient, with placeholders replaced.
                  #                    subject => subject of the message sent to the recipient, with placeholders replaced.
@@ -222,10 +226,10 @@ You can omit this argument if you do not require a reference for the notificatio
 If the template has placeholders you need to provide their values as a Hash, for example:
 
 ```ruby
-  personalisation=Hash[
-                        'first_name': 'Amala',
-                        'reference_number': '300241',
-                      ]
+  personalisation: {
+    'first_name' => 'Amala',
+    'reference_number' => '300241',
+  }
 ```
 
 You can omit this argument if the template does not contain placeholders.
@@ -306,12 +310,12 @@ Otherwise a `Notification::Client::RequestError` is raised
 
 ```ruby
 # See section below for a description of the arguments.
-args = Hash[
-            'template_type', 'sms',
-            'status', 'failed',
-            'reference', 'your reference string'
-            'olderThanId', 'e194efd1-c34d-49c9-9915-e4267e01e92e' # => Notifications::Client::Notification
-            ]
+args = {
+  'template_type' => 'sms',
+  'status' => 'failed',
+  'reference' => 'your reference string'
+  'olderThanId' => 'e194efd1-c34d-49c9-9915-e4267e01e92e' # => Notifications::Client::Notification
+}
 notifications = client.get_notifications(args)
 ```
 <details>
@@ -321,10 +325,11 @@ Response
 If the request is successful a `Notifications::Client::NotificationsCollection` is returned.
 
 ```ruby
-notifications.links # => Hash containing current=>"/notifications?template_type=sms&status=delivered"
-next=>"/notifications?other_than=last_id_in_list&template_type=sms&status=delivered"}
+notifications.links # => Hash containing current => "/notifications?template_type=sms&status=delivered"
+                    #                    next => "/notifications?other_than=last_id_in_list&template_type=sms&status=delivered"
 notifications.collection # => [] (array of notification objects)
 ```
+
 Otherwise the client will raise a `Notifications::Client::RequestError`:
 <table>
 <thead>
@@ -341,7 +346,7 @@ Otherwise the client will raise a `Notifications::Client::RequestError`:
 <td>
 <pre>
 [{
-	'error': 'ValidationError',
+    'error': 'ValidationError',
     'message': 'bad status is not one of [created, sending, delivered, pending, failed, technical-failure, temporary-failure, permanent-failure]'
 }]
 </pre>
