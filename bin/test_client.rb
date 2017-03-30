@@ -10,7 +10,7 @@ def main
   sms_notification = test_send_sms_endpoint(client)
   test_get_notification_by_id_endpoint(client, email_notification.id, 'email')
   test_get_notification_by_id_endpoint(client, sms_notification.id, 'sms')
-  test_get_all_notifications(client)
+  test_get_all_notifications(client, sms_notification.id, email_notification.id)
   p 'ruby client integration tests pass'
   exit 0
 end
@@ -53,7 +53,6 @@ end
 
 def test_get_notification_by_id_endpoint(client, id, message_type)
   get_notification_response = get_notification_for_id(client, id, message_type)
-
   unless get_notification_response.is_a?(Notifications::Client::Notification) then
     p 'get notification is not a Notifications::Client::Notification for id ' + id
     exit 1
@@ -75,14 +74,14 @@ end
 def get_notification_for_id(client, id, message_type)
   max_attempts = 0
   wait_for_sent_message = true
-  while max_attempts < 14 && wait_for_sent_message
+  while max_attempts < 3 && wait_for_sent_message
     begin
       get_notification_response = client.get_notification(id)
       wait_for_sent_message = false
     rescue Notifications::Client::RequestError => no_result
-      if no_result.to_s.include? "No result found"
+      if no_result.message == "No result found"
         max_attempts = max_attempts + 1
-        sleep 5
+        sleep 3
       else
         p 'get_notification threw an exception for the ' + message_type + ' notification'
         p no_result.to_s
@@ -94,7 +93,7 @@ def get_notification_for_id(client, id, message_type)
       wait_for_sent_message = true
     end
   end
-  if max_attempts == 14 then
+  if max_attempts == 3 then
     p 'get_notification failed because the ' + message_type + ' notification was not found'
     exit 1
   end
@@ -152,6 +151,7 @@ end
 
 def expected_fields_in_email_notification
   %w(id
+     reference
      email_address
      type
      status
@@ -207,13 +207,24 @@ def expected_fields_in_template
      uri)
 end
 
-def test_get_all_notifications(client)
+def test_get_all_notifications(client, first_id, second_id)
   notifications = client.get_notifications()
   unless notifications.is_a?(Notifications::Client::NotificationsCollection) then
     p 'get all notifications is not Notifications::Client::NotificationsCollection'
     exit 1
   end
+
   field_should_not_be_nil(expected_fields_for_get_all_notifications, notifications, 'get_notifications')
+
+  notification_collection = notifications.send(:'collection')
+  unless notification_collection[0].id == first_id then
+    p 'first item in notification_collection is not the expected notification, last message sent'
+    exit 0
+  end
+  unless notification_collection[1].id == second_id then
+    p 'second item in notification_collection is not the expected notification, second last message sent'
+    exit 0
+  end
 end
 
 def expected_fields_for_get_all_notifications
