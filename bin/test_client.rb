@@ -126,7 +126,6 @@ def expected_fields_in_email_notification
      email_address
      type
      status
-     sent_at
      template
      body
      subject
@@ -152,7 +151,6 @@ def expected_fields_in_sms_notification
      phone_number
      type
      status
-     sent_at
      template
      body
      created_at
