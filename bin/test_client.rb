@@ -10,7 +10,7 @@ def main
   sms_notification = test_send_sms_endpoint(client)
   test_get_notification_by_id_endpoint(client, email_notification.id, 'email')
   test_get_notification_by_id_endpoint(client, sms_notification.id, 'sms')
-  test_get_all_notifications(client)
+  test_get_all_notifications(client, sms_notification.id, email_notification.id)
   p 'ruby client integration tests pass'
   exit 0
 end
@@ -52,7 +52,7 @@ def test_notification_response_data_type(notification, message_type)
 end
 
 def test_get_notification_by_id_endpoint(client, id, message_type)
-  get_notification_response = get_notification_for_id(client, id, message_type)
+  get_notification_response = client.get_notification(id)
 
   unless get_notification_response.is_a?(Notifications::Client::Notification) then
     p 'get notification is not a Notifications::Client::Notification for id ' + id
@@ -71,35 +71,6 @@ def test_get_notification_by_id_endpoint(client, id, message_type)
 
 end
 
-
-def get_notification_for_id(client, id, message_type)
-  max_attempts = 0
-  wait_for_sent_message = true
-  while max_attempts < 14 && wait_for_sent_message
-    begin
-      get_notification_response = client.get_notification(id)
-      wait_for_sent_message = false
-    rescue Notifications::Client::RequestError => no_result
-      if no_result.to_s.include? "No result found"
-        max_attempts = max_attempts + 1
-        sleep 5
-      else
-        p 'get_notification threw an exception for the ' + message_type + ' notification'
-        p no_result.to_s
-        exit 1
-      end
-    end
-    if get_notification_response != nil && get_notification_response.send(:'status') == 'created'
-      # we want to test the sent response?
-      wait_for_sent_message = true
-    end
-  end
-  if max_attempts == 14 then
-    p 'get_notification failed because the ' + message_type + ' notification was not found'
-    exit 1
-  end
-  get_notification_response
-end
 
 def hash_key_should_not_be_nil(fields, obj, method_name)
   fields.each do |field|
