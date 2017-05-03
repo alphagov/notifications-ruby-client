@@ -3,6 +3,7 @@ require "notifications/client/speaker"
 require "notifications/client/notification"
 require "notifications/client/response_notification"
 require "notifications/client/notifications_collection"
+require "notifications/client/response_template"
 require "forwardable"
 
 module Notifications
@@ -64,6 +65,15 @@ module Notifications
     def get_notifications(options = {})
       NotificationsCollection.new(
         speaker.get(nil, options)
+      )
+    end
+
+    ##
+    # @param id [String]
+    # @return [Template]
+    def get_template_by_id(id, options = {})
+      Template.new(
+        speaker.get_template(id, options)
       )
     end
   end

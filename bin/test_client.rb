@@ -3,16 +3,37 @@ require 'notifications/client'
 require 'notifications/client/notification'
 require 'notifications/client/response_notification'
 require 'notifications/client/notification'
+require 'notifications/client/response_template'
 
 def main
   client = Notifications::Client.new(ENV['API_KEY'], ENV['NOTIFY_API_URL'])
-  email_notification = test_send_email_endpoint(client)
-  sms_notification = test_send_sms_endpoint(client)
-  test_get_notification_by_id_endpoint(client, email_notification.id, 'email')
-  test_get_notification_by_id_endpoint(client, sms_notification.id, 'sms')
-  test_get_all_notifications(client)
+  test_get_template_by_id(client, ENV['EMAIL_TEMPLATE_ID'])
+  # email_notification = test_send_email_endpoint(client)
+  # sms_notification = test_send_sms_endpoint(client)
+  # test_get_notification_by_id_endpoint(client, email_notification.id, 'email')
+  # test_get_notification_by_id_endpoint(client, sms_notification.id, 'sms')
+  # test_get_all_notifications(client)
   p 'ruby client integration tests pass'
   exit 0
+end
+
+def test_get_template_by_id(client, id)
+  response = client.get_template_by_id(id)
+  p response
+
+  test_template_response(response)
+end
+
+def test_template_response(response)
+  unless response.is_a?(Notifications::Client::Template) then
+    p 'failed test_get_template_by_id response is not a Notifications::Client::Template'
+    exit 1
+  end
+  unless response.id.is_a?(String) then
+    p 'failed template id is not a String'
+    exit 1
+  end
+  field_should_not_be_nil(expected_fields_in_template_response, response, 'get_template_by_id')
 end
 
 def test_send_email_endpoint(client)
@@ -99,6 +120,15 @@ def field_should_be_nil(fields, obj, method_name)
   end
 end
 
+def expected_fields_in_template_response
+  %w(id
+     type
+     created_at
+     created_by
+     body
+     version
+)
+end
 
 def expected_fields_in_notification_response
   %w(id

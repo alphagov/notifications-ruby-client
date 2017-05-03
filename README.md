@@ -404,3 +404,65 @@ You can omit this argument to ignore the filter.
 #### `olderThanId`
 You can get the notifications older than a given `Notification.id`.
 You can omit this argument to ignore this filter.
+
+
+## Get a template by ID
+This will return the latest version of the template. Use [getTemplateVersion](#get-a-template-by-id-and-version) to retrieve a specific template version.
+
+```ruby
+template = client.get_template_by_id(template_id);
+```
+
+<details>
+<summary>
+Response
+</summary>
+
+```Ruby
+template.id         # => uuid for the template
+template.type       # => type of template one of email|sms|letter
+template.created_at # => date and time the template was created
+template.updated_at # => date and time the template was last updated, may be null if version 1
+template.created_by # => email address of the person that created the template
+template.version    # => version of the template
+template.body       # => content of the template
+template.subject    # => subject for email templates, will be empty for other template types
+```
+
+Otherwise the client will raise a `Notifications::Client::RequestError`.
+
+<table>
+<thead>
+<tr>
+<th>message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<pre>
+Status code: 404 {
+"errors":
+[{
+    "error": "NoResultFound",
+    "message": "No result found"
+}]
+}
+</pre>
+<pre>
+Status code: 400 {
+"errors":
+[{
+    "error": "ValidationError",
+    "message": "id is not a valid UUID"
+}]
+}
+</pre>
+</tbody>
+</table>
+</details>
+
+### Arguments
+
+#### `templateId`
+The template id is visible on the template page in the application.
