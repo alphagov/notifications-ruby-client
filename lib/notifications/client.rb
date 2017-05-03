@@ -4,6 +4,7 @@ require "notifications/client/notification"
 require "notifications/client/response_notification"
 require "notifications/client/notifications_collection"
 require "notifications/client/response_template"
+require "notifications/client/template_collection"
 require "forwardable"
 
 module Notifications
@@ -85,6 +86,17 @@ module Notifications
     def get_template_version(id, version, options = {})
       path = "/v2/template/" << id << "/version/" << version
       Template.new(
+        speaker.get_with_url(path, options)
+      )
+    end
+
+    ##
+    # @option options [String] :type
+    #   email, sms, letter
+    # @return [TemplateCollection]
+    def get_all_templates(options = {})
+      path = "/v2/templates"
+      TemplateCollection.new(
         speaker.get_with_url(path, options)
       )
     end

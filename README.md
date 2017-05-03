@@ -410,7 +410,7 @@ You can omit this argument to ignore this filter.
 This will return the latest version of the template. Use [getTemplateVersion](#get-a-template-by-id-and-version) to retrieve a specific template version.
 
 ```ruby
-template = client.get_template_by_id(template_id);
+template = client.get_template_by_id(template_id)
 ```
 
 <details>
@@ -466,3 +466,105 @@ Status code: 400 {
 
 #### `templateId`
 The template id is visible on the template page in the application.
+
+
+## Get a template by ID and version
+This will return the template for the given id and version.
+
+```ruby
+Template template = client.get_template_version(template_id, version)
+```
+
+<details>
+<summary>
+Response
+</summary>
+
+```Ruby
+template.id         # => uuid for the template
+template.type       # => type of template one of email|sms|letter
+template.created_at # => date and time the template was created
+template.updated_at # => date and time the template was last updated, may be null if version 1
+template.created_by # => email address of the person that created the template
+template.version    # => version of the template
+template.body       # => content of the template
+template.subject    # => subject for email templates, will be empty for other template types
+```
+
+Otherwise the client will raise a `Notifications::Client::RequestError`.
+
+<table>
+<thead>
+<tr>
+<th>message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<pre>
+Status code: 404 {
+"errors":
+[{
+    "error": "NoResultFound",
+    "message": "No result found"
+}]
+}
+</pre>
+<pre>
+Status code: 400 {
+"errors":
+[{
+    "error": "ValidationError",
+    "message": "id is not a valid UUID"
+}]
+}
+</pre>
+</tbody>
+</table>
+</details>
+
+### Arguments
+
+#### `templateId`
+The template id is visible on the template page in the application.
+
+#### `version`
+A history of the template is kept. There is a link to `See previous versions` on the template page in the application.
+
+## Get all templates
+This will return the latest version of each template for your service.
+
+```ruby
+args = {
+  'template_type' => 'sms'
+}
+templates = client.get_all_templates(args)
+```
+
+<details>
+<summary>
+Response
+</summary>
+
+```ruby
+    TemplateCollection templates;
+```
+If the response is successful, a TemplateCollection is returned.
+
+If no templates exist for a template type or there no templates for a service, the templates list will be empty.
+
+Otherwise the client will raise a `Notifications::Client::RequestError`.
+
+
+</details>
+
+### Arguments
+
+#### `templateType`
+You can filter the templates by the following options:
+
+* `email`
+* `sms`
+* `letter`
+You can omit this argument to ignore this filter.
