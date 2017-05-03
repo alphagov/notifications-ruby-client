@@ -72,9 +72,22 @@ module Notifications
     # @param id [String]
     # @return [Template]
     def get_template_by_id(id, options = {})
+      path = "/v2/template/" << id
       Template.new(
-        speaker.get_template(id, options)
+        speaker.get_with_url(path, options)
       )
     end
+
+    ##
+    # @param id [String]
+    # @param version [int]
+    # @return [Template]
+    def get_template_version(id, version, options = {})
+      path = "/v2/template/" << id << "/version/" << version
+      Template.new(
+        speaker.get_with_url(path, options)
+      )
+    end
+
   end
 end

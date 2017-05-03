@@ -11,7 +11,6 @@ module Notifications
       attr_reader :secret_token
 
       BASE_PATH = "/v2/notifications".freeze
-      TEMPLATE_BASE_PATH = "/v2/template".freeze
       USER_AGENT = "NOTIFY-API-RUBY-CLIENT/#{Notifications::Client::VERSION}".freeze
 
       ##
@@ -65,9 +64,8 @@ module Notifications
       # @param id [String]
       # @param options [Hash] query
       # @see #perform_request!
-      def get_template(id = nil, options = {})
-        path = TEMPLATE_BASE_PATH.dup
-        path << "/" << id if id
+      def get_with_url(url, options = {})
+        path = url
         path << "?" << URI.encode_www_form(options) if options.any?
         request = Net::HTTP::Get.new(path, headers)
         perform_request!(request)
