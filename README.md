@@ -176,6 +176,19 @@ Otherwise the client will raise a `Notifications::Client::RequestError`:
    </tr>
  </thead>
  <tbody>
+ <tr>
+ <td>
+ <pre>429</pre>
+ </td>
+ <td>
+ <pre>
+ [{
+     "error": "RateLimitError",
+     "message": "Exceeded rate limit for key type TEAM of 10 requests per 10 seconds"
+ }]
+ </pre>
+ </td>
+ </tr>
    <tr>
     <td>
       <pre>429</pre>
