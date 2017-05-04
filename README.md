@@ -472,7 +472,7 @@ The template id is visible on the template page in the application.
 This will return the template for the given id and version.
 
 ```ruby
-Template template = client.get_template_version(template_id, version)
+Template template = client.get_template_version(template_id template_id, version)
 ```
 
 <details>
@@ -568,3 +568,69 @@ You can filter the templates by the following options:
 * `sms`
 * `letter`
 You can omit this argument to ignore this filter.
+
+
+## Generate a preview template
+This will return the contents of a template with the placeholders replaced with the given personalisation.
+```ruby
+templatePreview = client.generate_template_preview(template_id: template_id,
+                                                  personalisation: {
+                                                      name: "name",
+                                                      year: "2016",                      
+                                                    })
+```
+
+<details>
+<summary>
+Response
+</summary>
+
+
+```Ruby
+template.id         # => uuid for the template
+template.version    # => version of the template
+template.body       # => content of the template
+template.subject    # => subject for email templates, will be empty for other template types
+```
+
+
+Otherwise a `Notifications::Client::RequestError` is thrown.
+<table>
+<thead>
+<tr>
+<th>message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<pre>
+Status code: 404 {
+"errors":
+[{
+    "error": "NoResultFound",
+    "message": "No result found"
+}]
+}
+</pre>
+<pre>
+Status code: 400 {
+"errors":
+[{
+    "error": "ValidationError",
+    "message": "id is not a valid UUID"
+}]
+}
+</pre>
+</tbody>
+</table>
+
+</details>
+
+### Arguments
+
+#### `templateId`
+The template id is visible on the template page in the application.
+
+#### `personalisation`
+If a template has placeholders, you need to provide their values. `personalisation` can be an empty or null in which case no placeholders are provided for the notification.

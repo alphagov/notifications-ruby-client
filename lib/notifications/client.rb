@@ -5,6 +5,7 @@ require "notifications/client/response_notification"
 require "notifications/client/notifications_collection"
 require "notifications/client/response_template"
 require "notifications/client/template_collection"
+require "notifications/client/template_preview"
 require "forwardable"
 
 module Notifications
@@ -98,6 +99,17 @@ module Notifications
       path = "/v2/templates"
       TemplateCollection.new(
         speaker.get_with_url(path, options)
+      )
+    end
+
+    ##
+    # @param options [String]
+    # @option personalisation [Hash]
+    # @return [TemplatePreview]
+    def generate_template_preview(id, options = {})
+      path = "/v2/template/" << id << "/preview"
+      TemplatePreview.new(
+        speaker.post_with_url(path, options)
       )
     end
 

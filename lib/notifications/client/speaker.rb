@@ -61,6 +61,7 @@ module Notifications
       end
 
       ##
+      # @param url path of endpoint
       # @param id [String]
       # @param options [Hash] query
       # @see #perform_request!
@@ -68,6 +69,23 @@ module Notifications
         path = url
         path << "?" << URI.encode_www_form(options) if options.any?
         request = Net::HTTP::Get.new(path, headers)
+        perform_request!(request)
+      end
+
+      ##
+      # @param url [String] path of the endpoint
+      # @param form_data [Hash]
+      # @option form_data [String] :template_id
+      #   id of the template to render
+      # @option form_data [Hash] :personalisation
+      #   fields to use in the template
+      # @see #perform_request!
+      def post_with_url(url, form_data)
+        request = Net::HTTP::Post.new(
+          url,
+          headers
+        )
+        request.body = form_data.is_a?(Hash) ? form_data.to_json : form_data
         perform_request!(request)
       end
 
