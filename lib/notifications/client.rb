@@ -84,7 +84,7 @@ module Notifications
     # @param version [int]
     # @return [Template]
     def get_template_version(id, version, options = {})
-      path = "/v2/template/" << id << "/version/" << version
+      path = "/v2/template/" << id << "/version/" << version.to_s
       Template.new(
         speaker.get_with_url(path, options)
       )

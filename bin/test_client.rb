@@ -4,10 +4,14 @@ require 'notifications/client/notification'
 require 'notifications/client/response_notification'
 require 'notifications/client/notification'
 require 'notifications/client/response_template'
+require 'notifications/client/template_collection'
 
 def main
   client = Notifications::Client.new(ENV['API_KEY'], ENV['NOTIFY_API_URL'])
   test_get_template_by_id(client, ENV['EMAIL_TEMPLATE_ID'])
+  test_get_template_version(client, ENV['SMS_TEMPLATE_ID'], 1)
+  test_get_all_templates(client)
+  test_get_all_templates_filter_by_type(client)
   # email_notification = test_send_email_endpoint(client)
   # sms_notification = test_send_sms_endpoint(client)
   # test_get_notification_by_id_endpoint(client, email_notification.id, 'email')
@@ -19,9 +23,39 @@ end
 
 def test_get_template_by_id(client, id)
   response = client.get_template_by_id(id)
-  p response
-
   test_template_response(response)
+end
+
+def test_get_template_version(client, id, version)
+  response = client.get_template_version(id, version)
+  test_template_response(response)
+end
+
+def test_get_all_templates(client)
+  response = client.get_all_templates()
+  unless response.is_a?(Notifications::Client::TemplateCollection) then
+    p 'failed test_get_all_templates response is not a Notifications::Client::TemplateCollection'
+    exit 1
+  end
+  unless response.collection.length >= 2 then
+    p 'failed test_get_all_templates, expected at least 2 templates returned.'
+    exit 1
+  end
+  test_template_response(response.collection[0])
+  test_template_response(response.collection[1])
+end
+
+def test_get_all_templates_filter_by_type(client)
+  response = client.get_all_templates({'type' => 'sms'})
+  unless response.is_a?(Notifications::Client::TemplateCollection) then
+    p 'failed test_get_all_templates response is not a Notifications::Client::TemplateCollection'
+    exit 1
+  end
+  unless response.collection.length >= 1 then
+    p 'failed test_get_all_templates, expected at least 2 templates returned.'
+    exit 1
+  end
+  test_template_response(response.collection[0])
 end
 
 def test_template_response(response)
