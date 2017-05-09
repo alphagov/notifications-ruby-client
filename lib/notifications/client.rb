@@ -3,6 +3,9 @@ require "notifications/client/speaker"
 require "notifications/client/notification"
 require "notifications/client/response_notification"
 require "notifications/client/notifications_collection"
+require "notifications/client/response_template"
+require "notifications/client/template_collection"
+require "notifications/client/template_preview"
 require "forwardable"
 
 module Notifications
@@ -66,5 +69,49 @@ module Notifications
         speaker.get(nil, options)
       )
     end
+
+    ##
+    # @param id [String]
+    # @return [Template]
+    def get_template_by_id(id, options = {})
+      path = "/v2/template/" << id
+      Template.new(
+        speaker.get_with_url(path, options)
+      )
+    end
+
+    ##
+    # @param id [String]
+    # @param version [int]
+    # @return [Template]
+    def get_template_version(id, version, options = {})
+      path = "/v2/template/" << id << "/version/" << version.to_s
+      Template.new(
+        speaker.get_with_url(path, options)
+      )
+    end
+
+    ##
+    # @option options [String] :type
+    #   email, sms, letter
+    # @return [TemplateCollection]
+    def get_all_templates(options = {})
+      path = "/v2/templates"
+      TemplateCollection.new(
+        speaker.get_with_url(path, options)
+      )
+    end
+
+    ##
+    # @param options [String]
+    # @option personalisation [Hash]
+    # @return [TemplatePreview]
+    def generate_template_preview(id, options = {})
+      path = "/v2/template/" << id << "/preview"
+      TemplatePreview.new(
+        speaker.post_with_url(path, options)
+      )
+    end
+
   end
 end

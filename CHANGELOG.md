@@ -1,3 +1,14 @@
+##2.1.0
+
+###Changed
+* Added methods to get templates and generate a preview of a template.
+* `get_template_by_id` - get the latest version of a template by id.
+* `get_template_version` - get the template by id and version.
+* `get_all_templates` - get all templates, can be filtered by template type.
+* `generate_template_preview` - get the contents of a template with the placeholders replaced with the given personalisation.
+* See the README for more information about the new template methods.
+
+
 ##2.0.0
 
 ###Changed
