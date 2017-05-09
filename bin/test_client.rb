@@ -187,6 +187,7 @@ def expected_fields_in_template_preview
   %w(id
      body
      version
+     type
 )
 end
 

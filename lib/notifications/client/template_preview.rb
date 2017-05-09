@@ -5,7 +5,8 @@ module Notifications
         :id,
         :version,
         :body,
-        :subject
+        :subject,
+        :type
       ].freeze
 
             attr_reader(*FIELDS)
