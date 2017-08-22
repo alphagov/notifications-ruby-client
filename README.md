@@ -28,7 +28,6 @@ Generate an API key by logging in to GOV.UK Notify [GOV.UK Notify](https://www.n
 Text message:
 
 ```ruby
-require 'notifications/client/response_notification'
 sms = client.send_sms(
   phone_number: number,
   template_id: template_id,
@@ -52,14 +51,12 @@ sms => Notifications::Client::ResponseNotification
 
 sms.id         # => uuid for the notification
 sms.reference  # => Reference string you supplied in the request
-sms.type       # => sms
-sms.status     # => status of the message "created|pending|sent|delivered|permanent-failure|temporary-failure"
-content        # => Hash containing body => the message sent to the recipient, with placeholders replaced.
+sms.content    # => Hash containing body => the message sent to the recipient, with placeholders replaced.
                #                    from_number => the sms sender number of your service found **Settings** page
-template       # => Hash containing id => id of the template
+sms.template   # => Hash containing id => id of the template
                #                    version => version of the template
-               #                    uri => url of the template    
-uri            # => URL of the notification
+               #                    uri => url of the template
+sms.uri        # => URL of the notification
 ```
 
 Otherwise the client will raise a `Notifications::Client::RequestError`:
@@ -132,7 +129,6 @@ Otherwise the client will raise a `Notifications::Client::RequestError`:
 Email:
 
 ```ruby
-require 'notifications/client/response_notification'
 email = client.send_email(
   email_address: email_address,
   template_id: template_id,
@@ -156,14 +152,12 @@ email => Notifications::Client::ResponseNotification
 
 email.id         # => uuid for the notification
 email.reference  # => Reference string you supplied in the request
-email.type       # => email
-email.status     # => status of the message "created|pending|sent|delivered|permanent-failure|temporary-failure"
 email.content    # => Hash containing body => the message sent to the recipient, with placeholders replaced.
                  #                    subject => subject of the message sent to the recipient, with placeholders replaced.
                  #                    from_email => the from email of your service found **Settings** page
 email.template   # => Hash containing id => id of the template
                  #                    version => version of the template
-                 #                    uri => url of the template    
+                 #                    uri => url of the template
 email.uri        # => URL of the notification
 ```
 
@@ -233,6 +227,122 @@ Otherwise the client will raise a `Notifications::Client::RequestError`:
 </table>
 </details>
 
+Letter:
+
+```ruby
+letter = client.send_letter(
+  template_id: template_id,
+  personalisation: {
+    address_line_1: 'Her Majesty The Queen',  # required
+    address_line_2: 'Buckingham Palace', # required
+    address_line_3: 'London',
+    postcode: 'SW1 1AA',  # required
+
+    ... # any other personalisation found in your template
+  },
+  reference: "your_reference_string"
+) # => Notifications::Client::ResponseNotification
+```
+
+<details>
+<summary>
+Response
+</summary>
+
+If the request is successful, a `Notifications::Client:ResponseNotification` is returned
+
+```ruby
+letter => Notifications::Client::ResponseNotification
+
+letter.id           # => uuid for the notification
+letter.reference    # => Reference string you supplied in the request
+letter.content      # => Hash containing body => the body of the letter sent to the recipient, with placeholders replaced
+                    #                    subject => the main heading of the letter
+letter.template     # => Hash containing id => id of the template
+                    #                    version => version of the template
+                    #                    uri => url of the template
+letter.uri          # => URL of the notification
+```
+
+Otherwise the client will raise a `Notifications::Client::RequestError`:
+<table>
+<thead>
+<tr>
+<th>error.code</th>
+<th>error.message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<pre>429</pre>
+</td>
+<td>
+<pre>
+[{
+    "error": "RateLimitError",
+    "message": "Exceeded rate limit for key type TEAM of 10 requests per 10 seconds"
+}]
+</pre>
+</td>
+</tr>
+<tr>
+<td>
+<pre>429</pre>
+</td>
+<td>
+<pre>
+[{
+    "error": "TooManyRequestsError",
+    "message": "Exceeded send limits (50) for today"
+}]
+</pre>
+</td>
+</tr>
+<tr>
+<td>
+<pre>400</pre>
+</td>
+<td>
+<pre>
+[{
+    "error": "BadRequestError",
+    "message": "Can"t send to this recipient using a team-only API key"
+]}
+</pre>
+</td>
+</tr>
+<tr>
+<td>
+<pre>400</pre>
+</td>
+<td>
+<pre>
+[{
+    "error": "BadRequestError",
+    "message": "Can"t send to this recipient when service is in trial mode
+                - see https://www.notifications.service.gov.uk/trial-mode"
+}]
+</pre>
+</td>
+</tr>
+<tr>
+<td>
+<pre>400</pre>
+</td>
+<td>
+<pre>
+[{
+    "error": "ValidationError",
+    "message": "personalisation address_line_1 is a required property"
+}]
+</pre>
+</td>
+</tr>
+</tbody>
+</table>
+</details>
+
 ### Arguments
 #### `phone_number`
 The phone number of the recipient, only required when using `client.send_sms`.
@@ -258,7 +368,24 @@ If the template has placeholders you need to provide their values as a Hash, for
   }
 ```
 
-You can omit this argument if the template does not contain placeholders.
+You can omit this argument if the template does not contain placeholders and is for email or sms.
+
+#### `personalisation` (for letters)
+
+If you are sending a letter, you will need to provide the letter fields in the format `"address_line_#"`, for example:
+
+```ruby
+personalisation: {
+    'address_line_1' => 'The Occupier',
+    'address_line_2' => '123 High Street',
+    'address_line_3' => 'London',
+    'postcode' => 'SW14 6BH',
+    'first_name' => 'Amala',
+    'reference_number' => '300241',
+}
+```
+
+The fields `address_line_1`, `address_line_2` and `postcode` are required.
 
 ### Get the status of one message
 
@@ -332,6 +459,7 @@ Otherwise a `Notification::Client::RequestError` is raised
 </details>
 
 </details>
+
 ### Get the status of all messages
 
 ```ruby
