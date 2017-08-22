@@ -51,11 +51,11 @@ end
 
 def test_get_all_templates_filter_by_type(client)
   response = client.get_all_templates({'type' => 'sms'})
-  unless response.is_a?(Notifications::Client::TemplateCollection) then
+  unless response.is_a?(Notifications::Client::TemplateCollection)
     p 'failed test_get_all_templates response is not a Notifications::Client::TemplateCollection'
     exit 1
   end
-  unless response.collection.length >= 1 then
+  unless response.collection.length >= 1
     p 'failed test_get_all_templates, expected at least 2 templates returned.'
     exit 1
   end
@@ -69,11 +69,11 @@ def test_generate_template_preview(client, id)
 end
 
 def test_template_response(response, test_method)
-  unless response.is_a?(Notifications::Client::Template) then
+  unless response.is_a?(Notifications::Client::Template)
     p 'failed test_get_template_by_id response is not a Notifications::Client::Template'
     exit 1
   end
-  unless response.id.is_a?(String) then
+  unless response.id.is_a?(String)
     p 'failed template id is not a String'
     exit 1
   end
@@ -81,11 +81,11 @@ def test_template_response(response, test_method)
 end
 
 def test_template_preview(response)
-  unless response.is_a?(Notifications::Client::TemplatePreview) then
+  unless response.is_a?(Notifications::Client::TemplatePreview)
     p 'failed test_generate_template_preview response is not a Notifications::Client::TemplatePreview'
     exit 1
   end
-  unless response.id.is_a?(String) then
+  unless response.id.is_a?(String)
     p 'failed template id is not a String'
     exit 1
   end
@@ -168,7 +168,7 @@ end
 
 def hash_key_should_not_be_nil(fields, obj, method_name)
   fields.each do |field|
-    if obj.has_value?(:"#{field}") then
+    if obj.has_value?(:"#{field}")
       p 'contract test failed because ' + field + ' should not be nil for ' + method_name + ' response'
       exit 1
     end
@@ -177,7 +177,7 @@ end
 
 def field_should_not_be_nil(fields, obj, method_name)
   fields.each do |field|
-    if obj.send(:"#{field}") == nil then
+    if obj.send(:"#{field}") == nil
       p 'contract test failed because ' + field + ' should not be nil for ' + method_name + ' response'
       exit 1
     end
@@ -186,7 +186,7 @@ end
 
 def field_should_be_nil(fields, obj, method_name)
   fields.each do |field|
-    if obj.send(:"#{field}") != nil then
+    if obj.send(:"#{field}") != nil
       p 'contract test failed because ' + field + ' should be nil for ' + method_name + ' response'
       exit 1
     end
@@ -323,7 +323,7 @@ end
 
 def test_get_all_notifications(client)
   notifications = client.get_notifications()
-  unless notifications.is_a?(Notifications::Client::NotificationsCollection) then
+  unless notifications.is_a?(Notifications::Client::NotificationsCollection)
     p 'get all notifications is not Notifications::Client::NotificationsCollection'
     exit 1
   end

@@ -18,17 +18,18 @@ describe Notifications::Client do
         Notifications::Client::ResponseNotification
       )
     end
-      %w(
-        id
-        content
-        uri
-        template
-      ).each do |field|
-        it "expect to include #{field}" do
-          expect(
-            sent_sms.send(field)
-          ).to_not be_nil
-        end
+
+    %w(
+      id
+      content
+      uri
+      template
+    ).each do |field|
+      it "expect to include #{field}" do
+        expect(
+          sent_sms.send(field)
+        ).to_not be_nil
+      end
     end
   end
 end

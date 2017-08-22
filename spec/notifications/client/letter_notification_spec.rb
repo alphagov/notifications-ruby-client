@@ -10,9 +10,9 @@ describe Notifications::Client do
       client.send_letter(
         template_id: "f6895ff7-86e0-4d38-80ab-c9525856c3ff",
         personalisation: {
-          "address_line_1": "The Occupier",
-          "address_line_2": "123 High Street",
-          "postcode": "SW14 6BH"
+          address_line_1: "The Occupier",
+          address_line_2: "123 High Street",
+          postcode: "SW14 6BH"
         }
       )
     }

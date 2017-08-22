@@ -89,7 +89,7 @@ module Notifications
         perform_request!(request)
       end
 
-      private
+    private
 
       ##
       # @return [Hash] JSON parsed response

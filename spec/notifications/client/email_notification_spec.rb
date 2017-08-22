@@ -18,6 +18,7 @@ describe Notifications::Client do
         Notifications::Client::ResponseNotification
       )
     end
+
     %w(
       id
       content
@@ -29,6 +30,6 @@ describe Notifications::Client do
           sent_email.send(field)
         ).to_not be_nil
       end
-  end
+    end
   end
 end

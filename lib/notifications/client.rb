@@ -121,6 +121,5 @@ module Notifications
         speaker.post_with_url(path, options)
       )
     end
-
   end
 end

@@ -11,8 +11,8 @@ describe Notifications::Client do
     let(:id) {
       "1"
     }
-    let(:personalisation){
-      {"name": "Mr Big Nose"}
+    let(:personalisation) {
+      { name: "Mr Big Nose" }
     }
 
     let(:template_preview) {

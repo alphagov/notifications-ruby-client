@@ -8,9 +8,7 @@ describe Notifications::Client do
   }
 
   describe "get all templates" do
-    let(:templates) {
-      client.get_all_templates()
-    }
+    let(:templates) { client.get_all_templates }
 
     let(:mocked_response) {
       attributes_for(:client_template_collection)[:body]
