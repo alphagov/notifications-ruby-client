@@ -76,4 +76,29 @@ FactoryGirl.define do
       new(body)
     end
   end
+
+  ##
+  # stubbed. response from API
+  factory :notifications_client_post_letter_response,
+          class: Notifications::Client::ResponseNotification do
+    body do
+      {
+        "id" => "aceed36e-6aee-494c-a09f-88b68904bad6",
+        "reference" => nil,
+        "content" => {"body" => "Hello we got your application",
+                      "subject" => "Application recieved"
+                    },
+        "scheduled_for" => nil,
+        "template" => {"id" => "f6895ff7-86e0-4d38-80ab-c9525856c3ff",
+                       "version" => 1,
+                       "uri" => "/v2/templates/f6895ff7-86e0-4d38-80ab-c9525856c3ff"
+                     },
+        "uri" => "/notifications/aceed36e-6aee-494c-a09f-88b68904bad6"
+      }
+    end
+
+    initialize_with do
+      new(body)
+    end
+  end
 end
