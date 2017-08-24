@@ -6,7 +6,6 @@ describe Notifications::Client do
   end
 
   describe "with combined API key" do
-
     let(:client) { build :notifications_client_combined }
 
     it "should extract service ID" do
@@ -26,12 +25,10 @@ describe Notifications::Client do
         client.base_url
       ).to eq(Notifications::Client::PRODUCTION_BASE_URL)
     end
-
   end
 
 
   describe "with combined API key and non-default base URL" do
-
     let(:client) { build :notifications_client_combined_with_base_url }
 
     it "should extract service ID" do
@@ -51,7 +48,6 @@ describe Notifications::Client do
         client.base_url
       ).to eq("http://example.com")
     end
-
   end
 
   describe "#base_url" do

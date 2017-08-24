@@ -12,5 +12,5 @@ module Notifications
         end
       end
     end
-    end
-    end
+  end
+end

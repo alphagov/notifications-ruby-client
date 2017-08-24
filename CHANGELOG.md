@@ -1,6 +1,13 @@
-##2.1.0
+## 2.2.0
 
-###Changed
+### Changed
+* Added a new `send_letter` method
+* Removed 'govuk-lint' gem as a development dependency
+
+
+## 2.1.0
+
+### Changed
 * Added methods to get templates and generate a preview of a template.
 * `get_template_by_id` - get the latest version of a template by id.
 * `get_template_version` - get the template by id and version.
@@ -9,9 +16,9 @@
 * See the README for more information about the new template methods.
 
 
-##2.0.0
+## 2.0.0
 
-###Changed
+### Changed
 * Using version 2 of the notification-api.
 * A new `Notifications::Client` no longer requires the `service_id`, only the `api_key` is required.
 * `Notifications::Client.send_sms()` input parameters and the response object has changed, see the README for more information.

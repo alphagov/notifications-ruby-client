@@ -24,7 +24,7 @@ module Notifications
       end
 
       ##
-      # @param kind [String] 'email' or 'sms'
+      # @param kind [String] 'email', 'sms' or 'letter'
       # @param form_data [Hash]
       # @option form_data [String] :phone_number
       #   phone number of the sms recipient
@@ -89,7 +89,7 @@ module Notifications
         perform_request!(request)
       end
 
-      private
+    private
 
       ##
       # @return [Hash] JSON parsed response

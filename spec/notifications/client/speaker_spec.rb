@@ -7,8 +7,8 @@ describe Notifications::Client do
     let(:jwt_token) {
       client.speaker.send(:jwt_token)
     }
-    let(:secret) { secret = "7aaec57c-2dc9-4d31-8f5c-7225fe79516a" }
-    let(:service_id) { service_id = "fa80e418-ff49-445c-a29b-92c04a181207" }
+    let(:secret) { "7aaec57c-2dc9-4d31-8f5c-7225fe79516a" }
+    let(:service_id) { "fa80e418-ff49-445c-a29b-92c04a181207" }
 
 
     let(:decoded_payload) {

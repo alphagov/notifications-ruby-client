@@ -42,6 +42,15 @@ module Notifications
     end
 
     ##
+    # @see Notifications::Client::Speaker#post
+    # @return [ResponseNotification]
+    def send_letter(args)
+      ResponseNotification.new(
+        speaker.post("letter", args)
+      )
+    end
+
+    ##
     # @param id [String]
     # @see Notifications::Client::Speaker#get
     # @return [Notification]
@@ -112,6 +121,5 @@ module Notifications
         speaker.post_with_url(path, options)
       )
     end
-
   end
 end
