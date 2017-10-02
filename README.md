@@ -727,7 +727,7 @@ You can omit this argument to ignore this filter.
 ## Generate a preview template
 This will return the contents of a template with the placeholders replaced with the given personalisation.
 ```ruby
-templatePreview = client.generate_template_preview(template_id: template_id,
+templatePreview = client.generate_template_preview(template_id,
                                                   personalisation: {
                                                       name: "name",
                                                       year: "2016",                      
