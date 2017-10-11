@@ -1,10 +1,5 @@
 #!/usr/bin/env ruby
-require 'notifications/client'
-require 'notifications/client/notification'
-require 'notifications/client/response_notification'
-require 'notifications/client/notification'
-require 'notifications/client/response_template'
-require 'notifications/client/template_collection'
+require './lib/notifications/client'
 
 def main
   client = Notifications::Client.new(ENV['API_KEY'], ENV['NOTIFY_API_URL'])

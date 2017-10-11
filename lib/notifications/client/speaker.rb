@@ -1,7 +1,7 @@
 require "net/https"
 require "uri"
 require "jwt"
-require "notifications/client/request_error"
+require_relative "request_error"
 
 module Notifications
   class Client
