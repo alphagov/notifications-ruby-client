@@ -93,9 +93,11 @@ def test_template_preview(response)
 end
 
 def test_send_email_endpoint(client)
-  email_resp = client.send_email(email_address: ENV['FUNCTIONAL_TEST_EMAIL'], template_id: ENV['EMAIL_TEMPLATE_ID'],
+  email_resp = client.send_email(email_address: ENV['FUNCTIONAL_TEST_EMAIL'],
+                                 template_id: ENV['EMAIL_TEMPLATE_ID'],
                                  personalisation:Hash["name", "some name"],
-                                 reference: "some reference")
+                                 reference: "some reference",
+                                 email_reply_to_id: ENV['EMAIL_REPLY_TO_ID'])
   test_notification_response_data_type(email_resp, 'email')
   email_resp
 end

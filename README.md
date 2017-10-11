@@ -137,6 +137,7 @@ email = client.send_email(
     year: "2016"
   },
   reference: "your_reference_string"
+  email_reply_to_id: email_reply_to_id
 ) # => Notifications::Client::ResponseNotification
 ```
 
@@ -386,6 +387,11 @@ personalisation: {
 ```
 
 The fields `address_line_1`, `address_line_2` and `postcode` are required.
+
+#### `email_reply_to_id`
+
+The id of the email address that replies to email notifications will be sent to. This field is for use with
+`client.send_email` and is optional - if it is not included, the default email address for replies will be used.
 
 ### Get the status of one message
 

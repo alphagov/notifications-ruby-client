@@ -38,6 +38,8 @@ module Notifications
       #   A reference specified by the service for the notification. Get all notifications can be filtered by this reference.
       #   This reference can be unique or used used to refer to a batch of notifications.
       #   Can be an empty string or nil, when you do not require a reference for the notifications.
+      # @option form_data [String] :email_reply_to_id
+      #   id of the email address that replies to email notifications will be sent to
       # @see #perform_request!
       def post(kind, form_data)
         request = Net::HTTP::Post.new(
