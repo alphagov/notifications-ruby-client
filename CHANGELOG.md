@@ -1,3 +1,12 @@
+## 2.3.0
+
+### Changed
+* It is now possible to have multiple email to reply to addresses. Added the option to specify an `email_reply_to_id`
+when using the `send_email` method. If no `email_reply_to_id` is specified, the default email reply to address will be
+used.
+* Upgraded all dependencies
+* Minor code style changes and fixes for the tests
+
 ## 2.2.0
 
 ### Changed
