@@ -390,8 +390,9 @@ The fields `address_line_1`, `address_line_2` and `postcode` are required.
 
 #### `email_reply_to_id`
 
-The id of the email address that replies to email notifications will be sent to. This field is for use with
-`client.send_email` and is optional - if it is not included, the default email address for replies will be used.
+Optional. Specifies the identifier of the email reply-to address to set for the notification. The identifiers are found in your service Settings, when you 'Manage' your 'Email reply to addresses'. 
+
+If you omit this argument your default email reply-to address will be set for the notification.
 
 ### Get the status of one message
 
