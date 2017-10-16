@@ -1,10 +1,5 @@
 #!/usr/bin/env ruby
-require 'notifications/client'
-require 'notifications/client/notification'
-require 'notifications/client/response_notification'
-require 'notifications/client/notification'
-require 'notifications/client/response_template'
-require 'notifications/client/template_collection'
+require './lib/notifications/client'
 
 def main
   client = Notifications::Client.new(ENV['API_KEY'], ENV['NOTIFY_API_URL'])
@@ -35,7 +30,7 @@ def test_get_template_version(client, id, version)
 end
 
 def test_get_all_templates(client)
-  response = client.get_all_templates()
+  response = client.get_all_templates
   unless response.is_a?(Notifications::Client::TemplateCollection)
     p 'failed test_get_all_templates response is not a Notifications::Client::TemplateCollection'
     exit 1
@@ -50,7 +45,7 @@ def test_get_all_templates(client)
 end
 
 def test_get_all_templates_filter_by_type(client)
-  response = client.get_all_templates({'type' => 'sms'})
+  response = client.get_all_templates('type' => 'sms')
   unless response.is_a?(Notifications::Client::TemplateCollection)
     p 'failed test_get_all_templates response is not a Notifications::Client::TemplateCollection'
     exit 1
@@ -63,8 +58,7 @@ def test_get_all_templates_filter_by_type(client)
 end
 
 def test_generate_template_preview(client, id)
-
-  response = client.generate_template_preview(id, personalisation:Hash["name", "some name"])
+  response = client.generate_template_preview(id, personalisation: { "name" => "some name" })
   test_template_preview(response)
 end
 
@@ -93,16 +87,18 @@ def test_template_preview(response)
 end
 
 def test_send_email_endpoint(client)
-  email_resp = client.send_email(email_address: ENV['FUNCTIONAL_TEST_EMAIL'], template_id: ENV['EMAIL_TEMPLATE_ID'],
-                                 personalisation:Hash["name", "some name"],
-                                 reference: "some reference")
+  email_resp = client.send_email(email_address: ENV['FUNCTIONAL_TEST_EMAIL'],
+                                 template_id: ENV['EMAIL_TEMPLATE_ID'],
+                                 personalisation: { "name" => "some name" },
+                                 reference: "some reference",
+                                 email_reply_to_id: ENV['EMAIL_REPLY_TO_ID'])
   test_notification_response_data_type(email_resp, 'email')
   email_resp
 end
 
 def test_send_sms_endpoint(client)
   sms_resp = client.send_sms(phone_number: ENV['FUNCTIONAL_TEST_NUMBER'], template_id: ENV['SMS_TEMPLATE_ID'],
-                             personalisation:Hash["name", "some name"],
+                             personalisation: { "name" => "some name" },
                              reference: "some reference")
   test_notification_response_data_type(sms_resp, 'sms')
   sms_resp
@@ -124,22 +120,22 @@ end
 
 def test_notification_response_data_type(notification, message_type)
   unless notification.is_a?(Notifications::Client::ResponseNotification)
-    p 'failed ' + message_type +' response is not a Notifications::Client::ResponseNotification'
+    p 'failed ' + message_type + ' response is not a Notifications::Client::ResponseNotification'
     exit 1
   end
   unless notification.id.is_a?(String)
-    p 'failed '+ message_type + 'id is not a String'
+    p 'failed ' + message_type + 'id is not a String'
     exit 1
   end
-  field_should_not_be_nil(expected_fields_in_notification_response, notification, 'send_'+message_type)
-  hash_key_should_not_be_nil(expected_fields_in_template, notification.send('template'), 'send_'+message_type+'.template')
+  field_should_not_be_nil(expected_fields_in_notification_response, notification, 'send_' + message_type)
+  hash_key_should_not_be_nil(expected_fields_in_template, notification.send('template'), 'send_' + message_type + '.template')
 
   if message_type == 'email'
-    hash_key_should_not_be_nil(expected_fields_in_email_content, notification.send('content'), 'send_'+message_type+'.content')
+    hash_key_should_not_be_nil(expected_fields_in_email_content, notification.send('content'), 'send_' + message_type + '.content')
   elsif message_type == 'sms'
-    hash_key_should_not_be_nil(expected_fields_in_sms_content, notification.send('content'),'send_'+message_type+'.content')
+    hash_key_should_not_be_nil(expected_fields_in_sms_content, notification.send('content'), 'send_' + message_type + '.content')
   elsif message_type == 'letter'
-    hash_key_should_not_be_nil(expected_fields_in_letter_content, notification.send('content'),'send_'+message_type+'.content')
+    hash_key_should_not_be_nil(expected_fields_in_letter_content, notification.send('content'), 'send_' + message_type + '.content')
   end
 end
 
@@ -199,16 +195,14 @@ def expected_fields_in_template_response
      created_at
      created_by
      body
-     version
-)
+     version)
 end
 
 def expected_fields_in_template_preview
   %w(id
      body
      version
-     type
-)
+     type)
 end
 
 def expected_fields_in_notification_response
@@ -216,20 +210,17 @@ def expected_fields_in_notification_response
      reference
      content
      template
-     uri
-)
+     uri)
 end
 
 def expected_fields_in_email_content
   %w(from_email
      body
-     subject
-)
+     subject)
 end
 
 def expected_fields_in_sms_content
-  %w(body
-     )
+  %w(body)
 end
 
 def expected_fields_in_letter_content
@@ -247,8 +238,7 @@ def expected_fields_in_email_notification
      template
      body
      subject
-     created_at
-)
+     created_at)
 end
 
 def expected_fields_in_email_notification_that_are_nil
@@ -260,8 +250,7 @@ def expected_fields_in_email_notification_that_are_nil
      line_5
      line_5
      line_6
-     postcode
-     )
+     postcode)
 end
 
 def expected_fields_in_sms_notification
@@ -271,8 +260,7 @@ def expected_fields_in_sms_notification
      status
      template
      body
-     created_at
-   )
+     created_at)
 end
 
 def expected_fields_in_sms_notification_that_are_nil
@@ -322,7 +310,7 @@ def expected_fields_in_template
 end
 
 def test_get_all_notifications(client)
-  notifications = client.get_notifications()
+  notifications = client.get_notifications
   unless notifications.is_a?(Notifications::Client::NotificationsCollection)
     p 'get all notifications is not Notifications::Client::NotificationsCollection'
     exit 1
@@ -332,8 +320,7 @@ end
 
 def expected_fields_for_get_all_notifications
   %W(links
-	collection
-	)
+     collection)
 end
 
 if __FILE__ == $PROGRAM_NAME
