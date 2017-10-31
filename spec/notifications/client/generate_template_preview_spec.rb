@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe Notifications::Client do
   let(:client) { build :notifications_client }
 
@@ -31,7 +29,6 @@ describe Notifications::Client do
     end
 
     it "expects template preview" do
-      p template_preview
       expect(template_preview).to be_a(
         Notifications::Client::TemplatePreview
       )
