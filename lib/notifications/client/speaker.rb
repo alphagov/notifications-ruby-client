@@ -40,6 +40,8 @@ module Notifications
       #   Can be an empty string or nil, when you do not require a reference for the notifications.
       # @option form_data [String] :email_reply_to_id
       #   id of the email address that replies to email notifications will be sent to
+      # @option form_data [String] :sms_sender_id
+      #   id of the sender to be used for an sms notification
       # @see #perform_request!
       def post(kind, form_data)
         request = Net::HTTP::Post.new(

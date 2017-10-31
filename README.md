@@ -33,9 +33,10 @@ sms = client.send_sms(
   template_id: template_id,
   personalisation: {
     name: "name",
-    year: "2016",                      
-  }
-  reference: "your_reference_string"
+    year: "2016",
+  },
+  reference: "your_reference_string",
+  sms_sender_id: sms_sender_id
 ) # => Notifications::Client::ResponseNotification
 ```
 
@@ -136,7 +137,7 @@ email = client.send_email(
     name: "name",
     year: "2016"
   },
-  reference: "your_reference_string"
+  reference: "your_reference_string",
   email_reply_to_id: email_reply_to_id
 ) # => Notifications::Client::ResponseNotification
 ```
@@ -358,6 +359,11 @@ Find by clicking **API info** for the template you want to send.
 An optional identifier you generate. The `reference` can be used as a unique reference for the notification. Because Notify does not require this reference to be unique you could also use this reference to identify a batch or group of notifications.
 
 You can omit this argument if you do not require a reference for the notification.
+
+#### `sms_sender_id`
+Optional. Specifies the identifier of the sms sender to set for the notification. The identifiers are found in your service Settings, when you 'Manage' your 'Text message sender'.
+
+If you omit this argument your default sms sender will be set for the notification.
 
 #### `personalisation`
 If the template has placeholders you need to provide their values as a Hash, for example:

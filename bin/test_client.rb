@@ -99,7 +99,8 @@ end
 def test_send_sms_endpoint(client)
   sms_resp = client.send_sms(phone_number: ENV['FUNCTIONAL_TEST_NUMBER'], template_id: ENV['SMS_TEMPLATE_ID'],
                              personalisation: { "name" => "some name" },
-                             reference: "some reference")
+                             reference: "some reference",
+                             sms_sender_id: ENV['SMS_SENDER_ID'])
   test_notification_response_data_type(sms_resp, 'sms')
   sms_resp
 end
