@@ -1,3 +1,10 @@
+## 2.4.0
+
+### Changed
+* It is now possible to have multiple SMS senders and to specify which sender an SMS notification should come from. Added the option to specify `sms_sender_id` when using the `send_sms` method. If no `sms_sender_id` is specified, the default sms sender will be used.
+* Replaced `factory_girl` development dependency with `factory_bot`, which is the [new name for Factory girl.](https://robots.thoughtbot.com/factory_bot)
+
+
 ## 2.3.0
 
 ### Changed
