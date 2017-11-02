@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :notifications_client,
           class: Notifications::Client do
     base_url { nil }

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :client_request_error,
           class: Notifications::Client::RequestError do
     code '403'
