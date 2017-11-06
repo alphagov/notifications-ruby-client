@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :client_template_preview,
           class: Notifications::Client::TemplatePreview do
     initialize_with do

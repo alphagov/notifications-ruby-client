@@ -1,9 +1,20 @@
-require "spec_helper"
-
 describe Notifications::Client do
   let(:client) { build :notifications_client }
+  let(:uri) { URI.parse(Notifications::Client::PRODUCTION_BASE_URL) }
+  let(:mocked_response) {
+    attributes_for(:notifications_client_post_email_response)[:body]
+  }
 
-  include_examples "stub_post_email_request", "email"
+  before do
+    stub_request(
+      :post,
+      "https://#{uri.host}:#{uri.port}/v2/notifications/email"
+    ).to_return(
+      body: mocked_response.to_json,
+      status: 201,
+      headers: { "Content-Type" => "application/json" }
+    )
+  end
 
   describe "#send_email" do
     let!(:sent_email) {

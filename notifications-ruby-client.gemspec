@@ -26,5 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 12.1"
   spec.add_development_dependency "rspec", "~> 3.6"
   spec.add_development_dependency "webmock", "~> 3.1"
-  spec.add_development_dependency "factory_girl", "~> 4.8"
+  spec.add_development_dependency "factory_bot", "~> 4.8"
 end

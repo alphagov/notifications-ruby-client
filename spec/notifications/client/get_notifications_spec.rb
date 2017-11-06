@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe Notifications::Client do
   let(:client) { build :notifications_client }
 
