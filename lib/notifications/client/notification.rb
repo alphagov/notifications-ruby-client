@@ -1,3 +1,5 @@
+require 'time'
+
 module Notifications
   class Client
     class Notification
