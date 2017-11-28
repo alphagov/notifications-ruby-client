@@ -9,6 +9,7 @@ RUN \
 	&& ([ -z "$HTTP_PROXY" ] || echo "Acquire::http::Proxy \"${HTTP_PROXY}\";" > /etc/apt/apt.conf.d/99HttpProxy) \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends \
+		gcc \
 		make \
 		curl \
 		git \

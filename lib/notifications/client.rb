@@ -129,7 +129,7 @@ module Notifications
     #   received text id to return received texts that are older than this id.
     # @return [ReceivedTextCollection]
     def get_received_texts(options = {})
-      path = "/v2/received-text-messages" 
+      path = "/v2/received-text-messages"
       ReceivedTextCollection.new(
         speaker.get_with_url(path, options)
       )

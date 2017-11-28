@@ -1,10 +1,10 @@
 module Notifications
   class Client
     class ReceivedTextCollection
-        attr_reader :links, :collection
+      attr_reader :links, :collection
 
       def initialize(response)
-        @links = response["links"]        
+        @links = response["links"]
         @collection = collection_from(response["received_text_messages"])
       end
 

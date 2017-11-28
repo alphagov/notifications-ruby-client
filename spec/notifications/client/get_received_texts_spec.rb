@@ -10,7 +10,7 @@ describe Notifications::Client do
       stub_request(
         :get,
         "https://#{uri.host}:#{uri.port}/v2/received-text-messages"
-      ).to_return(body: {"received_text_messages": []}.to_json)
+      ).to_return(body: { "received_text_messages": [] }.to_json)
 
       client.get_received_texts
       expect(WebMock).to have_requested(:get, "https://#{uri.host}:#{uri.port}/v2/received-text-messages")
@@ -20,7 +20,7 @@ describe Notifications::Client do
       stub_request(
         :get,
         "https://#{uri.host}:#{uri.port}/v2/received-text-messages?older_than=received-text-id"
-      ).to_return(body: {"received_text_messages": []}.to_json)
+      ).to_return(body: { "received_text_messages": [] }.to_json)
 
       client.get_received_texts(older_than: "received-text-id")
       expect(WebMock).to have_requested(:get, "https://#{uri.host}:#{uri.port}/v2/received-text-messages").

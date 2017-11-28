@@ -42,7 +42,7 @@ module Notifications
           begin
             value = instance_variable_get(:"@#{field}")
             Time.parse value
-          rescue
+          rescue StandardError
             value
           end
         end
