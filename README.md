@@ -39,7 +39,7 @@ Generate an API key by logging in to GOV.UK Notify [GOV.UK Notify](https://www.n
 
 ### Text message
 
-#### Method 
+#### Method
 
 <details>
 <summary>
@@ -53,8 +53,8 @@ sms = client.send_sms(
   personalisation: {
     name: "name",
     year: "2016",                      
-  }
-  reference: "your_reference_string"
+  },
+  reference: "your_reference_string",
   sms_sender_id: sms_sender_id
 ) # => Notifications::Client::ResponseNotification
 ```
@@ -216,10 +216,10 @@ You can omit this argument if you do not require a reference for the notificatio
 
 ##### `email_reply_to_id`
 
-Optional. Specifies the identifier of the email reply-to address to set for the notification. The identifiers are found in your service Settings, when you 'Manage' your 'Email reply to addresses'. 
+Optional. Specifies the identifier of the email reply-to address to set for the notification. The identifiers are found in your service Settings, when you 'Manage' your 'Email reply to addresses'.
 
 If you omit this argument your default email reply-to address will be set for the notification.
-  
+
 ##### `personalisation`
 
 If a template has placeholders, you need to provide their values, for example:
@@ -503,7 +503,7 @@ You can omit this argument to ignore this filter.
 
 ## Get a template by ID
 
-#### Method 
+#### Method
 
 This will return the latest version of the template. Use [getTemplateVersion](#get-a-template-by-id-and-version) to retrieve a specific template version.
 
@@ -742,6 +742,3 @@ The template id is visible on the template page in the application.
 If a template has placeholders, you need to provide their values. `personalisation` can be an empty or null in which case no placeholders are provided for the notification.
 
 </details>
-
-
-
