@@ -15,6 +15,7 @@ This documentation is for developers interested in using this Ruby client to int
 * [Get a template by ID and version](#get-a-template-by-id-and-version)
 * [Get all templates](#get-all-templates)
 * [Generate a preview template](#generate-a-preview-template)
+* [Get received texts](#get-received-texts)
 
 ## Installation
 
@@ -390,7 +391,7 @@ Otherwise a `Notification::Client::RequestError` is raised
 |`error.code`|`error.message`|
 |:---|:---|
 |`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|
-|`404`|`[{`<br>`"error": "ValidationError",`<br>`"message": "is is not a valid UUID"`<br>`}]`|
+|`404`|`[{`<br>`"error": "ValidationError",`<br>`"message": "is not a valid UUID"`<br>`}]`|
 
 </details>
 
@@ -401,13 +402,13 @@ Otherwise a `Notification::Client::RequestError` is raised
 Click here to expand for more information.
 </summary>
 
-##### `get_notification(id)`
+##### `id`
 
 The ID of the notification.
 
 </details>
 
-## Get the status of all messages
+## Get the status of the all messages
 
 #### Method
 
@@ -418,11 +419,12 @@ Click here to expand for more information.
 
 ```ruby
 # See section below for a description of the arguments.
+# This will return 250 of the most recent messages if `older_than` is omitted, the following 250 messages can be accessed through the hash `notifications.links["next"]` 
 args = {
   'template_type' => 'sms',
   'status' => 'failed',
   'reference' => 'your reference string'
-  'olderThanId' => 'e194efd1-c34d-49c9-9915-e4267e01e92e' # => Notifications::Client::Notification
+  'older_than' => 'e194efd1-c34d-49c9-9915-e4267e01e92e' # => Notifications::Client::Notification
 }
 notifications = client.get_notifications(args)
 ```
@@ -441,7 +443,7 @@ Click here to expand for more information.
 
 ```ruby
 notifications.links # => Hash containing current => "/notifications?template_type=sms&status=delivered"
-                    #                    next => "/notifications?other_than=last_id_in_list&template_type=sms&status=delivered"
+                    #                    next => "/notifications?older_than=last_id_in_list&template_type=sms&status=delivered"
 notifications.collection # => [] (array of notification objects)
 ```
 
@@ -465,7 +467,14 @@ Click here to expand for more information.
 
 ##### `template_type`
 
-You can filter by:
+<details>
+<summary>
+Click here to expand for more information.
+</summary>
+
+##### `template_type`
+
+If omitted all messages are returned. Otherwise you can filter by:
 
 * `email`
 * `sms`
@@ -493,7 +502,7 @@ This is the `reference` you gave at the time of sending the notification. The `r
 You can omit this argument to ignore the filter.
 
 
-##### `olderThanId`
+##### `older_than`
 You can get the notifications older than a given `Notification.id`.
 You can omit this argument to ignore this filter.
 
@@ -513,7 +522,7 @@ Click here to expand for more information.
 </summary>
 
 ```ruby
-template = client.get_template_by_id(template_id)
+template = client.get_template_by_id(id)
 ```
 
 </details>
@@ -554,7 +563,7 @@ Click here to expand for more information.
 |`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|
 |`404`|`[{`<br>`"error": "ValidationError",`<br>`"message": "is is not a valid UUID"`<br>`}]`|
 
-##### `templateId`
+##### `id`
 The template id is visible on the template page in the application.
 
 </details>
@@ -571,7 +580,7 @@ Click here to expand for more information.
 </summary>
 
 ```ruby
-Template template = client.get_template_version(template_id template_id, version)
+Template template = client.get_template_version(id, version)
 ```
 
 </details>
@@ -613,7 +622,7 @@ Otherwise the client will raise a `Notifications::Client::RequestError`.
 Click here to expand for more information.
 </summary>
 
-#### `templateId`
+#### `id`
 The template id is visible on the template page in the application.
 
 #### `version`
@@ -670,13 +679,15 @@ Otherwise the client will raise a `Notifications::Client::RequestError`.
 Click here to expand for more information.
 </summary>
 
-##### `templateType`
-You can filter the templates by the following options:
+##### `template_type`
+If omitted all templates are returned. Otherwise you can filter by:
 
 * `email`
 * `sms`
 * `letter`
-You can omit this argument to ignore this filter.
+
+
+</details>
 
 
 </details>
@@ -695,7 +706,7 @@ Click here to expand for more information.
 
 
 ```ruby
-templatePreview = client.generate_template_preview(template_id,
+templatePreview = client.generate_template_preview(id,
                                                   personalisation: {
                                                       name: "name",
                                                       year: "2016",                      
@@ -735,10 +746,76 @@ Otherwise a `Notifications::Client::RequestError` is thrown.
 Click here to expand for more information.
 </summary>
 
-##### `templateId`
+##### `id`
 The template id is visible on the template page in the application.
 
 ##### `personalisation`
 If a template has placeholders, you need to provide their values. `personalisation` can be an empty or null in which case no placeholders are provided for the notification.
+
+</details>
+
+## Get received texts
+#### Method
+
+<details>
+<summary>
+Click here to expand for more information.
+</summary>
+
+```ruby
+# See section below for a description of the arguments.
+# This will return 250 of the most recent messages if `older_than` is omitted, the following 250 messages can be accessed through the hash `received_texts.links["next"]`
+args = {
+  'older_than' => 'e194efd1-c34d-49c9-9915-e4267e01e92e' # => Notifications::Client::ReceivedText
+}
+received_texts = client.get_received_texts(args)
+```
+
+</details>
+
+
+#### Response
+
+If the request is successful a `Notifications::Client::ReceivedTextCollection` is returned.
+
+<details>
+<summary>
+Click here to expand for more information.
+</summary>
+
+`ReceivedTextCollection` -
+
+```ruby
+received_texts.links # => Hash containing current => "/v2/received-text-messages"
+                     #                    next => "/v2/received-text-messages?older_than=last_id_in_list"
+received_texts.collection # => [] (array of ReceivedText objects)
+```
+
+`ReceivedText` -
+
+```ruby
+received_text.id            # => uuid for the received text
+received_text.created_at    # => created_at of the received text
+received_text.content       # => content of the received text
+received_text.notify_number # => number received text was sent to
+received_text.service_id    # => service id of the received text
+received_text.user_number   # => number received text was sent from
+
+```
+
+</details>
+
+#### Arguments
+
+Omit the argument Hash if you do not want to filter the results.
+
+<details>
+<summary>
+Click here to expand for more information.
+</summary>
+
+##### `older_than`
+You can get the notifications older than a given `received_text.id`.
+You can omit this argument to ignore this filter.
 
 </details>

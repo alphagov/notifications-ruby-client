@@ -15,6 +15,7 @@ def main
   test_get_notification_by_id_endpoint(client, sms_notification.id, 'sms')
   test_get_notification_by_id_endpoint(client, letter_notification.id, 'letter')
   test_get_all_notifications(client)
+  test_get_received_texts
   p 'ruby client integration tests pass'
   exit 0
 end
@@ -310,6 +311,15 @@ def expected_fields_in_template
      uri)
 end
 
+def expected_fields_in_received_text_response
+  %w(id
+     created_at
+     content
+     notify_number
+     service_id
+     user_number)
+end
+
 def test_get_all_notifications(client)
   notifications = client.get_notifications
   unless notifications.is_a?(Notifications::Client::NotificationsCollection)
@@ -317,6 +327,34 @@ def test_get_all_notifications(client)
     exit 1
   end
   field_should_not_be_nil(expected_fields_for_get_all_notifications, notifications, 'get_notifications')
+end
+
+def test_get_received_texts
+  client = Notifications::Client.new(ENV['INBOUND_SMS_QUERY_KEY'], ENV['NOTIFY_API_URL'])
+  response = client.get_received_texts
+  unless response.is_a?(Notifications::Client::ReceivedTextCollection)
+    p 'failed test_get_received_texts response is not a Notifications::Client::ReceivedTextCollection'
+    exit 1
+  end
+  unless response.collection.length >= 0
+    p 'failed test_get_received_texts, expected at least 1 received text returned.'
+    exit 1
+  end
+  test_received_text_response(response.collection[0], 'test_received_text_response')
+  test_received_text_response(response.collection[1], 'test_received_text_response')
+  test_received_text_response(response.collection[2], 'test_received_text_response')
+end
+
+def test_received_text_response(response, test_method)
+  unless response.is_a?(Notifications::Client::ReceivedText)
+    p 'failed test_get_received_texts response is not a Notifications::Client::ReceivedText'
+    exit 1
+  end
+  unless response.id.is_a?(String)
+    p 'failed received text id is not a String'
+    exit 1
+  end
+  field_should_not_be_nil(expected_fields_in_received_text_response, response, test_method)
 end
 
 def expected_fields_for_get_all_notifications

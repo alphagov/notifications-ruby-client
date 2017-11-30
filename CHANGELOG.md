@@ -1,3 +1,10 @@
+## 2.5.0
+
+### Changed
+* Added a new `get_received_texts` method.
+    * an optional `older_than` argument can be specified to retrieve the next 250 received text messages older than the given received text id. If omitted 250 of the most recent received text messages are returned.
+
+
 ## 2.4.0
 
 ### Changed

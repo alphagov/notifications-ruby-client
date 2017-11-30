@@ -3,6 +3,8 @@ require_relative "client/speaker"
 require_relative "client/notification"
 require_relative "client/response_notification"
 require_relative "client/notifications_collection"
+require_relative "client/received_text"
+require_relative "client/received_text_collection"
 require_relative "client/response_template"
 require_relative "client/template_collection"
 require_relative "client/template_preview"
@@ -69,7 +71,7 @@ module Notifications
     #   temporarily failed, or technical failure
     # @option options [String] :reference
     #   your reference for the notification
-    # @option options [String] :olderThanId
+    # @option options [String] :older_than
     #   notification id to return notificaitons that are older than this id.
     # @see Notifications::Client::Speaker#get
     # @return [NotificationsCollection]
@@ -119,6 +121,17 @@ module Notifications
       path = "/v2/template/" << id << "/preview"
       TemplatePreview.new(
         speaker.post_with_url(path, options)
+      )
+    end
+
+    ##
+    # @option options [String] :older_than
+    #   received text id to return received texts that are older than this id.
+    # @return [ReceivedTextCollection]
+    def get_received_texts(options = {})
+      path = "/v2/received-text-messages"
+      ReceivedTextCollection.new(
+        speaker.get_with_url(path, options)
       )
     end
   end

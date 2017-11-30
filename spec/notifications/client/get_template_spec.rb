@@ -47,5 +47,9 @@ describe Notifications::Client do
         ).to_not be_nil
       end
     end
+
+    it "parses the time correctly" do
+      expect(template.created_at.to_s).to eq("2016-11-29 11:12:30 UTC")
+    end
   end
 end
