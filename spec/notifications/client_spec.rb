@@ -54,6 +54,10 @@ describe Notifications::Client do
     it "raises a helpful error" do
       expect { client }.to raise_error(ArgumentError, /is not a valid uuid/)
     end
+
+    it "includes contextual information in the error" do
+      expect { client }.to raise_error(ArgumentError, /this error is probably caused by/i)
+    end
   end
 
   describe "#base_url" do

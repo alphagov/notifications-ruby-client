@@ -13,9 +13,13 @@ module Notifications
       !!(uuid && uuid.match(REGEX))
     end
 
-    def self.validate!(uuid)
+    def self.validate!(uuid, contextual_message = nil)
       return if new(uuid).valid?
-      raise ArgumentError, "#{uuid.inspect} is not a valid uuid"
+
+      message = "#{uuid.inspect} is not a valid uuid"
+      message += "\n#{contextual_message}" if contextual_message
+
+      raise ArgumentError, message
     end
   end
 end

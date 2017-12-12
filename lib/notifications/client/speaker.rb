@@ -22,8 +22,7 @@ module Notifications
         @secret_token = secret_token[secret_token.length - 36..secret_token.length]
         @base_url = base_url || PRODUCTION_BASE_URL
 
-        UuidValidator.validate!(@service_id)
-        UuidValidator.validate!(@secret_token)
+        validate_uuids!
       end
 
       ##
@@ -132,6 +131,17 @@ module Notifications
           iat: Time.now.to_i
         }
         JWT.encode payload, @secret_token, "HS256"
+      end
+
+      def validate_uuids!
+        contextual_message = [
+          "This error is probably caused by initializing the Notifications client with an invalid API key.",
+          "You can generate a new API key by logging into Notify and visiting the 'API integration' page:",
+          "https://www.notifications.service.gov.uk",
+        ].join("\n")
+
+        UuidValidator.validate!(@service_id, contextual_message)
+        UuidValidator.validate!(@secret_token, contextual_message)
       end
     end
   end

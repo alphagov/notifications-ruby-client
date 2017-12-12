@@ -44,6 +44,13 @@ describe Notifications::UuidValidator do
         expect { described_class.validate!(nil) }
           .to raise_error(ArgumentError, 'nil is not a valid uuid')
       end
+
+      context "when a contextual message is provided" do
+        it "includes it in the error message" do
+          expect { described_class.validate!(uuid, "please check that ...") }
+            .to raise_error(ArgumentError, /please check that .../)
+        end
+      end
     end
   end
 end
