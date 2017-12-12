@@ -21,6 +21,9 @@ module Notifications
         @service_id = secret_token[secret_token.length - 73..secret_token.length - 38]
         @secret_token = secret_token[secret_token.length - 36..secret_token.length]
         @base_url = base_url || PRODUCTION_BASE_URL
+
+        UuidValidator.validate!(@service_id)
+        UuidValidator.validate!(@secret_token)
       end
 
       ##
