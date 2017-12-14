@@ -8,6 +8,7 @@ require_relative "client/received_text_collection"
 require_relative "client/response_template"
 require_relative "client/template_collection"
 require_relative "client/template_preview"
+require_relative "client/uuid_validator"
 require "forwardable"
 
 module Notifications

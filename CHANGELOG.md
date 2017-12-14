@@ -1,3 +1,8 @@
+## 2.6.0
+
+### Changed
+* The client now validates that UUIDs derived from the API key are valid and raises a helpful error message if they are not.
+
 ## 2.5.0
 
 ### Changed
