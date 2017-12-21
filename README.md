@@ -408,7 +408,7 @@ The ID of the notification.
 
 </details>
 
-## Get the status of the all messages
+## Get the status of all messages
 
 #### Method
 
@@ -459,13 +459,6 @@ Otherwise the client will raise a `Notifications::Client::RequestError`:
 #### Arguments
 
 Omit the argument Hash if you do not want to filter the results.
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-##### `template_type`
 
 <details>
 <summary>
@@ -685,10 +678,6 @@ If omitted all templates are returned. Otherwise you can filter by:
 * `email`
 * `sms`
 * `letter`
-
-
-</details>
-
 
 </details>
 
