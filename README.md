@@ -368,23 +368,25 @@ Click here to expand for more information.
 </summary>
 
 ```ruby
-notification.id         # => uuid for the notification
-notification.to         # => recipient email address or mobile number
-notification.status     # => status of the message "created|pending|sent|delivered|permanent-failure|temporary-failure"
-notification.created_at # => Date time the message was created
-notification.api_key    # => uuid for the api key (not the actual api key)
-notification.billable_units # => units billable or nil for email
-notification.subject    # => Subject of email or nil for sms
-notification.body       # => Body of message
-notification.job        # => job id if created by a csv or nil if message sent via api
-notification.notification_type # => sms | email
-notification.service    # => uuid for service
-notification.sent_at    # => Date time the message is sent to the provider or nil if status = "created"
-notification.sent_by    # => Name of the provider that sent the message or nil if status = "created"
-notification.template   # => Hash containing template id, name, version, template type sms|email
-notification.template_version # Template version number
-notification.reference  # => reference of the email or nil for sms
-notification.updated_at # => Date time that the notification was last updated
+notification.id                     # => uuid for the notification
+notification.reference              # => reference string you supplied in the request
+notification.email_address          # => email address of the recipient (for email notifications)
+notification.phone_number           # => phone number of the recipient (for SMS notifications)
+notification.line_1                 # => line 1 of the address of the recipient (for letter notifications)
+notification.line_2                 # => line 2 of the address of the recipient (for letter notifications)
+notification.line_3                 # => line 3 of the address of the recipient (for letter notifications)
+notification.line_4                 # => line 4 of the address of the recipient (for letter notifications)
+notification.line_5                 # => line 5 of the address of the recipient (for letter notifications)
+notification.line_6                 # => line 6 of the address of the recipient (for letter notifications)
+notification.postcode               # => postcode of the recipient (for letter notifications)
+notification.type                   # => type of notification sent (sms, email or letter)
+notification.status                 # => notification status (sending / delivered / permanent-failure / temporary-failure / technical-failure)
+notification.template               # => uuid of the template
+notification.body                   # => body of the notification
+notification.subject                # => the subject of the notification (email notifications only)
+notification.sent_at                # => date and time the notification was sent to the provider
+notification.created_at             # => date and time the notification was created
+notification.completed_at           # => date and time the notification was delivered or failed
 ```
 Otherwise a `Notification::Client::RequestError` is raised
 
@@ -718,6 +720,7 @@ template.id         # => uuid for the template
 template.version    # => version of the template
 template.body       # => content of the template
 template.subject    # => subject for email templates, will be empty for other template types
+template.type       # => type of notification the template is for (sms, email or letter)
 ```
 Otherwise a `Notifications::Client::RequestError` is thrown.
 
