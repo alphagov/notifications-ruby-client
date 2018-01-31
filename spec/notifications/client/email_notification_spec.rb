@@ -42,5 +42,10 @@ describe Notifications::Client do
         ).to_not be_nil
       end
     end
+
+    it "hits the correct API endpoint" do
+      expect(WebMock).to have_requested(:post, "https://#{uri.host}:#{uri.port}/v2/notifications/email").
+        with(body: { email_address: "email@gov.uk", template_id: "f6895ff7-86e0-4d38-80ab-c9525856c3ff" })
+    end
   end
 end

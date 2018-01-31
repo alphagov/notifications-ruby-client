@@ -20,7 +20,7 @@ describe Notifications::Client do
     let!(:sent_sms) {
       client.send_sms(
         phone_number: "+44 7700 900 404",
-        template: "f6895ff7-86e0-4d38-80ab-c9525856c3ff"
+        template_id: "f6895ff7-86e0-4d38-80ab-c9525856c3ff"
       )
     }
 
@@ -41,6 +41,11 @@ describe Notifications::Client do
           sent_sms.send(field)
         ).to_not be_nil
       end
+    end
+
+    it "hits the correct API endpoint" do
+      expect(WebMock).to have_requested(:post, "https://#{uri.host}:#{uri.port}/v2/notifications/sms").
+        with(body: { phone_number: "+44 7700 900 404", template_id: "f6895ff7-86e0-4d38-80ab-c9525856c3ff" })
     end
   end
 end

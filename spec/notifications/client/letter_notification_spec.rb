@@ -46,5 +46,17 @@ describe Notifications::Client do
         ).to_not be_nil
       end
     end
+
+    it "hits the correct API endpoint" do
+      expect(WebMock).to have_requested(:post, "https://#{uri.host}:#{uri.port}/v2/notifications/letter").
+        with(body: {
+          template_id: "f6895ff7-86e0-4d38-80ab-c9525856c3ff",
+          personalisation: {
+            address_line_1: "The Occupier",
+            address_line_2: "123 High Street",
+            postcode: "SW14 6BH"
+          }
+        })
+    end
   end
 end

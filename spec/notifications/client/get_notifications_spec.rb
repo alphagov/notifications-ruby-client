@@ -6,20 +6,20 @@ describe Notifications::Client do
   }
 
   describe "get all notifications" do
-    let(:notifications) {
-      client.get_notifications
-    }
-
-    let(:mocked_response) {
-      attributes_for(:client_notifications_collection)[:body]
-    }
-
     before do
       stub_request(
         :get,
         "https://#{uri.host}:#{uri.port}/v2/notifications"
       ).to_return(body: mocked_response.to_json)
     end
+
+    let!(:notifications) {
+      client.get_notifications
+    }
+
+    let(:mocked_response) {
+      attributes_for(:client_notifications_collection)[:body]
+    }
 
     it "collection contains all notifications" do
       expect(
@@ -32,9 +32,20 @@ describe Notifications::Client do
         notifications.collection.sample
       ).to be_a(Notifications::Client::Notification)
     end
+
+    it "requests all notifications with no parameters" do
+      expect(WebMock).to have_requested(:get, "https://#{uri.host}:#{uri.port}/v2/notifications")
+    end
   end
 
   describe "get notifications by query" do
+    before do
+      stub_request(
+        :get,
+        "https://#{uri.host}:#{uri.port}/v2/notifications?#{request_path}"
+      ).to_return(body: mocked_response.to_json)
+    end
+
     let(:options) {
       {
         "template_type" => "sms",
@@ -42,7 +53,7 @@ describe Notifications::Client do
       }
     }
 
-    let(:notifications) {
+    let!(:notifications) {
       client.get_notifications(
         options
       )
@@ -58,15 +69,7 @@ describe Notifications::Client do
       URI.encode_www_form(options)
     }
 
-    before do
-      stub_request(
-        :get,
-        "https://#{uri.host}:#{uri.port}/v2/notifications?#{request_path}"
-      ).to_return(body: mocked_response.to_json)
-    end
-
     it "expect to request with right parameters" do
-      notifications
       expect(WebMock).to have_requested(
         :get,
         "https://#{uri.host}:#{uri.port}/v2/notifications"
