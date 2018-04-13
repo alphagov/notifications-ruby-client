@@ -419,7 +419,8 @@ Click here to expand for more information.
 
 ```ruby
 # See section below for a description of the arguments.
-# This will return 250 of the most recent messages if `older_than` is omitted, the following 250 messages can be accessed through the hash `notifications.links["next"]` 
+# This will return 250 of the most recent messages over the last 7 days, if `older_than` is omitted.
+# The following 250 messages can be accessed through the hash `notifications.links["next"]`
 args = {
   'template_type' => 'sms',
   'status' => 'failed',
@@ -753,7 +754,8 @@ Click here to expand for more information.
 
 ```ruby
 # See section below for a description of the arguments.
-# This will return 250 of the most recent messages if `older_than` is omitted, the following 250 messages can be accessed through the hash `received_texts.links["next"]`
+# This will return 250 of the most recent messages over the last 7 days, if `older_than` is omitted.
+# The following 250 messages can be accessed through the hash `received_texts.links["next"]`
 args = {
   'older_than' => 'e194efd1-c34d-49c9-9915-e4267e01e92e' # => Notifications::Client::ReceivedText
 }
