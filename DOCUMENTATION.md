@@ -1,810 +1,807 @@
-# GOV.UK Notify Ruby client
+# Ruby client documentation
 
-This documentation is for developers interested in using this Ruby client to integrate their government service with GOV.UK Notify.
+This documentation is for developers interested in using the GOV.UK Notify Ruby client to send emails, text messages or letters.
 
-[![Gem Version](https://badge.fury.io/rb/notifications-ruby-client.svg)](https://badge.fury.io/rb/notifications-ruby-client)
+# Set up the client
 
-## Table of Contents
+## Install the client
 
-* [Installation](#installation)
-* [Getting started](#getting-started)
-* [Send messages](#send-messages)
-* [Get the status of one message](#get-the-status-of-one-message)
-* [Get the status of all messages](#get-the-status-of-all-messages)
-* [Get a template by ID](#get-a-template-by-id)
-* [Get a template by ID and version](#get-a-template-by-id-and-version)
-* [Get all templates](#get-all-templates)
-* [Generate a preview template](#generate-a-preview-template)
-* [Get received texts](#get-received-texts)
-
-## Installation
-
-Prior to usage an account must be created through the Notify admin console. This will allow access to the API credentials you application.
-
-You can then install the gem or require it in your application.
+Run the following code in the command line:
 
 ```
 gem install 'notifications-ruby-client'
 ```
 
-## Getting started
+Refer to the [client changelog](https://github.com/alphagov/notifications-ruby-client/blob/master/CHANGELOG.md) for the version number and the latest updates.
+
+## Create a new instance of the client
+
+Add this code to your application:
 
 ```ruby
 require 'notifications/client'
-client = Notifications::Client.new(api_key)
+client: Notifications::Client.new(api_key)
 ```
 
-Generate an API key by logging in to GOV.UK Notify [GOV.UK Notify](https://www.notifications.service.gov.uk) and going to the **API integration** page.
+To get an API key, [sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/) and go to the __API integration__ page. You can find more information in the [API keys](/#api-keys) section of the documentation.
 
-## Send messages
+# Send a message
 
-### Text message
+You can use GOV.UK Notify to send text messages, emails and letters.
 
-#### Method
+## Send a text message
 
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
+### Method
 
 ```ruby
-sms = client.send_sms(
-  phone_number: number,
-  template_id: template_id,
-  personalisation: {
-    name: "name",
-    year: "2016",                      
-  },
-  reference: "your_reference_string",
-  sms_sender_id: sms_sender_id
-) # => Notifications::Client::ResponseNotification
+sms: client.send_sms(
+  phone_number: "+447900900123",
+  template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
+)
 ```
 
-</details>
+### Arguments
 
-#### Response
+#### phone_number (required)
 
-If the request is successful, a `Notifications::Client:ResponseNotification` is returned.
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
+The phone number of the recipient of the text message. This number can be a UK or international number.
 
 ```ruby
-sms => Notifications::Client::ResponseNotification
-
-sms.id         # => uuid for the notification
-sms.reference  # => Reference string you supplied in the request
-sms.content    # => Hash containing body => the message sent to the recipient, with placeholders replaced.
-               #                    from_number => the sms sender number of your service found **Settings** page
-sms.template   # => Hash containing id => id of the template
-               #                    version => version of the template
-               #                    uri => url of the template
-sms.uri        # => URL of the notification
+phone_number:"+447900900123",
 ```
 
+#### template_id (required)
 
-Otherwise the client will raise a `Notifications::Client::RequestError`:
-
-|`error.code`|`error.message`|
-|:---|:---|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM of 10 requests per 10 seconds"`<br>`}]`|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient using a team-only API key"`<br>`]}`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|
-
-</details>
-
-#### Arguments
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-##### `phone_number`
-
-The phone number of the recipient, only required for sms notifications.
-
-##### `template_id`
-
-Find by clicking **API info** for the template you want to send.
-
-##### `reference`
-
-An optional identifier you generate. The `reference` can be used as a unique reference for the notification. Because Notify does not require this reference to be unique you could also use this reference to identify a batch or group of notifications.
-
-You can omit this argument if you do not require a reference for the notification.
-
-##### `personalisation`
-
-If a template has placeholders, you need to provide their values, for example:
-
-```python
-personalisation={
-    'first_name': 'Amala',
-    'reference_number': '300241',
-}
-```
-##### `sms_sender_id`
-
-Optional. Specifies the identifier of the sms sender to set for the notification. The identifiers are found in your service Settings, when you 'Manage' your 'Text message sender'.
-
-If you omit this argument your default sms sender will be set for the notification.
-
-</details>
-
-
-### Email
-
-#### Method
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
+You can find this by signing into [GOV.UK Notify](https://www.notifications.service.gov.uk/) and going to the __Templates__ page.
 
 ```ruby
-email = client.send_email(
-  email_address: email_address,
-  template_id: template_id,
-  personalisation: {
-    name: "name",
-    year: "2016"
-  },
-  reference: "your_reference_string",
-  email_reply_to_id: email_reply_to_id
-) # => Notifications::Client::ResponseNotification
+template_id:"f33517ff-2a88-4f6e-b855-c550268ce08a",
 ```
 
-</details>
+#### personalisation (optional)
 
-
-#### Response
-
-If the request is successful, a `Notifications::Client:ResponseNotification` is returned.
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-```ruby
-email => Notifications::Client::ResponseNotification
-
-email.id         # => uuid for the notification
-email.reference  # => Reference string you supplied in the request
-email.content    # => Hash containing body => the message sent to the recipient, with placeholders replaced.
-                 #                    subject => subject of the message sent to the recipient, with placeholders replaced.
-                 #                    from_email => the from email of your service found **Settings** page
-email.template   # => Hash containing id => id of the template
-                 #                    version => version of the template
-                 #                    uri => url of the template
-email.uri        # => URL of the notification
-```
-
-Otherwise the client will raise a `Notifications::Client::RequestError`:
-
-|`error.code`|`error.message`|
-|:---|:---|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM of 10 requests per 10 seconds"`<br>`}]`|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient using a team-only API key"`<br>`]}`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|
-
-</details>
-
-
-#### Arguments
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-##### `email_address`
-The email address of the recipient, only required for email notifications.
-
-##### `template_id`
-
-Find by clicking **API info** for the template you want to send.
-
-##### `reference`
-
-An optional identifier you generate. The `reference` can be used as a unique reference for the notification. Because Notify does not require this reference to be unique you could also use this reference to identify a batch or group of notifications.
-
-You can omit this argument if you do not require a reference for the notification.
-
-##### `email_reply_to_id`
-
-Optional. Specifies the identifier of the email reply-to address to set for the notification. The identifiers are found in your service Settings, when you 'Manage' your 'Email reply to addresses'.
-
-If you omit this argument your default email reply-to address will be set for the notification.
-
-##### `personalisation`
-
-If a template has placeholders, you need to provide their values, for example:
-
-```python
-personalisation={
-    'first_name': 'Amala',
-    'application_number': '300241',
-}
-```
-
-</details>
-
-
-### Letter
-
-#### Method
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-```ruby
-letter = client.send_letter(
-  template_id: template_id,
-  personalisation: {
-    address_line_1: 'Her Majesty The Queen',  # required
-    address_line_2: 'Buckingham Palace', # required
-    address_line_3: 'London',
-    postcode: 'SW1 1AA',  # required
-
-    ... # any other personalisation found in your template
-  },
-  reference: "your_reference_string"
-) # => Notifications::Client::ResponseNotification
-```
-
-</details>
-
-
-#### Response
-
-If the request is successful, a `Notifications::Client:ResponseNotification` is returned.
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-```ruby
-letter => Notifications::Client::ResponseNotification
-
-letter.id           # => uuid for the notification
-letter.reference    # => Reference string you supplied in the request
-letter.content      # => Hash containing body => the body of the letter sent to the recipient, with placeholders replaced
-                    #                    subject => the main heading of the letter
-letter.template     # => Hash containing id => id of the template
-                    #                    version => version of the template
-                    #                    uri => url of the template
-letter.uri          # => URL of the notification
-```
-
-|`error.code`|`error.message`|
-|:---|:---|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM of 10 requests per 10 seconds"`<br>`}]`|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient using a team-only API key"`<br>`]}`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "personalisation address_line_1 is a required property"`<br>`}]`|
-
-</details>
-
-
-#### Arguments
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-#### `template_id`
-Find by clicking **API info** for the template you want to send.
-
-#### `reference`
-An optional identifier you generate. The `reference` can be used as a unique reference for the notification. Because Notify does not require this reference to be unique you could also use this reference to identify a batch or group of notifications.
-
-You can omit this argument if you do not require a reference for the notification.
-
-#### `personalisation`
-If the template has placeholders you need to provide their values as a Hash, for example:
-
-```ruby
-  personalisation: {
-    'first_name' => 'Amala',
-    'reference_number' => '300241',
-  }
-```
-
-You can omit this argument if the template does not contain placeholders and is for email or sms.
-
-#### `personalisation` (for letters)
-
-If you are sending a letter, you will need to provide the letter fields in the format `"address_line_#"`, for example:
+If a template has placeholder fields for personalised information such as name or reference number, you must provide their values in a hash. For example:
 
 ```ruby
 personalisation: {
-    'address_line_1' => 'The Occupier',
-    'address_line_2' => '123 High Street',
-    'address_line_3' => 'London',
-    'postcode' => 'SW14 6BH',
-    'first_name' => 'Amala',
-    'reference_number' => '300241',
+  name: "John Smith",
+  ID: "300241",                      
 }
 ```
 
-The fields `address_line_1`, `address_line_2` and `postcode` are required.
+You can leave out this argument if a template does not have any placeholder fields for personalised information.
 
-</details>
+#### reference (optional)
+
+A unique identifier. This reference identifies a single unique notification or a batch of notifications.
+
+```ruby
+reference: "your_reference_string",
+```
+
+You can leave out this argument if you do not have a `reference`.
+
+#### sms_sender_id (optional)
+
+A unique identifier of the sender of the text message notification. To find this information, go to the __Text Message sender__ settings screen:
+
+1. Sign in to your GOV.UK Notify account.
+1. Go to __Settings__.
+1. If you need to change to another service, select __Switch service__ in the top right corner of the screen and select the correct one.
+1. Go to the __Text Messages__ section and select __Manage__ on the __Text Message sender__ row.
+
+In this screen, you can then either:
+
+  - copy the sender ID that you want to use and paste it into the method
+  - select __Change__ to change the default sender that the service will use, and select __Save__
+
+```ruby
+sms_sender_id: "8e222534-7f05-4972-86e3-17c5d9f894e2",
+```
+
+You can leave out this argument if you do not have have an `sms_sender_id`.
+
+### Response
+
+If the request to the client is successful, the client will return a `Notifications::Client:ResponseNotification`:
+
+```ruby
+ @content={'notification content'},
+ @id="6e5c4f6f-26b0-44c8-8aa9-fa71616c2542",
+ @reference="your_reference_string",
+ @template=
+  {"id"=>"f33517ff-2a88-4f6e-b855-c550268ce08a",
+   "uri"=> "http://localhost:6011/services/bb86bffc-3065-4a91-8c3c-e077ad9d9a2b/templates/8e222534-7f05-4972-86e3-17c5d9f894e2",
+   "version"=>4},
+ @uri=>"http://localhost:6011/v2/notifications/6e5c4f6f-26b0-44c8-8aa9-fa71616c2542">
+```
+
+If you are using the [test API key](/#test), all your messages will come back as delivered.
+
+All messages sent using the [team and whitelist](#team-and-whitelist) or [live](#live) keys will appear on your dashboard.
+
+### Error codes
+
+If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+
+|error.code|error.message|How to fix|
+|:---|:---|:---|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`|Use the correct type of [API key](/#api-keys)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
+|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/#api-rate-limits) for more information|
+|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/#service-limits) for the limit number|
+|`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|Notify was unable to process the request, resend your notification|
+
+## Send an email
+
+### Method
+
+```ruby
+email: client.send_email(
+  email_address: "sender@something.com",
+  template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
+)
+```
+
+### Arguments
+
+#### email_address (required)
+
+The email address of the recipient.
+
+```ruby
+email_address: "sender@something.com",
+```
+
+#### template_id (required)
+
+You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
+
+```ruby
+template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
+```
+
+#### personalisation (optional)
+
+If a template has placeholder fields for personalised information such as name or reference number, you must provide their values in a hash. For example:
+
+```ruby
+personalisation: {
+  name: "John Smith",
+  year: "2016"                      
+}
+```
+
+You can leave out this argument if a template does not have any placeholder fields for personalised information.
+
+#### reference (optional)
+
+A unique identifier. This reference identifies a single unique notification or a batch of notifications.
+
+```ruby
+reference: "your_reference_string";
+```
+
+You can leave out this argument if you do not have a `reference`.
+
+#### email_reply_to_id (optional)
+
+This is an email reply-to address specified by you to receive replies from your users. Your service cannot go live until you set up at least one of these email addresses. To set up:
+
+1. Sign into your GOV.UK Notify account.
+1. Go to __Settings__.
+1. If you need to change to another service, select __Switch service__ in the top right corner of the screen and select the correct one.
+1. Go to the Email section and select __Manage__ on the __Email reply to addresses__ row.
+1. Select __Change__ to specify the email address to receive replies, and select __Save__.
+
+```ruby
+email_reply_to_id: '8e222534-7f05-4972-86e3-17c5d9f894e2'
+```
+
+You can leave out this argument if you do not have have an `email_reply_to_id`.
+
+### Response
+
+If the request to the client is successful, the client will return a `Notifications::Client:ResponseNotification`:
+
+```ruby
+ @content={"notification content"},
+ @id="e1654fd8-a263-417a-935d-9ca78e7b8904",
+ @reference="your_reference_string",
+ @template=
+  {"id"=>"f33517ff-2a88-4f6e-b855-c550268ce08a",
+   "uri"=> "http://localhost:6011/services/bb86bffc-3065-4a91-8c3c-e077ad9d9a2b/templates/f33517ff-2a88-4f6e-b855-c550268ce08a",
+   "version"=>3},
+ @uri="http://localhost:6011/v2/notifications/e1654fd8-a263-417a-935d-9ca78e7b8904">
+```
+
+### Error codes
+
+If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+
+|error.code|error.message|How to fix|
+|:--- |:---|:---|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`|Use the correct type of [API key](/#api-keys)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
+|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/#api-rate-limits) for more information|
+|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/#service-limits) for the limit number|
+|`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|Notify was unable to process the request, resend your notification|
+
+## Send a letter
+
+When your service first signs up to GOV.UK Notify, you’ll start in trial mode. You can only send letters in live mode.
+
+### Method
+
+```ruby
+letter: client.send_letter(
+  template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
+  personalisation: {
+    address_line_1: 'The Occupier',  # required string
+    address_line_2: '123 High Street', # required string
+    postcode: 'SW14 6BH',  # required string
+  },
+)
+```
+
+### Arguments
+
+#### template_id (required)
+
+You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
+
+```ruby
+template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
+```
+
+#### personalisation (required)
+
+The personalisation argument always contains the following parameters for the letter recipient's address:
+
+- `address_line_1`
+- `address_line_2`
+- `postcode`
+
+Any other placeholder fields included in the letter template also count as required parameters. You must provide their values in a hash. For example:
+
+
+```ruby
+personalisation: {
+  address_line_1: 'The Occupier',  # mandatory address field
+  address_line_2: '123 High Street', # mandatory address field
+  postcode: 'SW14 6BH',  # mandatory address field
+  name: 'John Smith', # field from template
+  application_date: '2018-01-01' # field from template
+},
+```
+
+#### personalisation (optional)
+
+The following parameters in the letter recipient's address are optional:
+
+```ruby
+personalisation: {
+  address_line_3: 'Richmond',  # mandatory address field
+  address_line_4: 'London', # mandatory address field
+  address_line_5: 'Middlesex', # mandatory address field
+  address_line_6: 'UK', # mandatory address field
+},
+```
+
+#### reference (optional)
+
+A unique identifier. This reference identifies a single unique notification or a batch of notifications. If you do not have a reference, you must pass in an empty string or `null`.
+
+```ruby
+reference: 'your_reference_string';
+```
+
+### Response
+
+If the request to the client is successful, the client will return a `Notifications::Client:ResponseNotification`:
+
+```ruby
+@content={"notification content"},
+@id="8a6f5cb9-98d1-436d-bdb0-15cc2edc8e65",
+@reference=nil,
+@template=
+ {"id"=>"f33517ff-2a88-4f6e-b855-c550268ce08a",
+  "uri"=>"https://api.notify.works/services/d33f763f-d8b6-4591-b272-ec6127572e5a/templates/2dd69cce-c0d2-470f-a6c1-8900a5368e04",
+  "version"=>3},
+@uri="https://api.notify.works/v2/notifications/8a6f5cb9-98d1-436d-bdb0-15cc2edc8e65">
+```
+
+### Error codes
+
+If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+
+|error.code|error.message|How to fix|
+|:--- |:---|:---|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters with a team api key"`<br>`]}`|Use the correct type of [API key](/#api-keys)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "personalisation address_line_1 is a required property"`<br>`}]`|Ensure that your template has a field for the first line of the address, refer to [personalisation](/#send-a-letter-arguments-personalisation-required) for more information|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
+|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/#api-rate-limits) for more information|
+|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/#service-limits) for the limit number|
+|`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|Notify was unable to process the request, resend your notification|
+
+# Get message status
+
+Message status depends on the type of message that you have sent.
+
+You can only get the status of messages that are 7 days old or less.
+
+## Status - text and email
+
+### Created
+
+The message is queued to be sent to the provider. The notification usually remains in this state for a few seconds.
+
+### Sending
+
+The message is queued to be sent by the provider to the recipient, and GOV.UK Notify are waiting for delivery information.
+
+### Pending (text message only)
+
+GOV.UK Notify received a callback from the provider but the device has not yet responded. Another callback from the provider will determine the final status of the notification.
+
+### Delivered
+
+The message was successfully delivered.
+
+### Sent (text message only)
+
+The text message was delivered internationally. GOV.UK Notify may not receive additional status updates depending on the recipient's country and telecoms provider.
+
+### Failed
+
+This covers all failure statuses:
+
+- `permanent-failure` - "The provider was unable to deliver message, email or phone number does not exist; remove this recipient from your list"
+- `temporary-failure` - "The provider was unable to deliver message, email inbox was full or phone was turned off; you can try to send the message again"
+- `technical-failure` - "Notify had a technical failure; you can try to send the message again"
+
+## Status - letter
+
+### Failed
+
+The only failure status that applies to letters is `technical-failure`. Notify had an unexpected error while sending to our printing provider.
+
+### Accepted
+
+GOV.UK Notify is printing and posting the letter.
+
+### Received
+
+The provider has received the letter to deliver.
 
 
 ## Get the status of one message
 
-#### Method
+You can only get the status of messages that are 7 days old or less.
 
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
+### Method
 
 ```ruby
-notification = client.get_notification(id) # => Notifications::Client::Notification
+notification: client.get_notification(id)
 ```
 
-</details>
+### Arguments
 
-
-#### Response
-
-If successful a `Notifications::Client::Notification` is returned.
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-```ruby
-notification.id         # => uuid for the notification
-notification.to         # => recipient email address or mobile number
-notification.status     # => status of the message "created|pending|sent|delivered|permanent-failure|temporary-failure"
-notification.created_at # => Date time the message was created
-notification.api_key    # => uuid for the api key (not the actual api key)
-notification.billable_units # => units billable or nil for email
-notification.subject    # => Subject of email or nil for sms
-notification.body       # => Body of message
-notification.job        # => job id if created by a csv or nil if message sent via api
-notification.notification_type # => sms | email
-notification.service    # => uuid for service
-notification.sent_at    # => Date time the message is sent to the provider or nil if status = "created"
-notification.sent_by    # => Name of the provider that sent the message or nil if status = "created"
-notification.template   # => Hash containing template id, name, version, template type sms|email
-notification.template_version # Template version number
-notification.reference  # => reference of the email or nil for sms
-notification.updated_at # => Date time that the notification was last updated
-```
-Otherwise a `Notification::Client::RequestError` is raised
-
-|`error.code`|`error.message`|
-|:---|:---|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|
-|`404`|`[{`<br>`"error": "ValidationError",`<br>`"message": "is not a valid UUID"`<br>`}]`|
-
-</details>
-
-#### Arguments
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-##### `id`
+#### id (required)
 
 The ID of the notification.
 
-</details>
+### Response
 
-## Get the status of all messages
-
-#### Method
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
+If the request to the client is successful, the client will return a `Notifications::Client::Notification`:
 
 ```ruby
-# See section below for a description of the arguments.
-# This will return 250 of the most recent messages if `older_than` is omitted, the following 250 messages can be accessed through the hash `notifications.links["next"]`
+@body="Body",
+ @completed_at="2018-06-26T15:42:29.972008Z",
+ @created_at="2018-06-26T15:42:11.277321Z",
+ @email_address=nil,
+ @id="2fbcf138-19ed-4f9c-976d-3f28c86eda11",
+ @line_1="one",
+ @line_2="two",
+ @line_3=nil,
+ @line_4=nil,
+ @line_5=nil,
+ @line_6=nil,
+ @phone_number=nil,
+ @postcode="post c0de",
+ @reference=nil,
+ @sent_at=nil,
+ @status="received",
+ @subject="Heading of the letter",
+ @template={"id"=>"2c6db85e-6caf-4e21-af95-2873bae251c5", "uri"=>"https://api.notify.works/v2/template/2c6db85e-6caf-4e21-af95-2873bae251c5/version/4", "version"=>4},
+ @type="letter">
+```
+
+### Error codes
+
+If the request is not successful, the client will return a `Notification::Client::RequestError` containing the relevant error code:
+
+|error.code|error.message|How to fix|
+|:---|:---|:---|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|Check the notification ID|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
+|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|Check the notification ID. This error will occur if the notification is more than 7 days old.|
+
+## Get the status of multiple messages
+
+This API call will return one page of up to 250 messages and statuses. You can get either the most recent messages, or get older messages by specifying a particular notification ID in the [`older_than`](/#older_than_optional) argument.
+
+You can only get the status of messages that are 7 days old or less.
+
+### Method
+
+```ruby
 args = {
-  'template_type' => 'sms',
-  'status' => 'failed',
-  'reference' => 'your reference string'
-  'older_than' => 'e194efd1-c34d-49c9-9915-e4267e01e92e' # => Notifications::Client::Notification
+  template_type: 'sms',
+  status: 'failed',
+  reference: 'your_reference_string'
+  older_than: 'e194efd1-c34d-49c9-9915-e4267e01e92e' # => Notifications::Client::Notification
 }
 notifications = client.get_notifications(args)
 ```
 
-</details>
+You can leave out the `older_than` argument to get the 250 most recent messages.
 
+To get older messages, pass the ID of an older notification into the `older_than` argument. This will return the next 250 oldest messages from the specified notification ID.
 
-#### Response
+### Arguments
 
-If the request is successful a `Notifications::Client::NotificationsCollection` is returned.
+You can leave out these arguments to ignore these filters.
 
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
+#### status (optional)
 
-```ruby
-notifications.links # => Hash containing current => "/notifications?template_type=sms&status=delivered"
-                    #                    next => "/notifications?older_than=last_id_in_list&template_type=sms&status=delivered"
-notifications.collection # => [] (array of notification objects)
-```
+| status | description | text | email | letter |
+|:--- |:--- |:--- |:--- |:--- |
+|`created` |The message is queued to be sent to the provider|Yes|Yes||
+|`sending` |The message is queued to be sent by the provider to the recipient|Yes|Yes||
+|`delivered`|The message was successfully delivered|Yes|Yes||
+|`pending`|GOV.UK Notify received a callback from the provider but the device has not yet responded|Yes|||
+|`sent`|The text message was delivered internationally|Yes|Yes||
+|`failed`|This will return all failure statuses:<br>- `permanent-failure`<br>- `temporary-failure`<br>- `technical-failure`|Yes|Yes||
+|`permanent-failure`|The provider was unable to deliver message, email or phone number does not exist; remove this recipient from your list|Yes|Yes||
+|`temporary-failure`|The provider was unable to deliver message, email inbox was full or phone was turned off; you can try to send the message again|Yes|Yes||
+|`technical-failure`|Email / Text: Notify had a technical failure; you can try to send the message again. <br><br>Letter: Notify had an unexpected error while sending to our printing provider. <br><br>You can leave out this argument to ignore this filter.|Yes|Yes||
+|`accepted`|Notify is printing and posting the letter|||Yes|
+|`received`|The provider has received the letter to deliver|||Yes|
 
-Otherwise the client will raise a `Notifications::Client::RequestError`:
-
-|`error.status_code`|`error.message`|
-|:---|:---|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "bad status is not one of [created, sending, delivered, pending, failed, technical-failure, temporary-failure, permanent-failure]"`<br>`}]`|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Apple is not one of [sms, email, letter]"`<br>`}]`|
-
-</details>
-
-#### Arguments
-
-Omit the argument Hash if you do not want to filter the results.
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-##### `template_type`
-
-If omitted all messages are returned. Otherwise you can filter by:
-
-* `email`
-* `sms`
-* `letter`
-
-You can omit this argument to ignore the filter.
-
-##### `status`
+#### notificationType (optional)
 
 You can filter by:
 
-* `sending` - the message is queued to be sent by the provider.
-* `delivered` - the message was successfully delivered.
-* `failed` - this will return all failure statuses `permanent-failure`, `temporary-failure` and `technical-failure`.
-* `permanent-failure` - the provider was unable to deliver message, email or phone number does not exist; remove this recipient from your list.
-* `temporary-failure` - the provider was unable to deliver message, email box was full or the phone was turned off; you can try to send the message again.
-* `technical-failure` - Notify had a technical failure; you can try to send the message again.
-
-You can omit this argument to ignore the filter.
-
-##### `reference`
-
-This is the `reference` you gave at the time of sending the notification. The `reference` can be a unique identifier for the notification or an identifier for a batch of notifications.
-
-You can omit this argument to ignore the filter.
-
-
-##### `older_than`
-You can get the notifications older than a given `Notification.id`.
-You can omit this argument to ignore this filter.
-
-</details>
-
-
-
-## Get a template by ID
-
-#### Method
-
-This will return the latest version of the template. Use [getTemplateVersion](#get-a-template-by-id-and-version) to retrieve a specific template version.
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-```ruby
-template = client.get_template_by_id(id)
-```
-
-</details>
-
-
-#### Response
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-```Ruby
-template.id         # => uuid for the template
-template.type       # => type of template one of email|sms|letter
-template.created_at # => date and time the template was created
-template.updated_at # => date and time the template was last updated, may be null if version 1
-template.created_by # => email address of the person that created the template
-template.version    # => version of the template
-template.body       # => content of the template
-template.subject    # => subject for email templates, will be empty for other template types
-```
-
-Otherwise the client will raise a `Notifications::Client::RequestError`.
-
-</details>
-
-
-#### Arguments
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-|`error.code`|`error.message`|
-|:---|:---|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|
-|`404`|`[{`<br>`"error": "ValidationError",`<br>`"message": "is is not a valid UUID"`<br>`}]`|
-
-##### `id`
-The template id is visible on the template page in the application.
-
-</details>
-
-
-## Get a template by ID and version
-
-#### Method
-
-This will return the template for the given id and version.
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-```ruby
-Template template = client.get_template_version(id, version)
-```
-
-</details>
-
-
-#### Response
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-
-```Ruby
-template.id         # => uuid for the template
-template.type       # => type of template one of email|sms|letter
-template.created_at # => date and time the template was created
-template.updated_at # => date and time the template was last updated, may be null if version 1
-template.created_by # => email address of the person that created the template
-template.version    # => version of the template
-template.body       # => content of the template
-template.subject    # => subject for email templates, will be empty for other template types
-```
-
-Otherwise the client will raise a `Notifications::Client::RequestError`.
-
-|`error.code`|`error.message`|
-|:---|:---|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|
-|`404`|`[{`<br>`"error": "ValidationError",`<br>`"message": "is is not a valid UUID"`<br>`}]`|
-
-</details>
-
-
-#### Arguments
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-#### `id`
-The template id is visible on the template page in the application.
-
-#### `version`
-A history of the template is kept. There is a link to `See previous versions` on the template page in the application.
-
-</details>
-
-
-## Get all templates
-
-#### Method
-
-This will return the latest version of each template for your service.
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-```ruby
-args = {
-  'template_type' => 'sms'
-}
-templates = client.get_all_templates(args)
-```
-
-
-</details>
-
-
-#### Response
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-```ruby
-    TemplateCollection templates;
-```
-If the response is successful, a TemplateCollection is returned.
-
-If no templates exist for a template type or there no templates for a service, the templates list will be empty.
-
-Otherwise the client will raise a `Notifications::Client::RequestError`.
-
-</details>
-
-
-#### Arguments
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-##### `template_type`
-If omitted all templates are returned. Otherwise you can filter by:
-
 * `email`
 * `sms`
 * `letter`
 
-</details>
+#### reference (optional)
 
+A unique identifier. This reference identifies a single unique notification or a batch of notifications.
+
+```ruby
+reference: 'your_reference_string';
+```
+
+#### older_than (optional)
+
+Input the ID of a notification into this argument. If you use this argument, the client returns the next 250 received notifications older than the given ID.
+
+```ruby
+older_than: 'e194efd1-c34d-49c9-9915-e4267e01e92e'
+```
+
+If you leave out this argument, the client returns the most recent 250 notifications.
+
+The client will only return notifications that are 7 days old or less. If the notification specified in this argument is older than 7 days, the client will return an empty `collection` response.
+
+### Response
+
+If the request to the client is successful, the client will return a `Notifications::Client::NotificationsCollection`.
+
+You must then run either `notifications.links` or `notifications.collection` on the `Notifications::Client::NotificationsCollection` object:
+
+- `notifications.links` returns a hash linking to the requested notifications (limited to 250)
+- `notifications.collection` returns an array of the required notifications
+
+A notification will take this format:
+
+```ruby
+<Notifications::Client::Notification:0x007fd00c8707d8
+    @body: "notification content",
+    @completed_at: nil,
+    @created_at: "2018-04-12T11:00:59.200506Z",
+    @email_address: "sender@something.com",
+    @id: "9f2b4db3-fa0f-4b45-9314-8cb4019db209",
+    @line_1: nil,
+    @line_2: nil,
+    @line_3: nil,
+    @line_4: nil,
+    @line_5: nil,
+    @line_6: nil,
+    @phone_number: nil,
+    @postcode: nil,
+    @reference: nil,
+    @sent_at: "2018-04-12T11:01:01.452472Z",
+    @status: "sending",
+    @subject: "The day – a reminder",
+    @template:
+     {"id": "44d258d7-9cc9-40f8-b208-5fb67e751664", "uri": "http://localhost:6011/v2/template/44d258d7-9cc9-40f8-b208-5fb67e751664/version/1", "version": 1},
+    @type: "email">
+```
+
+If the notification specified in the `older_than` argument is older than 7 days, the client will return an empty `collection` response:
+
+```ruby
+ @collection=[],
+ @links={"current"=>"https://api.notify.works/v2/notifications?older_than=f927a003-7f5d-400d-a518-1bd0b205e4bf"}>
+```
+
+### Error codes
+
+If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+
+|error.code|error.message|How to fix|
+|:---|:---|:---|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "bad status is not one of [created, sending, sent, delivered, pending, failed, technical-failure, temporary-failure, permanent-failure, accepted, received]"`<br>`}]`|Contact the Notify team|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Applet is not one of [sms, email, letter]"`<br>`}]`|Contact the Notify team|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
+
+# Get a template
+
+## Get a template by ID
+
+### Method
+
+This will return the latest version of the template.
+
+```ruby
+Template: client.get_template_by_id(id)
+```
+
+### Arguments
+
+#### templateId (required)
+
+The ID of the template. You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
+
+```
+id:'f33517ff-2a88-4f6e-b855-c550268ce08a';
+```
+
+### Response
+
+If the request to the client is successful, the client will return a `template`:
+
+_NEED EXAMPLE_
+
+### Error codes
+
+If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+
+|error.code|error.message|How to fix|
+|:---|:---|:---|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|Check the notification ID|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
+|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No Result Found"`<br>`}]`|Check your [template ID](/#arguments-template-id-required)|
+
+## Get a template by ID and version
+
+### Method
+
+This will return the latest version of the template.
+
+```ruby
+template: client.get_template_version(id, version)
+```
+
+### Arguments
+
+#### id (required)
+
+The ID of the template. You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
+
+```ruby
+id: 'f33517ff-2a88-4f6e-b855-c550268ce08a';
+```
+
+#### version (required)
+
+The version number of the template.
+
+### Response
+
+If the request to the client is successful, the client will return a `Template`:
+
+_NEED EXAMPLE_
+
+### Error codes
+
+If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+
+|error.code|error.message|How to fix|
+|:---|:---|:---|
+|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|Check the notification ID|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
+|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No Result Found"`<br>`}]`|Check your [template ID](/#get-a-template-by-id-and-version-arguments-template-id-required) and [version](/#version)|
+
+## Get all templates
+
+### Method
+
+This will return the latest version of all templates inside a collection named `templates`.
+
+```ruby
+args: {
+  'type' => 'sms'
+}
+templates: client.get_all_templates(args)
+```
+
+### Arguments
+
+#### type (optional)
+
+If you do not use `type`, the client returns all templates. Otherwise you can filter by:
+
+- `email`
+- `sms`
+- `letter`
+
+### Response
+
+If the request to the client is successful, the client will return a `Notifications::Client::TemplateCollection`:
+
+```ruby
+TemplateCollection "TemplateCollectionName";
+```
+
+You must then run `TemplateCollectionName.collection` to return an array of the required templates.
+
+A template will take this format:
+
+_NEED EXAMPLE_
+
+If no templates exist for a template type or there no templates for a service, the templates list will be empty.
+
+_NEED EXAMPLE_
+
+### Error codes
+
+If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+
+|error.code|error.message|How to fix|
+|:---|:---|:---|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Template type is not one of [sms, email, letter]"`<br>`}]`|Contact the Notify team|
 
 ## Generate a preview template
 
-#### Method
+### Method
 
-This will return the contents of a template with the placeholders replaced with the given personalisation.
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
+This will generate a preview version of a template.
 
 ```ruby
-templatePreview = client.generate_template_preview(id,
-                                                  personalisation: {
-                                                      name: "name",
-                                                      year: "2016",                      
-                                                    })
+template_preview: client.generate_template_preview(id, personalisation{})
 ```
 
-</details>
+The parameters in the personalisation argument must match the placeholder fields in the actual template. The API notification client will ignore any extra fields in the method.
 
+### Arguments
 
-#### Response
+#### id (required)
 
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-```Ruby
-template.id         # => uuid for the template
-template.version    # => version of the template
-template.body       # => content of the template
-template.subject    # => subject for email templates, will be empty for other template types
-```
-Otherwise a `Notifications::Client::RequestError` is thrown.
-
-|`error.code`|`error.message`|
-|:---|:---|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|
-|`404`|`[{`<br>`"error": "ValidationError",`<br>`"message": "is is not a valid UUID"`<br>`}]`|
-
-</details>
-
-
-#### Arguments
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-##### `id`
-The template id is visible on the template page in the application.
-
-##### `personalisation`
-If a template has placeholders, you need to provide their values. `personalisation` can be an empty or null in which case no placeholders are provided for the notification.
-
-</details>
-
-## Get received texts
-#### Method
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
+The ID of the template. You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
 
 ```ruby
-# See section below for a description of the arguments.
-# This will return 250 of the most recent messages if `older_than` is omitted, the following 250 messages can be accessed through the hash `received_texts.links["next"]`
-args = {
+id: 'f33517ff-2a88-4f6e-b855-c550268ce08a';
+```
+
+#### personalisation (required)
+
+If a template has placeholder fields for personalised information such as name or application date, you must provide their values in a hash. For example:
+
+```ruby
+personalisation: {
+  name: "John Smith",
+  ID: "300241",                      
+}
+```
+
+You can leave out this argument if a template does not have any placeholder fields for personalised information.
+
+### Response
+
+If the request to the client is successful, the client will return a `TemplatePreview`:
+
+_NEED EXAMPLE_
+
+### Error codes
+
+If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+
+|error.code|error.message|How to fix|
+|:---|:---|:---|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Missing personalisation: [PERSONALISATION FIELD]"`<br>`}]`|Check that the personalisation arguments in the method match the placeholder fields in the template|
+|`400`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|Check the [template ID](/#generate-a-preview-template-required-arguments-template-id)|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
+
+# Get received text messages
+
+This API call will return one page of up to 250 received text messages. You can get either the most recent messages, or get older messages by specifying a particular notification ID in the `older_than` argument.
+
+You can only get the status of messages that are 7 days old or less.
+
+### Method
+
+```ruby
+args: {
   'older_than' => 'e194efd1-c34d-49c9-9915-e4267e01e92e' # => Notifications::Client::ReceivedText
 }
-received_texts = client.get_received_texts(args)
+received_texts: client.get_received_texts(args)
 ```
 
-</details>
+To get older messages, pass the ID of an older notification into the `older_than` argument. This will return the next oldest messages from the specified notification ID.
 
+If you leave out the `older_than` argument, the client returns the most recent 250 notifications.
 
-#### Response
+### Arguments
 
-If the request is successful a `Notifications::Client::ReceivedTextCollection` is returned.
+#### older_than (optional)
 
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-`ReceivedTextCollection` -
+Input the ID of a received text message into this argument. If you use this argument, the client returns the next 250 received text messages older than the given ID.
 
 ```ruby
-received_texts.links # => Hash containing current => "/v2/received-text-messages"
-                     #                    next => "/v2/received-text-messages?older_than=last_id_in_list"
-received_texts.collection # => [] (array of ReceivedText objects)
+older_than: '8e222534-7f05-4972-86e3-17c5d9f894e2'
 ```
 
-`ReceivedText` -
+If you leave out the `older_than` argument, the client returns the most recent 250 notifications.
+
+The client will only return notifications that are 7 days old or less. If the notification specified in this argument is older than 7 days, the client will return an empty `collection` response.
+
+### Response
+
+If the request to the client is successful, the client will return a `Notifications::Client::ReceivedTextCollection`.
+
+You must then run either `received_texts.links` or `received_texts.collection` on the `Notifications::Client::ReceivedTextCollection` object:
+
+- `received_texts.links` returns a hash linking to the requested requested texts (limited to 250)
+- `received_texts.collection` returns an array of the required texts
+
+A notification object will take this format:
 
 ```ruby
-received_text.id            # => uuid for the received text
-received_text.created_at    # => created_at of the received text
-received_text.content       # => content of the received text
-received_text.notify_number # => number received text was sent to
-received_text.service_id    # => service id of the received text
-received_text.user_number   # => number received text was sent from
-
+=> #<Notifications::Client::ReceivedTextCollection:0x007f801b07e570
+ @collection:
+  [#<Notifications::Client::ReceivedText:0x007f801b07e278
+    @content: "hello",
+    @created_at: "2017-11-22T16:49:11.007280Z",
+    @id: "d22ab880-1f1d-416b-acf1-e9e4c43d7b97",
+    @notify_number: "0713131313",
+    @service_id: "bb86bffc-3065-4a91-8c3c-e077ad9d9a2b",
+    @user_number: "447900900123">],
+ @links:
+  {"current"=>"http://localhost:6011/v2/received-text-messages", "next"=>"http://localhost:6011/v2/received-text-messages?older_than=025b4ec2-5ff5-43ff-b015-c50d259b9823"}>
 ```
 
-</details>
+If the notification specified in the `older_than` argument is older than 7 days, the client will return an empty `collection` response:
 
-#### Arguments
-
-Omit the argument Hash if you do not want to filter the results.
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-##### `older_than`
-You can get the notifications older than a given `received_text.id`.
-You can omit this argument to ignore this filter.
-
-</details>
+```ruby
+=> #<Notifications::Client::ReceivedTextCollection:0x007f801b07e570
+ @collection: [],
+ @links:
+  {"current"=>"http://localhost:6011/v2/received-text-messages", "next"=>"http://localhost:6011/v2/received-text-messages?older_than=025b4ec2-5ff5-43ff-b015-c50d259b9823"}>
+```
