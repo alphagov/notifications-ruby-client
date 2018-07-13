@@ -20,7 +20,7 @@ Add this code to your application:
 
 ```ruby
 require 'notifications/client'
-client: Notifications::Client.new(api_key)
+client = Notifications::Client.new(api_key)
 ```
 
 To get an API key, [sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/) and go to the __API integration__ page. You can find more information in the [API keys](/#api-keys) section of the documentation.
@@ -34,7 +34,7 @@ You can use GOV.UK Notify to send text messages, emails and letters.
 ### Method
 
 ```ruby
-sms: client.send_sms(
+sms = client.send_sms(
   phone_number: "+447900900123",
   template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
 )
@@ -47,7 +47,7 @@ sms: client.send_sms(
 The phone number of the recipient of the text message. This number can be a UK or international number.
 
 ```ruby
-phone_number:"+447900900123",
+phone_number:"+447900900123"
 ```
 
 #### template_id (required)
@@ -55,7 +55,7 @@ phone_number:"+447900900123",
 You can find this by signing into [GOV.UK Notify](https://www.notifications.service.gov.uk/) and going to the __Templates__ page.
 
 ```ruby
-template_id:"f33517ff-2a88-4f6e-b855-c550268ce08a",
+template_id:"f33517ff-2a88-4f6e-b855-c550268ce08a"
 ```
 
 #### personalisation (optional)
@@ -76,7 +76,7 @@ You can leave out this argument if a template does not have any placeholder fiel
 A unique identifier. This reference identifies a single unique notification or a batch of notifications.
 
 ```ruby
-reference: "your_reference_string",
+reference: "your_reference_string"
 ```
 
 You can leave out this argument if you do not have a `reference`.
@@ -96,10 +96,10 @@ In this screen, you can then either:
   - select __Change__ to change the default sender that the service will use, and select __Save__
 
 ```ruby
-sms_sender_id: "8e222534-7f05-4972-86e3-17c5d9f894e2",
+sms_sender_id: "8e222534-7f05-4972-86e3-17c5d9f894e2"
 ```
 
-You can leave out this argument if you do not have have an `sms_sender_id`.
+You can leave out this argument if your service only has one `sms_sender_id`, or you want to use the default sender.
 
 ### Response
 
@@ -139,7 +139,7 @@ If the request is not successful, the client will return a `Notifications::Clien
 ### Method
 
 ```ruby
-email: client.send_email(
+email = client.send_email(
   email_address: "sender@something.com",
   template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
 )
@@ -152,7 +152,7 @@ email: client.send_email(
 The email address of the recipient.
 
 ```ruby
-email_address: "sender@something.com",
+email_address: "sender@something.com"
 ```
 
 #### template_id (required)
@@ -160,7 +160,7 @@ email_address: "sender@something.com",
 You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
 
 ```ruby
-template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
+template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a"
 ```
 
 #### personalisation (optional)
@@ -181,7 +181,7 @@ You can leave out this argument if a template does not have any placeholder fiel
 A unique identifier. This reference identifies a single unique notification or a batch of notifications.
 
 ```ruby
-reference: "your_reference_string";
+reference: "your_reference_string"
 ```
 
 You can leave out this argument if you do not have a `reference`.
@@ -200,7 +200,7 @@ This is an email reply-to address specified by you to receive replies from your 
 email_reply_to_id: '8e222534-7f05-4972-86e3-17c5d9f894e2'
 ```
 
-You can leave out this argument if you do not have have an `email_reply_to_id`.
+You can leave out this argument if your service only has one `email_reply_to_id`, or you want to use the default email address.
 
 ### Response
 
@@ -238,7 +238,7 @@ When your service first signs up to GOV.UK Notify, you’ll start in trial mode.
 ### Method
 
 ```ruby
-letter: client.send_letter(
+letter = client.send_letter(
   template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
   personalisation: {
     address_line_1: 'The Occupier',  # required string
@@ -255,7 +255,7 @@ letter: client.send_letter(
 You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
 
 ```ruby
-template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
+template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a"
 ```
 
 #### personalisation (required)
@@ -285,19 +285,19 @@ The following parameters in the letter recipient's address are optional:
 
 ```ruby
 personalisation: {
-  address_line_3: 'Richmond',  # mandatory address field
-  address_line_4: 'London', # mandatory address field
-  address_line_5: 'Middlesex', # mandatory address field
-  address_line_6: 'UK', # mandatory address field
+  address_line_3: 'Richmond',  # optional address field
+  address_line_4: 'London', # optional address field
+  address_line_5: 'Middlesex', # optional address field
+  address_line_6: 'UK', # optional address field
 },
 ```
 
 #### reference (optional)
 
-A unique identifier. This reference identifies a single unique notification or a batch of notifications. If you do not have a reference, you must pass in an empty string or `null`.
+A unique identifier. This reference identifies a single unique notification or a batch of notifications.
 
 ```ruby
-reference: 'your_reference_string';
+reference: 'your_reference_string'
 ```
 
 ### Response
@@ -388,7 +388,7 @@ You can only get the status of messages that are 7 days old or less.
 ### Method
 
 ```ruby
-notification: client.get_notification(id)
+notification = client.get_notification(id)
 ```
 
 ### Arguments
@@ -489,7 +489,7 @@ You can filter by:
 A unique identifier. This reference identifies a single unique notification or a batch of notifications.
 
 ```ruby
-reference: 'your_reference_string';
+reference: 'your_reference_string'
 ```
 
 #### older_than (optional)
@@ -508,7 +508,7 @@ The client will only return notifications that are 7 days old or less. If the no
 
 If the request to the client is successful, the client will return a `Notifications::Client::NotificationsCollection`.
 
-You must then run either `notifications.links` or `notifications.collection` on the `Notifications::Client::NotificationsCollection` object:
+You must then call either the `notifications.links` method or the `notifications.collection` method against the `Notifications::Client::NotificationsCollection` object:
 
 - `notifications.links` returns a hash linking to the requested notifications (limited to 250)
 - `notifications.collection` returns an array of the required notifications
@@ -566,17 +566,17 @@ If the request is not successful, the client will return a `Notifications::Clien
 This will return the latest version of the template.
 
 ```ruby
-Template: client.get_template_by_id(id)
+Template = client.get_template_by_id(id)
 ```
 
 ### Arguments
 
-#### templateId (required)
+#### id (required)
 
 The ID of the template. You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
 
 ```
-id:'f33517ff-2a88-4f6e-b855-c550268ce08a';
+id:'f33517ff-2a88-4f6e-b855-c550268ce08a'
 ```
 
 ### Response
@@ -603,7 +603,7 @@ If the request is not successful, the client will return a `Notifications::Clien
 This will return the latest version of the template.
 
 ```ruby
-template: client.get_template_version(id, version)
+template = client.get_template_version(id, version)
 ```
 
 ### Arguments
@@ -613,7 +613,7 @@ template: client.get_template_version(id, version)
 The ID of the template. You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
 
 ```ruby
-id: 'f33517ff-2a88-4f6e-b855-c550268ce08a';
+id: 'f33517ff-2a88-4f6e-b855-c550268ce08a'
 ```
 
 #### version (required)
@@ -645,8 +645,8 @@ If the request is not successful, the client will return a `Notifications::Clien
 This will return the latest version of all templates inside a collection named `templates`.
 
 ```ruby
-args: {
-  'type' => 'sms'
+args = {
+  'type': 'sms'
 }
 templates: client.get_all_templates(args)
 ```
@@ -666,10 +666,10 @@ If you do not use `type`, the client returns all templates. Otherwise you can fi
 If the request to the client is successful, the client will return a `Notifications::Client::TemplateCollection`:
 
 ```ruby
-TemplateCollection "TemplateCollectionName";
+TemplateCollection "TemplateCollectionName"
 ```
 
-You must then run `TemplateCollectionName.collection` to return an array of the required templates.
+You must then call the `TemplateCollectionName.collection` method to return an array of the required templates.
 
 A template will take this format:
 
@@ -694,7 +694,7 @@ If the request is not successful, the client will return a `Notifications::Clien
 This will generate a preview version of a template.
 
 ```ruby
-template_preview: client.generate_template_preview(id, personalisation{})
+template_preview = client.generate_template_preview(id, personalisation{})
 ```
 
 The parameters in the personalisation argument must match the placeholder fields in the actual template. The API notification client will ignore any extra fields in the method.
@@ -706,7 +706,7 @@ The parameters in the personalisation argument must match the placeholder fields
 The ID of the template. You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
 
 ```ruby
-id: 'f33517ff-2a88-4f6e-b855-c550268ce08a';
+id: 'f33517ff-2a88-4f6e-b855-c550268ce08a'
 ```
 
 #### personalisation (required)
@@ -724,7 +724,7 @@ You can leave out this argument if a template does not have any placeholder fiel
 
 ### Response
 
-If the request to the client is successful, the client will return a `TemplatePreview`:
+If the request to the client is successful, the client will return a `Notifications::Client::TemplatePreview`:
 
 _NEED EXAMPLE_
 
@@ -748,10 +748,10 @@ You can only get the status of messages that are 7 days old or less.
 ### Method
 
 ```ruby
-args: {
+args = {
   'older_than' => 'e194efd1-c34d-49c9-9915-e4267e01e92e' # => Notifications::Client::ReceivedText
 }
-received_texts: client.get_received_texts(args)
+received_texts = client.get_received_texts(args)
 ```
 
 To get older messages, pass the ID of an older notification into the `older_than` argument. This will return the next oldest messages from the specified notification ID.
@@ -776,7 +776,7 @@ The client will only return notifications that are 7 days old or less. If the no
 
 If the request to the client is successful, the client will return a `Notifications::Client::ReceivedTextCollection`.
 
-You must then run either `received_texts.links` or `received_texts.collection` on the `Notifications::Client::ReceivedTextCollection` object:
+You must then call either the `received_texts.links` method or the `received_texts.collection` method against the `Notifications::Client::ReceivedTextCollection` object:
 
 - `received_texts.links` returns a hash linking to the requested requested texts (limited to 250)
 - `received_texts.collection` returns an array of the required texts
