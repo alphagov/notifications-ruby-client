@@ -34,7 +34,7 @@ You can use GOV.UK Notify to send text messages, emails and letters.
 ### Method
 
 ```ruby
-sms = client.send_sms(
+smsresponse = client.send_sms(
   phone_number: "+447900900123",
   template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
 )
@@ -99,21 +99,33 @@ In this screen, you can then either:
 sms_sender_id: "8e222534-7f05-4972-86e3-17c5d9f894e2"
 ```
 
-You can leave out this argument if your service only has one `sms_sender_id`, or you want to use the default sender.
+You can leave out this argument if your service only has one text message sender, or you want to use the default sender.
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client:ResponseNotification`:
+If the request to the client is successful, the client will return a `Notifications::Client:ResponseNotification` object. This object is named `smsresponse` in the method example.
+
+You can then call different methods on this object to return the requested information:
+
+|Method|Information|Type|
+|:---|:---|:---|
+|`smsresponse.id`|Notification UUID|String|
+|`smsresponse.reference`|`reference` argument|String|
+|`smsresponse.content`|- Message body sent to the recipient<br>- SMS sender number of your service|Hash|
+|`smsresponse.template`|Contains the `id`, `version` and `uri` of the template|Hash|
+|`smsresponse.uri`|Notification URL|String|
+
+Example response:
 
 ```ruby
- @content={'notification content'},
  @id="6e5c4f6f-26b0-44c8-8aa9-fa71616c2542",
  @reference="your_reference_string",
+ @content={'notification content'},
  @template=
   {"id"=>"f33517ff-2a88-4f6e-b855-c550268ce08a",
-   "uri"=> "http://localhost:6011/services/bb86bffc-3065-4a91-8c3c-e077ad9d9a2b/templates/8e222534-7f05-4972-86e3-17c5d9f894e2",
+   "uri"=> "http://api.notify.works/services/services/bb86bffc-3065-4a91-8c3c-e077ad9d9a2b/templates/8e222534-7f05-4972-86e3-17c5d9f894e2",
    "version"=>4},
- @uri=>"http://localhost:6011/v2/notifications/6e5c4f6f-26b0-44c8-8aa9-fa71616c2542">
+ @uri=>"http://api.notify.works/services/v2/notifications/6e5c4f6f-26b0-44c8-8aa9-fa71616c2542">
 ```
 
 If you are using the [test API key](/#test), all your messages will come back as delivered.
@@ -139,7 +151,7 @@ If the request is not successful, the client will return a `Notifications::Clien
 ### Method
 
 ```ruby
-email = client.send_email(
+emailresponse = client.send_email(
   email_address: "sender@something.com",
   template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
 )
@@ -200,21 +212,33 @@ This is an email reply-to address specified by you to receive replies from your 
 email_reply_to_id: '8e222534-7f05-4972-86e3-17c5d9f894e2'
 ```
 
-You can leave out this argument if your service only has one `email_reply_to_id`, or you want to use the default email address.
+You can leave out this argument if your service only has one email reply to address, or you want to use the default email address.
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client:ResponseNotification`:
+If the request to the client is successful, the client will return a `Notifications::Client:ResponseNotification` object. This object is named `emailresponse` in the method example.
+
+You can then call different methods on this object to return the requested information:
+
+|Method|Information|Type|
+|:---|:---|:---|
+|`emailresponse.id`|Notification UUID|String|
+|`emailresponse.reference`|`reference` argument|String|
+|`emailresponse.content`|- Message body<br>- Message subject<br>- From email address of your service found on the **Settings** page|Hash|
+|`emailresponse.template`|Contains the `id`, `version` and `URL` of the template|Hash|
+|`emailresponse.uri`|Notification URL|String|
+
+Example response:
 
 ```ruby
- @content={"notification content"},
  @id="e1654fd8-a263-417a-935d-9ca78e7b8904",
  @reference="your_reference_string",
+ @content={"notification content"},
  @template=
   {"id"=>"f33517ff-2a88-4f6e-b855-c550268ce08a",
-   "uri"=> "http://localhost:6011/services/bb86bffc-3065-4a91-8c3c-e077ad9d9a2b/templates/f33517ff-2a88-4f6e-b855-c550268ce08a",
+   "uri"=> "http://api.notify.works/services/services/bb86bffc-3065-4a91-8c3c-e077ad9d9a2b/templates/f33517ff-2a88-4f6e-b855-c550268ce08a",
    "version"=>3},
- @uri="http://localhost:6011/v2/notifications/e1654fd8-a263-417a-935d-9ca78e7b8904">
+ @uri="http://api.notify.works/services/v2/notifications/e1654fd8-a263-417a-935d-9ca78e7b8904">
 ```
 
 ### Error codes
@@ -238,12 +262,12 @@ When your service first signs up to GOV.UK Notify, you’ll start in trial mode.
 ### Method
 
 ```ruby
-letter = client.send_letter(
+letterresponse = client.send_letter(
   template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
   personalisation: {
-    address_line_1: 'The Occupier',  # required string
-    address_line_2: '123 High Street', # required string
-    postcode: 'SW14 6BH',  # required string
+    address_line_1: 'The Occupier',  
+    address_line_2: '123 High Street',
+    postcode: 'SW14 6BH',
   },
 )
 ```
@@ -302,7 +326,19 @@ reference: 'your_reference_string'
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client:ResponseNotification`:
+If the request to the client is successful, the client will return a `Notifications::Client:ResponseNotification` object. This object is named `letterresponse` in the method example.
+
+You can then call different methods on this object to return the requested information:
+
+|Method|Information|Type|
+|:---|:---|:---|
+|`letterresponse.id`|Notification UUID|String|
+|`letterresponse.reference`|`reference` argument|String|
+|`letterresponse.content`|- Letter body<br>- Letter subject or main heading|Hash|
+|`letterresponse.template`|Contains the `id`, `version` and `URL` of the template|Hash|
+|`letterresponse.uri`|Notification URL|String|
+
+Example response:
 
 ```ruby
 @content={"notification content"},
@@ -314,6 +350,7 @@ If the request to the client is successful, the client will return a `Notificati
   "version"=>3},
 @uri="https://api.notify.works/v2/notifications/8a6f5cb9-98d1-436d-bdb0-15cc2edc8e65">
 ```
+
 
 ### Error codes
 
@@ -388,7 +425,7 @@ You can only get the status of messages that are 7 days old or less.
 ### Method
 
 ```ruby
-notification = client.get_notification(id)
+response = client.get_notification(id)
 ```
 
 ### Arguments
@@ -399,7 +436,34 @@ The ID of the notification.
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client::Notification`:
+If the request to the client is successful, the client will return a `Notifications::Client::Notification` object. This object is named `response` in the method example.
+
+You can then call different methods on this object to return the requested information:
+
+|Method|Information|Type|
+|:---|:---|:---|
+|`response.id`|Notification UUID|String|
+|`response.reference`| String supplied in `reference` argument|String|
+|`response.email_address`|Recipient email address (email only)|String|
+|`response.phone_number`|Recipient phone number (SMS only)|String|
+|`response.line_1`|Recipient address line 1 of the address (letter only)|String|
+|`response.line_2`|Recipient address line 2 of the address (letter only)|String|
+|`response.line_3`|Recipient address line 3 of the address (letter only)|String|
+|`response.line_4`|Recipient address line 4 of the address (letter only)|String|
+|`response.line_5`|Recipient address line 5 of the address (letter only)|String|
+|`response.line_6`|Recipient address line 6 of the address (letter only)|String|
+|`response.postcode`|Recipient postcode (letter only)|String|
+|`response.type`|Type of notification sent (sms, email or letter)|String|
+|`response.status`|Notification status (sending / delivered / permanent-failure / temporary-failure / technical-failure)|String|
+|`response.template`|Template UUID|String|
+|`response.body`|Notification body|String|
+|`response.subject`|Notification subject (email only)|String|
+|`response.sent_at`|Date and time notification sent to provider|String|
+|`response.created_at`|Date and time notification created|String|
+|`response.completed_at`|Date and time notification delivered or failed|String|
+
+
+Example responses:
 
 ```ruby
 @body="Body",
@@ -407,18 +471,18 @@ If the request to the client is successful, the client will return a `Notificati
  @created_at="2018-06-26T15:42:11.277321Z",
  @email_address=nil,
  @id="2fbcf138-19ed-4f9c-976d-3f28c86eda11",
- @line_1="one",
- @line_2="two",
+ @line_1="The Occupier",
+ @line_2="123 High Street",
  @line_3=nil,
  @line_4=nil,
  @line_5=nil,
  @line_6=nil,
  @phone_number=nil,
- @postcode="post c0de",
+ @postcode="SW14 6BH",
  @reference=nil,
  @sent_at=nil,
  @status="received",
- @subject="Heading of the letter",
+ @subject="Letter heading",
  @template={"id"=>"2c6db85e-6caf-4e21-af95-2873bae251c5", "uri"=>"https://api.notify.works/v2/template/2c6db85e-6caf-4e21-af95-2873bae251c5/version/4", "version"=>4},
  @type="letter">
 ```
@@ -436,7 +500,7 @@ If the request is not successful, the client will return a `Notification::Client
 
 ## Get the status of multiple messages
 
-This API call will return one page of up to 250 messages and statuses. You can get either the most recent messages, or get older messages by specifying a particular notification ID in the [`older_than`](/#older_than_optional) argument.
+This API call will return one page of up to 250 messages and statuses. You can get either the most recent messages, or get older messages by specifying a particular notification ID in the `older_than` argument.
 
 You can only get the status of messages that are 7 days old or less.
 
@@ -447,9 +511,9 @@ args = {
   template_type: 'sms',
   status: 'failed',
   reference: 'your_reference_string'
-  older_than: 'e194efd1-c34d-49c9-9915-e4267e01e92e' # => Notifications::Client::Notification
+  older_than: 'e194efd1-c34d-49c9-9915-e4267e01e92e'
 }
-notifications = client.get_notifications(args)
+response = client.get_notifications(args)
 ```
 
 You can leave out the `older_than` argument to get the 250 most recent messages.
@@ -476,7 +540,7 @@ You can leave out these arguments to ignore these filters.
 |`accepted`|Notify is printing and posting the letter|||Yes|
 |`received`|The provider has received the letter to deliver|||Yes|
 
-#### notificationType (optional)
+#### templateType (optional)
 
 You can filter by:
 
@@ -506,14 +570,18 @@ The client will only return notifications that are 7 days old or less. If the no
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client::NotificationsCollection`.
+If the request to the client is successful, the client will return a `Notifications::Client::NotificationsCollection` object. This object is named `response` in the method example.
 
-You must then call either the `notifications.links` method or the `notifications.collection` method against the `Notifications::Client::NotificationsCollection` object:
+You must then call either the `.links` method or the `.collection` method on this object:
 
-- `notifications.links` returns a hash linking to the requested notifications (limited to 250)
-- `notifications.collection` returns an array of the required notifications
+|Method|Information|
+|:---|:---|
+|`response.links`|Returns a hash linking to the requested notifications (limited to 250)|
+|`response.collection`|Returns an array of the required notifications|
 
-A notification will take this format:
+If you call the `collection` method on this object to return an array, you will then have to call different methods on this array to return the requested information.
+
+Example response:
 
 ```ruby
 <Notifications::Client::Notification:0x007fd00c8707d8
@@ -522,20 +590,20 @@ A notification will take this format:
     @created_at: "2018-04-12T11:00:59.200506Z",
     @email_address: "sender@something.com",
     @id: "9f2b4db3-fa0f-4b45-9314-8cb4019db209",
-    @line_1: nil,
-    @line_2: nil,
+    @line_1: `The Occupier`,
+    @line_2: `123 High Street`,
     @line_3: nil,
     @line_4: nil,
     @line_5: nil,
     @line_6: nil,
     @phone_number: nil,
-    @postcode: nil,
+    @postcode: `SW14 6BH`,
     @reference: nil,
     @sent_at: "2018-04-12T11:01:01.452472Z",
     @status: "sending",
     @subject: "The day – a reminder",
     @template:
-     {"id": "44d258d7-9cc9-40f8-b208-5fb67e751664", "uri": "http://localhost:6011/v2/template/44d258d7-9cc9-40f8-b208-5fb67e751664/version/1", "version": 1},
+     {"id": "44d258d7-9cc9-40f8-b208-5fb67e751664", "uri": "http://api.notify.works/services/v2/template/44d258d7-9cc9-40f8-b208-5fb67e751664/version/1", "version": 1},
     @type: "email">
 ```
 
@@ -553,7 +621,7 @@ If the request is not successful, the client will return a `Notifications::Clien
 |error.code|error.message|How to fix|
 |:---|:---|:---|
 |`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "bad status is not one of [created, sending, sent, delivered, pending, failed, technical-failure, temporary-failure, permanent-failure, accepted, received]"`<br>`}]`|Contact the Notify team|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Applet is not one of [sms, email, letter]"`<br>`}]`|Contact the Notify team|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Template type is not one of [sms, email, letter]"`<br>`}]`|Contact the Notify team|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
 
@@ -566,7 +634,7 @@ If the request is not successful, the client will return a `Notifications::Clien
 This will return the latest version of the template.
 
 ```ruby
-Template = client.get_template_by_id(id)
+response = client.get_template_by_id(id)
 ```
 
 ### Arguments
@@ -581,9 +649,21 @@ id:'f33517ff-2a88-4f6e-b855-c550268ce08a'
 
 ### Response
 
-If the request to the client is successful, the client will return a `template`:
+If the request to the client is successful, the client will return a `Notifications::Client::Template` object. This object is named `response` in the method example.
 
-_NEED EXAMPLE_
+You can then call different methods on this object to return the requested information:
+
+|Method|Information|Type|
+|:---|:---|:---|
+|`response.id`|Template UUID|String|
+|`response.type`|Template type (email/sms/letter)|String|
+|`response.created_at`|Date and time template created|String|
+|`response.updated_at`|Date and time template last updated (may be nil if version 1)|String|
+|`response.created_by`|Email address of person that created the template|String|
+|`response.version`|Template version|String|
+|`response.body`|Template content|String|
+|`response.subject`|Template subject (email only)|String|
+
 
 ### Error codes
 
@@ -603,7 +683,7 @@ If the request is not successful, the client will return a `Notifications::Clien
 This will return the latest version of the template.
 
 ```ruby
-template = client.get_template_version(id, version)
+response = client.get_template_version(id, version)
 ```
 
 ### Arguments
@@ -622,9 +702,20 @@ The version number of the template.
 
 ### Response
 
-If the request to the client is successful, the client will return a `Template`:
+If the request to the client is successful, the client will return a `Notifications::Client::Template` object. This object is named `response` in the method example.
 
-_NEED EXAMPLE_
+You can then call different methods on this object to return the requested information:
+
+|Method|Information|Type|
+|:---|:---|:---|
+|`response.id`|Template UUID|String|
+|`response.type`|Template type (email/sms/letter)|String|
+|`response.created_at`|Date and time template created|String|
+|`response.updated_at`|Date and time template last updated (may be nil if it is the first version)|String|
+|`response.created_by`|Email address of person that created the template|String|
+|`response.version`|Template version|String|
+|`response.body`|Template content|String|
+|`response.subject`|Template subject (email only)|String|
 
 ### Error codes
 
@@ -632,7 +723,6 @@ If the request is not successful, the client will return a `Notifications::Clien
 
 |error.code|error.message|How to fix|
 |:---|:---|:---|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|
 |`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|Check the notification ID|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
@@ -642,13 +732,13 @@ If the request is not successful, the client will return a `Notifications::Clien
 
 ### Method
 
-This will return the latest version of all templates inside a collection named `templates`.
+This will return the latest version of all templates inside a collection object.
 
 ```ruby
 args = {
-  'type': 'sms'
+  type: 'sms'
 }
-templates: client.get_all_templates(args)
+response = client.get_all_templates(args)
 ```
 
 ### Arguments
@@ -663,21 +753,11 @@ If you do not use `type`, the client returns all templates. Otherwise you can fi
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client::TemplateCollection`:
+If the request to the client is successful, the client will return a `Notifications::Client::TemplateCollection` object. This object is named `response` in the method example.
 
-```ruby
-TemplateCollection "TemplateCollectionName"
-```
+You must then call the `.collection` method on this object to return an array of the required templates.
 
-You must then call the `TemplateCollectionName.collection` method to return an array of the required templates.
-
-A template will take this format:
-
-_NEED EXAMPLE_
-
-If no templates exist for a template type or there no templates for a service, the templates list will be empty.
-
-_NEED EXAMPLE_
+If no templates exist for a template type or there no templates for a service, the templates array will be empty.
 
 ### Error codes
 
@@ -694,7 +774,7 @@ If the request is not successful, the client will return a `Notifications::Clien
 This will generate a preview version of a template.
 
 ```ruby
-template_preview = client.generate_template_preview(id, personalisation{})
+response = client.generate_template_preview(id)
 ```
 
 The parameters in the personalisation argument must match the placeholder fields in the actual template. The API notification client will ignore any extra fields in the method.
@@ -706,10 +786,10 @@ The parameters in the personalisation argument must match the placeholder fields
 The ID of the template. You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
 
 ```ruby
-id: 'f33517ff-2a88-4f6e-b855-c550268ce08a'
+'f33517ff-2a88-4f6e-b855-c550268ce08a'
 ```
 
-#### personalisation (required)
+#### personalisation (optional)
 
 If a template has placeholder fields for personalised information such as name or application date, you must provide their values in a hash. For example:
 
@@ -724,9 +804,17 @@ You can leave out this argument if a template does not have any placeholder fiel
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client::TemplatePreview`:
+If the request to the client is successful, the client will return a `Notifications::Client::TemplatePreview` object. This object is named `response` in the method example.
 
-_NEED EXAMPLE_
+You can then call different methods on this object to return the requested information:
+
+|Method|Information|Type|
+|:---|:---|:---|
+|`response.id`|Template UUID|String|
+|`response.version`|Template version|String|
+|`response.body`|Template content|String|
+|`response.subject`|Template subject (email only)|String|
+|`response.type`|Template type (sms/email/letter)|String|
 
 ### Error codes
 
@@ -749,9 +837,9 @@ You can only get the status of messages that are 7 days old or less.
 
 ```ruby
 args = {
-  'older_than' => 'e194efd1-c34d-49c9-9915-e4267e01e92e' # => Notifications::Client::ReceivedText
+  older_than: 'e194efd1-c34d-49c9-9915-e4267e01e92e'
 }
-received_texts = client.get_received_texts(args)
+response = client.get_received_texts(args)
 ```
 
 To get older messages, pass the ID of an older notification into the `older_than` argument. This will return the next oldest messages from the specified notification ID.
@@ -774,34 +862,36 @@ The client will only return notifications that are 7 days old or less. If the no
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client::ReceivedTextCollection`.
+If the request to the client is successful, the client will return a `Notifications::Client::ReceivedTextCollection` object. This object is named `response` in the method example.
 
-You must then call either the `received_texts.links` method or the `received_texts.collection` method against the `Notifications::Client::ReceivedTextCollection` object:
+You must then call either the `.links` method or the `.collection` method on this object:
 
-- `received_texts.links` returns a hash linking to the requested requested texts (limited to 250)
-- `received_texts.collection` returns an array of the required texts
+|Method|Information|
+|:---|:---|
+|`response.links`|Returns a hash linking to the requested texts (limited to 250)|
+|`response.collection`|Returns an array of the required texts|
 
-A notification object will take this format:
+If you call the `collection` method on this object to return an array, you will then have to call different methods on this array to return the requested information.
+
+Example response:
 
 ```ruby
-=> #<Notifications::Client::ReceivedTextCollection:0x007f801b07e570
  @collection:
-  [#<Notifications::Client::ReceivedText:0x007f801b07e278
-    @content: "hello",
+  [@content: "hello",
     @created_at: "2017-11-22T16:49:11.007280Z",
     @id: "d22ab880-1f1d-416b-acf1-e9e4c43d7b97",
     @notify_number: "0713131313",
     @service_id: "bb86bffc-3065-4a91-8c3c-e077ad9d9a2b",
     @user_number: "447900900123">],
  @links:
-  {"current"=>"http://localhost:6011/v2/received-text-messages", "next"=>"http://localhost:6011/v2/received-text-messages?older_than=025b4ec2-5ff5-43ff-b015-c50d259b9823"}>
+  {"current"=>"http://api.notify.works/services/v2/received-text-messages", "next"=>"http://api.notify.works/services/v2/received-text-messages?older_than=025b4ec2-5ff5-43ff-b015-c50d259b9823"}>
 ```
 
 If the notification specified in the `older_than` argument is older than 7 days, the client will return an empty `collection` response:
 
 ```ruby
-=> #<Notifications::Client::ReceivedTextCollection:0x007f801b07e570
+=>
  @collection: [],
  @links:
-  {"current"=>"http://localhost:6011/v2/received-text-messages", "next"=>"http://localhost:6011/v2/received-text-messages?older_than=025b4ec2-5ff5-43ff-b015-c50d259b9823"}>
+  {"current"=>"http://api.notify.works/services/v2/received-text-messages", "next"=>"http://api.notify.works/services/v2/received-text-messages?older_than=025b4ec2-5ff5-43ff-b015-c50d259b9823"}>
 ```
