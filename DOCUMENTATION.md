@@ -115,19 +115,6 @@ You can then call different methods on this object to return the requested infor
 |`smsresponse.template`|Contains the `id`, `version` and `uri` of the template|Hash|
 |`smsresponse.uri`|Notification URL|String|
 
-Example response:
-
-```ruby
- @id="6e5c4f6f-26b0-44c8-8aa9-fa71616c2542",
- @reference="your_reference_string",
- @content={'notification content'},
- @template=
-  {"id"=>"f33517ff-2a88-4f6e-b855-c550268ce08a",
-   "uri"=> "http://api.notify.works/services/services/bb86bffc-3065-4a91-8c3c-e077ad9d9a2b/templates/8e222534-7f05-4972-86e3-17c5d9f894e2",
-   "version"=>4},
- @uri=>"http://api.notify.works/services/v2/notifications/6e5c4f6f-26b0-44c8-8aa9-fa71616c2542">
-```
-
 If you are using the [test API key](/#test), all your messages will come back as delivered.
 
 All messages sent using the [team and whitelist](#team-and-whitelist) or [live](#live) keys will appear on your dashboard.
@@ -228,19 +215,6 @@ You can then call different methods on this object to return the requested infor
 |`emailresponse.template`|Contains the `id`, `version` and `URL` of the template|Hash|
 |`emailresponse.uri`|Notification URL|String|
 
-Example response:
-
-```ruby
- @id="e1654fd8-a263-417a-935d-9ca78e7b8904",
- @reference="your_reference_string",
- @content={"notification content"},
- @template=
-  {"id"=>"f33517ff-2a88-4f6e-b855-c550268ce08a",
-   "uri"=> "http://api.notify.works/services/services/bb86bffc-3065-4a91-8c3c-e077ad9d9a2b/templates/f33517ff-2a88-4f6e-b855-c550268ce08a",
-   "version"=>3},
- @uri="http://api.notify.works/services/v2/notifications/e1654fd8-a263-417a-935d-9ca78e7b8904">
-```
-
 ### Error codes
 
 If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
@@ -337,19 +311,6 @@ You can then call different methods on this object to return the requested infor
 |`letterresponse.content`|- Letter body<br>- Letter subject or main heading|Hash|
 |`letterresponse.template`|Contains the `id`, `version` and `URL` of the template|Hash|
 |`letterresponse.uri`|Notification URL|String|
-
-Example response:
-
-```ruby
-@content={"notification content"},
-@id="8a6f5cb9-98d1-436d-bdb0-15cc2edc8e65",
-@reference=nil,
-@template=
- {"id"=>"f33517ff-2a88-4f6e-b855-c550268ce08a",
-  "uri"=>"https://api.notify.works/services/d33f763f-d8b6-4591-b272-ec6127572e5a/templates/2dd69cce-c0d2-470f-a6c1-8900a5368e04",
-  "version"=>3},
-@uri="https://api.notify.works/v2/notifications/8a6f5cb9-98d1-436d-bdb0-15cc2edc8e65">
-```
 
 
 ### Error codes
@@ -462,31 +423,6 @@ You can then call different methods on this object to return the requested infor
 |`response.created_at`|Date and time notification created|String|
 |`response.completed_at`|Date and time notification delivered or failed|String|
 
-
-Example responses:
-
-```ruby
-@body="Body",
- @completed_at="2018-06-26T15:42:29.972008Z",
- @created_at="2018-06-26T15:42:11.277321Z",
- @email_address=nil,
- @id="2fbcf138-19ed-4f9c-976d-3f28c86eda11",
- @line_1="The Occupier",
- @line_2="123 High Street",
- @line_3=nil,
- @line_4=nil,
- @line_5=nil,
- @line_6=nil,
- @phone_number=nil,
- @postcode="SW14 6BH",
- @reference=nil,
- @sent_at=nil,
- @status="received",
- @subject="Letter heading",
- @template={"id"=>"2c6db85e-6caf-4e21-af95-2873bae251c5", "uri"=>"https://api.notify.works/v2/template/2c6db85e-6caf-4e21-af95-2873bae251c5/version/4", "version"=>4},
- @type="letter">
-```
-
 ### Error codes
 
 If the request is not successful, the client will return a `Notification::Client::RequestError` containing the relevant error code:
@@ -581,38 +517,7 @@ You must then call either the `.links` method or the `.collection` method on thi
 
 If you call the `collection` method on this object to return an array, you will then have to call different methods on this array to return the requested information.
 
-Example response:
-
-```ruby
-<Notifications::Client::Notification:0x007fd00c8707d8
-    @body: "notification content",
-    @completed_at: nil,
-    @created_at: "2018-04-12T11:00:59.200506Z",
-    @email_address: "sender@something.com",
-    @id: "9f2b4db3-fa0f-4b45-9314-8cb4019db209",
-    @line_1: `The Occupier`,
-    @line_2: `123 High Street`,
-    @line_3: nil,
-    @line_4: nil,
-    @line_5: nil,
-    @line_6: nil,
-    @phone_number: nil,
-    @postcode: `SW14 6BH`,
-    @reference: nil,
-    @sent_at: "2018-04-12T11:01:01.452472Z",
-    @status: "sending",
-    @subject: "The day – a reminder",
-    @template:
-     {"id": "44d258d7-9cc9-40f8-b208-5fb67e751664", "uri": "http://api.notify.works/services/v2/template/44d258d7-9cc9-40f8-b208-5fb67e751664/version/1", "version": 1},
-    @type: "email">
-```
-
-If the notification specified in the `older_than` argument is older than 7 days, the client will return an empty `collection` response:
-
-```ruby
- @collection=[],
- @links={"current"=>"https://api.notify.works/v2/notifications?older_than=f927a003-7f5d-400d-a518-1bd0b205e4bf"}>
-```
+If the notification specified in the `older_than` argument is older than 7 days, the client will return an empty `collection` response.
 
 ### Error codes
 
@@ -663,7 +568,6 @@ You can then call different methods on this object to return the requested infor
 |`response.version`|Template version|String|
 |`response.body`|Template content|String|
 |`response.subject`|Template subject (email only)|String|
-
 
 ### Error codes
 
@@ -873,25 +777,4 @@ You must then call either the `.links` method or the `.collection` method on thi
 
 If you call the `collection` method on this object to return an array, you will then have to call different methods on this array to return the requested information.
 
-Example response:
-
-```ruby
- @collection:
-  [@content: "hello",
-    @created_at: "2017-11-22T16:49:11.007280Z",
-    @id: "d22ab880-1f1d-416b-acf1-e9e4c43d7b97",
-    @notify_number: "0713131313",
-    @service_id: "bb86bffc-3065-4a91-8c3c-e077ad9d9a2b",
-    @user_number: "447900900123">],
- @links:
-  {"current"=>"http://api.notify.works/services/v2/received-text-messages", "next"=>"http://api.notify.works/services/v2/received-text-messages?older_than=025b4ec2-5ff5-43ff-b015-c50d259b9823"}>
-```
-
-If the notification specified in the `older_than` argument is older than 7 days, the client will return an empty `collection` response:
-
-```ruby
-=>
- @collection: [],
- @links:
-  {"current"=>"http://api.notify.works/services/v2/received-text-messages", "next"=>"http://api.notify.works/services/v2/received-text-messages?older_than=025b4ec2-5ff5-43ff-b015-c50d259b9823"}>
-```
+If the notification specified in the `older_than` argument is older than 7 days, the client will return an empty `collection` response.
