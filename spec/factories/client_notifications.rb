@@ -30,7 +30,8 @@ FactoryBot.define do
         "subject" => nil,
         "created_at" => "2016-11-29T11:12:30.12354Z",
         "sent_at" => "2016-11-29T11:12:40.12354Z",
-        "completed_at" => "2016-11-29T11:12:52.12354Z"
+        "completed_at" => "2016-11-29T11:12:52.12354Z",
+        "created_by_name" => "A. Sender",
       }
     end
   end

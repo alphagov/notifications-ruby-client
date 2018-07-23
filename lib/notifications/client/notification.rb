@@ -23,6 +23,7 @@ module Notifications
         sent_at
         created_at
         completed_at
+        created_by_name
       ).freeze
 
       attr_reader(*FIELDS)
