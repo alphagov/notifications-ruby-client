@@ -387,6 +387,7 @@ notification.subject                # => the subject of the notification (email 
 notification.sent_at                # => date and time the notification was sent to the provider
 notification.created_at             # => date and time the notification was created
 notification.completed_at           # => date and time the notification was delivered or failed
+notification.created_by_name        # => name of the person who sent the notification if sent manually
 ```
 Otherwise a `Notification::Client::RequestError` is raised
 

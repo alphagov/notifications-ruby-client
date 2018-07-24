@@ -42,6 +42,7 @@ describe Notifications::Client do
       created_at
       sent_at
       completed_at
+      created_by_name
     ).each do |field|
       it "expect to include #{field}" do
         expect(
