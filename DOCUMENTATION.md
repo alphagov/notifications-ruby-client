@@ -516,7 +516,30 @@ You must then call either the `.links` method or the `.collection` method on thi
 |`response.links`|Returns a hash linking to the requested notifications (limited to 250)|
 |`response.collection`|Returns an array of the required notifications|
 
-If you call the `collection` method on this object to return an array, you will then have to call different methods on this array to return the requested information.
+If you call the `collection` method on this object to return an array of notifications, you must then call the following methods on this array to return information on individual notifications:
+
+|Method|Information|Type|
+|:---|:---|:---|
+|`response.id`|Notification UUID|String|
+|`response.reference`| String supplied in `reference` argument|String|
+|`response.email_address`|Recipient email address (email only)|String|
+|`response.phone_number`|Recipient phone number (SMS only)|String|
+|`response.line_1`|Recipient address line 1 of the address (letter only)|String|
+|`response.line_2`|Recipient address line 2 of the address (letter only)|String|
+|`response.line_3`|Recipient address line 3 of the address (letter only)|String|
+|`response.line_4`|Recipient address line 4 of the address (letter only)|String|
+|`response.line_5`|Recipient address line 5 of the address (letter only)|String|
+|`response.line_6`|Recipient address line 6 of the address (letter only)|String|
+|`response.postcode`|Recipient postcode (letter only)|String|
+|`response.type`|Type of notification sent (sms, email or letter)|String|
+|`response.status`|Notification status (sending / delivered / permanent-failure / temporary-failure / technical-failure)|String|
+|`response.template`|Template UUID|String|
+|`response.body`|Notification body|String|
+|`response.subject`|Notification subject (email and letter)|String|
+|`response.sent_at`|Date and time notification sent to provider|String|
+|`response.created_at`|Date and time notification created|String|
+|`response.completed_at`|Date and time notification delivered or failed|String|
+|`response.created_by_name`|Name of sender if notification sent manually|String|
 
 If the notification specified in the `older_than` argument is older than 7 days, the client will return an empty `collection` response.
 
@@ -662,6 +685,19 @@ If the request to the client is successful, the client will return a `Notificati
 
 You must then call the `.collection` method on this object to return an array of the required templates.
 
+Once the client has returned an array of templates, you must then call the following methods on this array to return information on individual templates:
+
+|Method|Information|Type|
+|:---|:---|:---|
+|`response.id`|Template UUID|String|
+|`response.type`|Template type (email/sms/letter)|String|
+|`response.created_at`|Date and time template created|String|
+|`response.updated_at`|Date and time template last updated (may be nil if it is the first version)|String|
+|`response.created_by`|Email address of person that created the template|String|
+|`response.version`|Template version|String|
+|`response.body`|Template content|String|
+|`response.subject`|Template subject (email and letter)|String|
+
 If no templates exist for a template type or there no templates for a service, the templates array will be empty.
 
 ### Error codes
@@ -776,6 +812,15 @@ You must then call either the `.links` method or the `.collection` method on thi
 |`response.links`|Returns a hash linking to the requested texts (limited to 250)|
 |`response.collection`|Returns an array of the required texts|
 
-If you call the `collection` method on this object to return an array, you will then have to call different methods on this array to return the requested information.
+If you call the `collection` method on this object to return an array, you must then call the following methods on this array to return information on individual received texts:
+
+|Method|Information|Type|
+|:---|:---|:---|
+|response.id|Received text UUID|String|
+|response.created_at|Date and time of received text|String|
+|response.content|Received text content|String|
+|response.notify_number|Number that received text was sent to|String|
+|response.service_id|Received text service ID|String|
+|response.user_number|Number that received text was sent from|String|
 
 If the notification specified in the `older_than` argument is older than 7 days, the client will return an empty `collection` response.
