@@ -111,7 +111,7 @@ You can then call different methods on this object to return the requested infor
 |:---|:---|:---|
 |`smsresponse.id`|Notification UUID|String|
 |`smsresponse.reference`|`reference` argument|String|
-|`smsresponse.content`|- Message body sent to the recipient<br>- SMS sender number of your service|Hash|
+|`smsresponse.content`|- `body`: Message body sent to the recipient<br>- `from_number`: SMS sender number of your service|Hash|
 |`smsresponse.template`|Contains the `id`, `version` and `uri` of the template|Hash|
 |`smsresponse.uri`|Notification URL|String|
 
@@ -211,8 +211,8 @@ You can then call different methods on this object to return the requested infor
 |:---|:---|:---|
 |`emailresponse.id`|Notification UUID|String|
 |`emailresponse.reference`|`reference` argument|String|
-|`emailresponse.content`|- Message body<br>- Message subject<br>- From email address of your service found on the **Settings** page|Hash|
-|`emailresponse.template`|Contains the `id`, `version` and `URL` of the template|Hash|
+|`emailresponse.content`|- `body`: Message body<br>- `subject`: Message subject<br>- `from_email`: From email address of your service found on the **Settings** page|Hash|
+|`emailresponse.template`|Contains the `id`, `version` and `uri` of the template|Hash|
 |`emailresponse.uri`|Notification URL|String|
 
 ### Error codes
@@ -308,8 +308,8 @@ You can then call different methods on this object to return the requested infor
 |:---|:---|:---|
 |`letterresponse.id`|Notification UUID|String|
 |`letterresponse.reference`|`reference` argument|String|
-|`letterresponse.content`|- Letter body<br>- Letter subject or main heading|Hash|
-|`letterresponse.template`|Contains the `id`, `version` and `URL` of the template|Hash|
+|`letterresponse.content`|- `body`: Letter body<br>- `subject`: Letter subject or main heading|Hash|
+|`letterresponse.template`|Contains the `id`, `version` and `uri` of the template|Hash|
 |`letterresponse.uri`|Notification URL|String|
 
 
@@ -418,10 +418,11 @@ You can then call different methods on this object to return the requested infor
 |`response.status`|Notification status (sending / delivered / permanent-failure / temporary-failure / technical-failure)|String|
 |`response.template`|Template UUID|String|
 |`response.body`|Notification body|String|
-|`response.subject`|Notification subject (email only)|String|
+|`response.subject`|Notification subject (email and letter)|String|
 |`response.sent_at`|Date and time notification sent to provider|String|
 |`response.created_at`|Date and time notification created|String|
 |`response.completed_at`|Date and time notification delivered or failed|String|
+|`response.created_by_name`|Name of sender if notification sent manually|String|
 
 ### Error codes
 
@@ -502,7 +503,7 @@ older_than: 'e194efd1-c34d-49c9-9915-e4267e01e92e'
 
 If you leave out this argument, the client returns the most recent 250 notifications.
 
-The client will only return notifications that are 7 days old or less. If the notification specified in this argument is older than 7 days, the client will return an empty `collection` response.
+The client will only return notifications that are 7 days old or less. If the notification specified in this argument is older than 7 days, the client will return an empty response.
 
 ### Response
 
@@ -549,7 +550,7 @@ response = client.get_template_by_id(id)
 The ID of the template. You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
 
 ```
-id:'f33517ff-2a88-4f6e-b855-c550268ce08a'
+'f33517ff-2a88-4f6e-b855-c550268ce08a'
 ```
 
 ### Response
@@ -567,7 +568,7 @@ You can then call different methods on this object to return the requested infor
 |`response.created_by`|Email address of person that created the template|String|
 |`response.version`|Template version|String|
 |`response.body`|Template content|String|
-|`response.subject`|Template subject (email only)|String|
+|`response.subject`|Template subject (email and letter)|String|
 
 ### Error codes
 
@@ -597,7 +598,7 @@ response = client.get_template_version(id, version)
 The ID of the template. You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
 
 ```ruby
-id: 'f33517ff-2a88-4f6e-b855-c550268ce08a'
+'f33517ff-2a88-4f6e-b855-c550268ce08a'
 ```
 
 #### version (required)
@@ -619,7 +620,7 @@ You can then call different methods on this object to return the requested infor
 |`response.created_by`|Email address of person that created the template|String|
 |`response.version`|Template version|String|
 |`response.body`|Template content|String|
-|`response.subject`|Template subject (email only)|String|
+|`response.subject`|Template subject (email and letter)|String|
 
 ### Error codes
 
@@ -717,7 +718,7 @@ You can then call different methods on this object to return the requested infor
 |`response.id`|Template UUID|String|
 |`response.version`|Template version|String|
 |`response.body`|Template content|String|
-|`response.subject`|Template subject (email only)|String|
+|`response.subject`|Template subject (email and letter)|String|
 |`response.type`|Template type (sms/email/letter)|String|
 
 ### Error codes
