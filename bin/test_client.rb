@@ -252,7 +252,8 @@ def expected_fields_in_email_notification_that_are_nil
      line_5
      line_5
      line_6
-     postcode)
+     postcode
+     created_by_name)
 end
 
 def expected_fields_in_sms_notification
@@ -275,7 +276,8 @@ def expected_fields_in_sms_notification_that_are_nil
      line_5
      line_6
      postcode
-     subject)
+     subject
+     created_by_name)
 end
 
 def expected_fields_in_letter_notification
@@ -302,6 +304,7 @@ def expected_fields_in_letter_notification_that_are_nil
     line_5
     line_5
     line_6
+    created_by_name
   )
 end
 

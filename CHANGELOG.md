@@ -1,3 +1,8 @@
+## 2.7.0
+
+* The Notification class has a new `created_by_name` property.
+    * If the notification was sent manually this will be the name of the sender. If the notification was sent through the API this will be `nil`.
+
 ## 2.6.0
 
 ### Changed
