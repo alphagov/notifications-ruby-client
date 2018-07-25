@@ -516,7 +516,7 @@ You must then call either the `.links` method or the `.collection` method on thi
 |`response.links`|Returns a hash linking to the requested notifications (limited to 250)|
 |`response.collection`|Returns an array of the required notifications|
 
-If you call the `collection` method on this object to return an array of notifications, you must then call the following methods on this array to return information on individual notifications:
+If you call the `collection` method on this object to return an array of notifications, you must then call the following methods on the notifications in this array to return information on those notifications:
 
 |Method|Information|Type|
 |:---|:---|:---|
@@ -685,7 +685,7 @@ If the request to the client is successful, the client will return a `Notificati
 
 You must then call the `.collection` method on this object to return an array of the required templates.
 
-Once the client has returned an array of templates, you must then call the following methods on this array to return information on individual templates:
+Once the client has returned an array of templates, you must then call the following methods on the templates in this array to return information on those templates:
 
 |Method|Information|Type|
 |:---|:---|:---|
@@ -812,7 +812,7 @@ You must then call either the `.links` method or the `.collection` method on thi
 |`response.links`|Returns a hash linking to the requested texts (limited to 250)|
 |`response.collection`|Returns an array of the required texts|
 
-If you call the `collection` method on this object to return an array, you must then call the following methods on this array to return information on individual received texts:
+If you call the `collection` method on this object to return an array, you must then call the following methods on the reeived texts in this array to return information on those texts:
 
 |Method|Information|Type|
 |:---|:---|:---|
