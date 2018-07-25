@@ -816,11 +816,11 @@ If you call the `collection` method on this object to return an array, you must 
 
 |Method|Information|Type|
 |:---|:---|:---|
-|response.id|Received text UUID|String|
-|response.created_at|Date and time of received text|String|
-|response.content|Received text content|String|
-|response.notify_number|Number that received text was sent to|String|
-|response.service_id|Received text service ID|String|
-|response.user_number|Number that received text was sent from|String|
+|`response.id`|Received text UUID|String|
+|`response.created_at`|Date and time of received text|String|
+|`response.content`|Received text content|String|
+|`response.notify_number`|Number that received text was sent to|String|
+|`response.service_id`|Received text service ID|String|
+|`response.user_number`|Number that received text was sent from|String|
 
 If the notification specified in the `older_than` argument is older than 7 days, the client will return an empty `collection` response.
