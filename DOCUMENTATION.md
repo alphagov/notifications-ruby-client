@@ -6,7 +6,7 @@ This documentation is for developers interested in using the GOV.UK Notify Ruby 
 
 ## Install the client
 
-Run the following code in the command line:
+Run the following in the command line:
 
 ```
 gem install 'notifications-ruby-client'
@@ -23,11 +23,11 @@ require 'notifications/client'
 client = Notifications::Client.new(api_key)
 ```
 
-To get an API key, [sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/) and go to the __API integration__ page. You can find more information in the [API keys](/#api-keys) section of the documentation.
+To get an API key, [sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/) and go to the __API integration__ page. You can find more information in the [API keys](/#api-keys) section of this documentation.
 
 # Send a message
 
-You can use GOV.UK Notify to send text messages, emails and letters.
+You can use GOV.UK Notify to send text messages, emails or letters.
 
 ## Send a text message
 
@@ -44,7 +44,7 @@ smsresponse = client.send_sms(
 
 #### phone_number (required)
 
-The phone number of the recipient of the text message. This number can be a UK or international number.
+The phone number of the text message recipient. This can be a UK or international number. For example:
 
 ```ruby
 phone_number:"+447900900123"
@@ -52,7 +52,7 @@ phone_number:"+447900900123"
 
 #### template_id (required)
 
-You can find this by signing into [GOV.UK Notify](https://www.notifications.service.gov.uk/) and going to the __Templates__ page.
+Sign in to [GOV.UK Notify](https://www.notifications.service.gov.uk/) and go to the __Templates__ page to find the template ID. For example:
 
 ```ruby
 template_id:"f33517ff-2a88-4f6e-b855-c550268ce08a"
@@ -73,39 +73,42 @@ You can leave out this argument if a template does not have any placeholder fiel
 
 #### reference (optional)
 
-A unique identifier. This reference identifies a single unique notification or a batch of notifications.
+A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. For example:
 
 ```ruby
 reference: "your_reference_string"
 ```
 
-You can leave out this argument if you do not have a `reference`.
+You can leave out this argument if you do not have a reference.
 
 #### sms_sender_id (optional)
 
-A unique identifier of the sender of the text message notification. To find this information, go to the __Text Message sender__ settings screen:
+A unique identifier of the sender of the text message notification. You can find this information on the __Text Message sender__ settings screen.
 
 1. Sign in to your GOV.UK Notify account.
 1. Go to __Settings__.
 1. If you need to change to another service, select __Switch service__ in the top right corner of the screen and select the correct one.
 1. Go to the __Text Messages__ section and select __Manage__ on the __Text Message sender__ row.
 
-In this screen, you can then either:
+You can then either:
 
   - copy the sender ID that you want to use and paste it into the method
-  - select __Change__ to change the default sender that the service will use, and select __Save__
+  - select __Change__ to change the default sender that the service uses, and select __Save__
+
+
+For example:
 
 ```ruby
 sms_sender_id: "8e222534-7f05-4972-86e3-17c5d9f894e2"
 ```
 
-You can leave out this argument if your service only has one text message sender, or you want to use the default sender.
+You can leave out this argument if your service only has one text message sender, or if you want to use the default sender.
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client:ResponseNotification` object. This object is named `smsresponse` in the method example.
+If the request to the client is successful, the client returns a `Notifications::Client:ResponseNotification` object. In the example shown in the [Method section](/ruby.html#method), the object is named `smsresponse`.
 
-You can then call different methods on this object to return the requested information:
+You can then call different methods on this object:
 
 |Method|Information|Type|
 |:---|:---|:---|
@@ -115,13 +118,13 @@ You can then call different methods on this object to return the requested infor
 |`smsresponse.template`|Contains the `id`, `version` and `uri` of the template|Hash|
 |`smsresponse.uri`|Notification URL|String|
 
-If you are using the [test API key](/#test), all your messages will come back as delivered.
+If you are using the [test API key](/#test), all your messages come back with a `delivered` status.
 
-All messages sent using the [team and whitelist](#team-and-whitelist) or [live](#live) keys will appear on your dashboard.
+All messages sent using the [team and whitelist](#team-and-whitelist) or [live](#live) keys appear on your GOV.UK Notify dashboard.
 
 ### Error codes
 
-If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
 
 |error.code|error.message|How to fix|
 |:---|:---|:---|
@@ -148,7 +151,7 @@ emailresponse = client.send_email(
 
 #### email_address (required)
 
-The email address of the recipient.
+The email address of the recipient. For example:
 
 ```ruby
 email_address: "sender@something.com"
@@ -156,7 +159,7 @@ email_address: "sender@something.com"
 
 #### template_id (required)
 
-You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
+Sign in to [GOV.UK Notify](https://www.notifications.service.gov.uk/) and go to the __Templates__ page to find the template ID. For example:
 
 ```ruby
 template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a"
@@ -177,23 +180,26 @@ You can leave out this argument if a template does not have any placeholder fiel
 
 #### reference (optional)
 
-A unique identifier. This reference identifies a single unique notification or a batch of notifications.
+A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. For example:
 
 ```ruby
 reference: "your_reference_string"
 ```
 
-You can leave out this argument if you do not have a `reference`.
+You can leave out this argument if you do not have a reference.
 
 #### email_reply_to_id (optional)
 
-This is an email reply-to address specified by you to receive replies from your users. Your service cannot go live until you set up at least one of these email addresses. To set up:
+This is an email reply-to address specified by you to receive replies from your users. Your service cannot go live until you set up at least one of these email addresses.
 
 1. Sign into your GOV.UK Notify account.
 1. Go to __Settings__.
 1. If you need to change to another service, select __Switch service__ in the top right corner of the screen and select the correct one.
-1. Go to the Email section and select __Manage__ on the __Email reply to addresses__ row.
+1. Go to the __Email__ section and select __Manage__ on the __Email reply to addresses__ row.
 1. Select __Change__ to specify the email address to receive replies, and select __Save__.
+
+
+For example:
 
 ```ruby
 email_reply_to_id: '8e222534-7f05-4972-86e3-17c5d9f894e2'
@@ -203,9 +209,9 @@ You can leave out this argument if your service only has one email reply to addr
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client:ResponseNotification` object. This object is named `emailresponse` in the method example.
+If the request to the client is successful, the client returns a `Notifications::Client:ResponseNotification` object. In the example shown in the [Method section](/ruby.html#send-an-email-method), the object is named `emailresponse`.
 
-You can then call different methods on this object to return the requested information:
+You can then call different methods on this object to return the requested information.
 
 |Method|Information|Type|
 |:---|:---|:---|
@@ -217,7 +223,7 @@ You can then call different methods on this object to return the requested infor
 
 ### Error codes
 
-If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
 
 |error.code|error.message|How to fix|
 |:--- |:---|:---|
@@ -231,7 +237,11 @@ If the request is not successful, the client will return a `Notifications::Clien
 
 ## Send a letter
 
-When your service first signs up to GOV.UK Notify, you’ll start in trial mode. You can only send letters in live mode.
+When your service first signs up to GOV.UK Notify, you’ll start in trial mode. You can only send letters in live mode. You must ask GOV.UK Notify to make your service live.
+
+1. Sign in to GOV.UK Notify.
+1. Select __Using Notify__.
+1. Select __requesting to go live__.
 
 ### Method
 
@@ -250,7 +260,7 @@ letterresponse = client.send_letter(
 
 #### template_id (required)
 
-You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
+Sign in to GOV.UK Notify and go to the __Templates__ page to find the template ID. For example:
 
 ```ruby
 template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a"
@@ -292,7 +302,7 @@ personalisation: {
 
 #### reference (optional)
 
-A unique identifier. This reference identifies a single unique notification or a batch of notifications.
+A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. For example:
 
 ```ruby
 reference: 'your_reference_string'
@@ -300,9 +310,9 @@ reference: 'your_reference_string'
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client:ResponseNotification` object. This object is named `letterresponse` in the method example.
+If the request to the client is successful, the client returns a `Notifications::Client:ResponseNotification` object. In the example shown in the [Method section](/ruby.html#send-a-letter-method), the object is named `letterresponse`.
 
-You can then call different methods on this object to return the requested information:
+You can then call different methods on this object to return the requested information.
 
 |Method|Information|Type|
 |:---|:---|:---|
@@ -315,7 +325,7 @@ You can then call different methods on this object to return the requested infor
 
 ### Error codes
 
-If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
 
 |error.code|error.message|How to fix|
 |:--- |:---|:---|
@@ -336,48 +346,27 @@ You can only get the status of messages that are 7 days old or less.
 
 ## Status - text and email
 
-### Created
+|Status|Information|
+|:---|:---|
+|Created|The message is queued to be sent to the provider. The notification usually remains in this state for a few seconds.|
+|Sending|The message is queued to be sent by the provider to the recipient, and GOV.UK Notify is waiting for delivery information.|
+|Delivered|The message was successfully delivered.|
+|Failed|This covers all failure statuses:<br>- `permanent-failure` - "The provider was unable to deliver message, email or phone number does not exist; remove this recipient from your list"<br>- `temporary-failure` - "The provider was unable to deliver message, email inbox was full or phone was turned off; you can try to send the message again"<br>- `technical-failure` - "Notify had a technical failure; you can try to send the message again"|
 
-The message is queued to be sent to the provider. The notification usually remains in this state for a few seconds.
+## Status - text only
 
-### Sending
-
-The message is queued to be sent by the provider to the recipient, and GOV.UK Notify are waiting for delivery information.
-
-### Pending (text message only)
-
-GOV.UK Notify received a callback from the provider but the device has not yet responded. Another callback from the provider will determine the final status of the notification.
-
-### Delivered
-
-The message was successfully delivered.
-
-### Sent (text message only)
-
-The text message was delivered internationally. GOV.UK Notify may not receive additional status updates depending on the recipient's country and telecoms provider.
-
-### Failed
-
-This covers all failure statuses:
-
-- `permanent-failure` - "The provider was unable to deliver message, email or phone number does not exist; remove this recipient from your list"
-- `temporary-failure` - "The provider was unable to deliver message, email inbox was full or phone was turned off; you can try to send the message again"
-- `technical-failure` - "Notify had a technical failure; you can try to send the message again"
+|Status|Information|
+|:---|:---|
+|Pending|GOV.UK Notify received a callback from the provider but the device has not yet responded. Another callback from the provider determines the final status of the notification.|
+|Sent|The text message was delivered internationally. This only applies to text messages sent to non-UK phone numbers. GOV.UK Notify may not receive additional status updates depending on the recipient's country and telecoms provider.|
 
 ## Status - letter
 
-### Failed
-
-The only failure status that applies to letters is `technical-failure`. Notify had an unexpected error while sending to our printing provider.
-
-### Accepted
-
-GOV.UK Notify is printing and posting the letter.
-
-### Received
-
-The provider has received the letter to deliver.
-
+|Status|information|
+|:---|:---|
+|Failed|The only failure status that applies to letters is `technical-failure`. GOV.UK Notify had an unexpected error while sending to our printing provider.|
+|Accepted|GOV.UK Notify is printing and posting the letter.|
+|Received|The provider has received the letter to deliver.|
 
 ## Get the status of one message
 
@@ -393,13 +382,20 @@ response = client.get_notification(id)
 
 #### id (required)
 
-The ID of the notification.
+The ID of the notification. You can find the notification ID in the response to the [original notification method call](/#response).
+
+You can also find it in your [GOV.UK Notify Dashboard](https://www.notifications.service.gov.uk).
+
+1. Sign into GOV.UK Notify and select __Dashboard__.
+1. Select either __emails sent__, __text messages sent__, or __letters sent__.
+1. Select the relevant notification.
+1. Copy the notification ID from the end of the page URL, for example `https://www.notifications.service.gov.uk/services/af90d4cb-ae88-4a7c-a197-5c30c7db423b/notification/ID`.
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client::Notification` object. This object is named `response` in the method example.
+If the request to the client is successful, the client returns a `Notifications::Client::Notification` object. In the example shown in the [Method section](/#get-the-status-of-one-message-method), the object is named `response`.
 
-You can then call different methods on this object to return the requested information:
+You can then call different methods on this object to return the requested information.
 
 |Method|Information|Type|
 |:---|:---|:---|
@@ -426,18 +422,18 @@ You can then call different methods on this object to return the requested infor
 
 ### Error codes
 
-If the request is not successful, the client will return a `Notification::Client::RequestError` containing the relevant error code:
+If the request is not successful, the client returns a `Notification::Client::RequestError` and an error code:
 
 |error.code|error.message|How to fix|
 |:---|:---|:---|
 |`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|Check the notification ID|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|Check the notification ID. This error will occur if the notification is more than 7 days old.|
+|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|Check the notification ID. This error occurs if the notification is more than 7 days old.|
 
 ## Get the status of multiple messages
 
-This API call will return one page of up to 250 messages and statuses. You can get either the most recent messages, or get older messages by specifying a particular notification ID in the `older_than` argument.
+This API call returns one page of up to 250 messages and statuses. You can get either the most recent messages, or get older messages by specifying a particular notification ID in the `older_than` argument.
 
 You can only get the status of messages that are 7 days old or less.
 
@@ -455,7 +451,7 @@ response = client.get_notifications(args)
 
 You can leave out the `older_than` argument to get the 250 most recent messages.
 
-To get older messages, pass the ID of an older notification into the `older_than` argument. This will return the next 250 oldest messages from the specified notification ID.
+To get older messages, pass the ID of an older notification into the `older_than` argument. This returns the next 250 oldest messages from the specified notification ID.
 
 ### Arguments
 
@@ -470,7 +466,7 @@ You can leave out these arguments to ignore these filters.
 |`delivered`|The message was successfully delivered|Yes|Yes||
 |`pending`|GOV.UK Notify received a callback from the provider but the device has not yet responded|Yes|||
 |`sent`|The text message was delivered internationally|Yes|Yes||
-|`failed`|This will return all failure statuses:<br>- `permanent-failure`<br>- `temporary-failure`<br>- `technical-failure`|Yes|Yes||
+|`failed`|This returns all failure statuses:<br>- `permanent-failure`<br>- `temporary-failure`<br>- `technical-failure`|Yes|Yes||
 |`permanent-failure`|The provider was unable to deliver message, email or phone number does not exist; remove this recipient from your list|Yes|Yes||
 |`temporary-failure`|The provider was unable to deliver message, email inbox was full or phone was turned off; you can try to send the message again|Yes|Yes||
 |`technical-failure`|Email / Text: Notify had a technical failure; you can try to send the message again. <br><br>Letter: Notify had an unexpected error while sending to our printing provider. <br><br>You can leave out this argument to ignore this filter.|Yes|Yes||
@@ -487,7 +483,7 @@ You can filter by:
 
 #### reference (optional)
 
-A unique identifier. This reference identifies a single unique notification or a batch of notifications.
+A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. For example:
 
 ```ruby
 reference: 'your_reference_string'
@@ -495,7 +491,7 @@ reference: 'your_reference_string'
 
 #### older_than (optional)
 
-Input the ID of a notification into this argument. If you use this argument, the client returns the next 250 received notifications older than the given ID.
+Input the ID of a notification into this argument. If you use this argument, the client returns the next 250 received notifications older than the given ID. For example:
 
 ```ruby
 older_than: 'e194efd1-c34d-49c9-9915-e4267e01e92e'
@@ -503,20 +499,20 @@ older_than: 'e194efd1-c34d-49c9-9915-e4267e01e92e'
 
 If you leave out this argument, the client returns the most recent 250 notifications.
 
-The client will only return notifications that are 7 days old or less. If the notification specified in this argument is older than 7 days, the client will return an empty response.
+The client only returns notifications that are 7 days old or less. If the notification specified in this argument is older than 7 days, the client returns an empty response.
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client::NotificationsCollection` object. This object is named `response` in the method example.
+If the request to the client is successful, the client returns a `Notifications::Client::NotificationsCollection` object. In the example shown in the [Method section](/#get-the-status-of-multiple-messages-method), the object is named `response`.
 
-You must then call either the `.links` method or the `.collection` method on this object:
+You must then call either the `.links` method or the `.collection` method on this object.
 
 |Method|Information|
 |:---|:---|
 |`response.links`|Returns a hash linking to the requested notifications (limited to 250)|
 |`response.collection`|Returns an array of the required notifications|
 
-If you call the `collection` method on this object to return an array of notifications, you must then call the following methods on the notifications in this array to return information on those notifications:
+If you call the `collection` method on this object to return a notification array, you must then call the following methods on the notifications in this array to return information on those notifications:
 
 |Method|Information|Type|
 |:---|:---|:---|
@@ -541,11 +537,11 @@ If you call the `collection` method on this object to return an array of notific
 |`response.completed_at`|Date and time notification delivered or failed|String|
 |`response.created_by_name`|Name of sender if notification sent manually|String|
 
-If the notification specified in the `older_than` argument is older than 7 days, the client will return an empty `collection` response.
+If the notification specified in the `older_than` argument is older than 7 days, the client returns an empty `collection` response.
 
 ### Error codes
 
-If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
 
 |error.code|error.message|How to fix|
 |:---|:---|:---|
@@ -560,7 +556,7 @@ If the request is not successful, the client will return a `Notifications::Clien
 
 ### Method
 
-This will return the latest version of the template.
+This returns the latest version of the template.
 
 ```ruby
 response = client.get_template_by_id(id)
@@ -570,7 +566,7 @@ response = client.get_template_by_id(id)
 
 #### id (required)
 
-The ID of the template. You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
+The ID of the template. Sign into GOV.UK Notify and go to the __Templates__ page to find this. For example:
 
 ```
 'f33517ff-2a88-4f6e-b855-c550268ce08a'
@@ -578,9 +574,9 @@ The ID of the template. You can find this by signing into GOV.UK Notify and goin
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client::Template` object. This object is named `response` in the method example.
+If the request to the client is successful, the client returns a `Notifications::Client::Template` object. In the example shown in the [Method section](/#get-a-template-by-id-method), the object is named `response`.
 
-You can then call different methods on this object to return the requested information:
+You can then call different methods on this object to return the requested information.
 
 |Method|Information|Type|
 |:---|:---|:---|
@@ -595,7 +591,7 @@ You can then call different methods on this object to return the requested infor
 
 ### Error codes
 
-If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
 
 |error.code|error.message|How to fix|
 |:---|:---|:---|
@@ -608,7 +604,7 @@ If the request is not successful, the client will return a `Notifications::Clien
 
 ### Method
 
-This will return the latest version of the template.
+This returns the latest version of the template.
 
 ```ruby
 response = client.get_template_version(id, version)
@@ -618,7 +614,7 @@ response = client.get_template_version(id, version)
 
 #### id (required)
 
-The ID of the template. You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
+The ID of the template. Sign in to GOV.UK Notify and go to the __Templates__ page to find this. For example:
 
 ```ruby
 'f33517ff-2a88-4f6e-b855-c550268ce08a'
@@ -630,9 +626,9 @@ The version number of the template.
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client::Template` object. This object is named `response` in the method example.
+If the request to the client is successful, the client returns a `Notifications::Client::Template` object. In the example shown in the [Method section](/#get-a-template-by-id-and-version-method), the object is named `response`.
 
-You can then call different methods on this object to return the requested information:
+You can then call different methods on this object to return the requested information.
 
 |Method|Information|Type|
 |:---|:---|:---|
@@ -647,7 +643,7 @@ You can then call different methods on this object to return the requested infor
 
 ### Error codes
 
-If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
 
 |error.code|error.message|How to fix|
 |:---|:---|:---|
@@ -660,7 +656,7 @@ If the request is not successful, the client will return a `Notifications::Clien
 
 ### Method
 
-This will return the latest version of all templates inside a collection object.
+This returns the latest version of all templates inside a collection object.
 
 ```ruby
 args = {
@@ -681,11 +677,11 @@ If you do not use `type`, the client returns all templates. Otherwise you can fi
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client::TemplateCollection` object. This object is named `response` in the method example.
+If the request to the client is successful, the client returns a `Notifications::Client::TemplateCollection` object. In the example shown in the [Method section](/#get-all-templates-method), the object is named `response`..
 
 You must then call the `.collection` method on this object to return an array of the required templates.
 
-Once the client has returned an array of templates, you must then call the following methods on the templates in this array to return information on those templates:
+Once the client has returned a template array, you must then call the following methods on the templates in this array to return information on those templates.
 
 |Method|Information|Type|
 |:---|:---|:---|
@@ -702,7 +698,7 @@ If no templates exist for a template type or there no templates for a service, t
 
 ### Error codes
 
-If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
 
 |error.code|error.message|How to fix|
 |:---|:---|:---|
@@ -712,19 +708,19 @@ If the request is not successful, the client will return a `Notifications::Clien
 
 ### Method
 
-This will generate a preview version of a template.
+This generates a preview version of a template.
 
 ```ruby
 response = client.generate_template_preview(id)
 ```
 
-The parameters in the personalisation argument must match the placeholder fields in the actual template. The API notification client will ignore any extra fields in the method.
+The parameters in the personalisation argument must match the placeholder fields in the actual template. The API notification client ignores any extra fields in the method.
 
 ### Arguments
 
 #### id (required)
 
-The ID of the template. You can find this by signing into GOV.UK Notify and going to the __Templates__ page.
+The ID of the template. Sign into GOV.UK Notify and go to the __Templates__ page. For example:
 
 ```ruby
 'f33517ff-2a88-4f6e-b855-c550268ce08a'
@@ -745,9 +741,9 @@ You can leave out this argument if a template does not have any placeholder fiel
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client::TemplatePreview` object. This object is named `response` in the method example.
+If the request to the client is successful, the client returns a `Notifications::Client::TemplatePreview` object. In the example shown in the [Method section](/#generate-a-preview-template-method), the object is named `response`.
 
-You can then call different methods on this object to return the requested information:
+You can then call different methods on this object to return the requested information.
 
 |Method|Information|Type|
 |:---|:---|:---|
@@ -759,7 +755,7 @@ You can then call different methods on this object to return the requested infor
 
 ### Error codes
 
-If the request is not successful, the client will return a `Notifications::Client::RequestError` containing the relevant error code:
+If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
 
 |error.code|error.message|How to fix|
 |:---|:---|:---|
@@ -770,7 +766,7 @@ If the request is not successful, the client will return a `Notifications::Clien
 
 # Get received text messages
 
-This API call will return one page of up to 250 received text messages. You can get either the most recent messages, or get older messages by specifying a particular notification ID in the `older_than` argument.
+This API call returns one page of up to 250 received text messages. You can get either the most recent messages, or get older messages by specifying a particular notification ID in the `older_than` argument.
 
 You can only get the status of messages that are 7 days old or less.
 
@@ -783,7 +779,7 @@ args = {
 response = client.get_received_texts(args)
 ```
 
-To get older messages, pass the ID of an older notification into the `older_than` argument. This will return the next oldest messages from the specified notification ID.
+To get older messages, pass the ID of an older notification into the `older_than` argument. This returns the next oldest messages from the specified notification ID.
 
 If you leave out the `older_than` argument, the client returns the most recent 250 notifications.
 
@@ -791,7 +787,7 @@ If you leave out the `older_than` argument, the client returns the most recent 2
 
 #### older_than (optional)
 
-Input the ID of a received text message into this argument. If you use this argument, the client returns the next 250 received text messages older than the given ID.
+Input the ID of a received text message into this argument. If you use this argument, the client returns the next 250 received text messages older than the given ID. For example:
 
 ```ruby
 older_than: '8e222534-7f05-4972-86e3-17c5d9f894e2'
@@ -799,20 +795,20 @@ older_than: '8e222534-7f05-4972-86e3-17c5d9f894e2'
 
 If you leave out the `older_than` argument, the client returns the most recent 250 notifications.
 
-The client will only return notifications that are 7 days old or less. If the notification specified in this argument is older than 7 days, the client will return an empty `collection` response.
+The client only returns notifications that are 7 days old or less. If the notification specified in this argument is older than 7 days, the client returns an empty `collection` response.
 
 ### Response
 
-If the request to the client is successful, the client will return a `Notifications::Client::ReceivedTextCollection` object. This object is named `response` in the method example.
+If the request to the client is successful, the client returns a `Notifications::Client::ReceivedTextCollection` object. In the example shown in the [Method section](/#get-received-text-messages-method), the object is named `response`.
 
-You must then call either the `.links` method or the `.collection` method on this object:
+You must then call either the `.links` method or the `.collection` method on this object.
 
 |Method|Information|
 |:---|:---|
 |`response.links`|Returns a hash linking to the requested texts (limited to 250)|
 |`response.collection`|Returns an array of the required texts|
 
-If you call the `collection` method on this object to return an array, you must then call the following methods on the reeived texts in this array to return information on those texts:
+If you call the `collection` method on this object to return an array, you must then call the following methods on the received texts in this array to return information on those texts:
 
 |Method|Information|Type|
 |:---|:---|:---|
@@ -823,4 +819,4 @@ If you call the `collection` method on this object to return an array, you must 
 |`response.service_id`|Received text service ID|String|
 |`response.user_number`|Number that received text was sent from|String|
 
-If the notification specified in the `older_than` argument is older than 7 days, the client will return an empty `collection` response.
+If the notification specified in the `older_than` argument is older than 7 days, the client returns an empty `collection` response.
