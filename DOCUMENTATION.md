@@ -23,7 +23,7 @@ require 'notifications/client'
 client = Notifications::Client.new(api_key)
 ```
 
-To get an API key, [sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/) and go to the __API integration__ page. You can find more information in the [API keys](/#api-keys) section of this documentation.
+To get an API key, [sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/) and go to the __API integration__ page. You can find more information in the [API keys](/ruby.html#api-keys) section of this documentation.
 
 # Send a message
 
@@ -118,7 +118,7 @@ You can then call different methods on this object:
 |`smsresponse.template`|Contains the `id`, `version` and `uri` of the template|Hash|
 |`smsresponse.uri`|Notification URL|String|
 
-If you are using the [test API key](/#test), all your messages come back with a `delivered` status.
+If you are using the [test API key](/ruby.html#test), all your messages come back with a `delivered` status.
 
 All messages sent using the [team and whitelist](#team-and-whitelist) or [live](#live) keys appear on your GOV.UK Notify dashboard.
 
@@ -128,12 +128,12 @@ If the request is not successful, the client returns a `Notifications::Client::R
 
 |error.code|error.message|How to fix|
 |:---|:---|:---|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`|Use the correct type of [API key](/#api-keys)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`|Use the correct type of [API key](/ruby.html#api-keys)|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/#api-rate-limits) for more information|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/#service-limits) for the limit number|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/ruby.html#api-rate-limits) for more information|
+|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/ruby.html#service-limits) for the limit number|
 |`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|Notify was unable to process the request, resend your notification|
 
 ## Send an email
@@ -227,19 +227,19 @@ If the request is not successful, the client returns a `Notifications::Client::R
 
 |error.code|error.message|How to fix|
 |:--- |:---|:---|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`|Use the correct type of [API key](/#api-keys)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`|Use the correct type of [API key](/ruby.html#api-keys)|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/#api-rate-limits) for more information|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/#service-limits) for the limit number|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/ruby.html#api-rate-limits) for more information|
+|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/ruby.html#service-limits) for the limit number|
 |`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|Notify was unable to process the request, resend your notification|
 
 ## Send a letter
 
 When your service first signs up to GOV.UK Notify, you’ll start in trial mode. You can only send letters in live mode. You must ask GOV.UK Notify to make your service live.
 
-1. Sign in to GOV.UK Notify.
+1. Sign in to [GOV.UK Notify](https://www.notifications.service.gov.uk/).
 1. Select __Using Notify__.
 1. Select __requesting to go live__.
 
@@ -329,13 +329,13 @@ If the request is not successful, the client returns a `Notifications::Client::R
 
 |error.code|error.message|How to fix|
 |:--- |:---|:---|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters with a team api key"`<br>`]}`|Use the correct type of [API key](/#api-keys)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters with a team api key"`<br>`]}`|Use the correct type of [API key](/ruby.html#api-keys)|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "personalisation address_line_1 is a required property"`<br>`}]`|Ensure that your template has a field for the first line of the address, refer to [personalisation](/#send-a-letter-arguments-personalisation-required) for more information|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "personalisation address_line_1 is a required property"`<br>`}]`|Ensure that your template has a field for the first line of the address, refer to [personalisation](/ruby.html#personalisation-required) for more information|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/#api-rate-limits) for more information|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/#service-limits) for the limit number|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/ruby.html#api-rate-limits) for more information|
+|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/ruby.html#service-limits) for the limit number|
 |`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|Notify was unable to process the request, resend your notification|
 
 # Get message status
@@ -382,7 +382,7 @@ response = client.get_notification(id)
 
 #### id (required)
 
-The ID of the notification. You can find the notification ID in the response to the [original notification method call](/#response).
+The ID of the notification. You can find the notification ID in the response to the [original notification method call](/ruby.html#response).
 
 You can also find it in your [GOV.UK Notify Dashboard](https://www.notifications.service.gov.uk).
 
@@ -393,7 +393,7 @@ You can also find it in your [GOV.UK Notify Dashboard](https://www.notifications
 
 ### Response
 
-If the request to the client is successful, the client returns a `Notifications::Client::Notification` object. In the example shown in the [Method section](/#get-the-status-of-one-message-method), the object is named `response`.
+If the request to the client is successful, the client returns a `Notifications::Client::Notification` object. In the example shown in the [Method section](/ruby.html#get-the-status-of-one-message-method), the object is named `response`.
 
 You can then call different methods on this object to return the requested information.
 
@@ -428,7 +428,7 @@ If the request is not successful, the client returns a `Notification::Client::Re
 |:---|:---|:---|
 |`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|Check the notification ID|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
 |`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|Check the notification ID. This error occurs if the notification is more than 7 days old.|
 
 ## Get the status of multiple messages
@@ -503,7 +503,7 @@ The client only returns notifications that are 7 days old or less. If the notifi
 
 ### Response
 
-If the request to the client is successful, the client returns a `Notifications::Client::NotificationsCollection` object. In the example shown in the [Method section](/#get-the-status-of-multiple-messages-method), the object is named `response`.
+If the request to the client is successful, the client returns a `Notifications::Client::NotificationsCollection` object. In the example shown in the [Method section](/ruby.html#get-the-status-of-multiple-messages-method), the object is named `response`.
 
 You must then call either the `.links` method or the `.collection` method on this object.
 
@@ -548,7 +548,7 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "bad status is not one of [created, sending, sent, delivered, pending, failed, technical-failure, temporary-failure, permanent-failure, accepted, received]"`<br>`}]`|Contact the Notify team|
 |`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Template type is not one of [sms, email, letter]"`<br>`}]`|Contact the Notify team|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
 
 # Get a template
 
@@ -574,7 +574,7 @@ The ID of the template. Sign into GOV.UK Notify and go to the __Templates__ page
 
 ### Response
 
-If the request to the client is successful, the client returns a `Notifications::Client::Template` object. In the example shown in the [Method section](/#get-a-template-by-id-method), the object is named `response`.
+If the request to the client is successful, the client returns a `Notifications::Client::Template` object. In the example shown in the [Method section](/ruby.html#get-a-template-by-id-method), the object is named `response`.
 
 You can then call different methods on this object to return the requested information.
 
@@ -597,8 +597,8 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |:---|:---|:---|
 |`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|Check the notification ID|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No Result Found"`<br>`}]`|Check your [template ID](/#arguments-template-id-required)|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No Result Found"`<br>`}]`|Check your [template ID](/ruby.html#get-a-template-by-id-arguments-id-required)|
 
 ## Get a template by ID and version
 
@@ -626,7 +626,7 @@ The version number of the template.
 
 ### Response
 
-If the request to the client is successful, the client returns a `Notifications::Client::Template` object. In the example shown in the [Method section](/#get-a-template-by-id-and-version-method), the object is named `response`.
+If the request to the client is successful, the client returns a `Notifications::Client::Template` object. In the example shown in the [Method section](/ruby.html#get-a-template-by-id-and-version-method), the object is named `response`.
 
 You can then call different methods on this object to return the requested information.
 
@@ -649,8 +649,8 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |:---|:---|:---|
 |`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|Check the notification ID|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No Result Found"`<br>`}]`|Check your [template ID](/#get-a-template-by-id-and-version-arguments-template-id-required) and [version](/#version)|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No Result Found"`<br>`}]`|Check your [template ID](/ruby.html#get-a-template-by-id-and-version-arguments-id-required) and [version](/ruby.html#version-required)|
 
 ## Get all templates
 
@@ -677,7 +677,7 @@ If you do not use `type`, the client returns all templates. Otherwise you can fi
 
 ### Response
 
-If the request to the client is successful, the client returns a `Notifications::Client::TemplateCollection` object. In the example shown in the [Method section](/#get-all-templates-method), the object is named `response`..
+If the request to the client is successful, the client returns a `Notifications::Client::TemplateCollection` object. In the example shown in the [Method section](/ruby.html#get-all-templates-method), the object is named `response`.
 
 You must then call the `.collection` method on this object to return an array of the required templates.
 
@@ -741,7 +741,7 @@ You can leave out this argument if a template does not have any placeholder fiel
 
 ### Response
 
-If the request to the client is successful, the client returns a `Notifications::Client::TemplatePreview` object. In the example shown in the [Method section](/#generate-a-preview-template-method), the object is named `response`.
+If the request to the client is successful, the client returns a `Notifications::Client::TemplatePreview` object. In the example shown in the [Method section](/ruby.html#generate-a-preview-template-method), the object is named `response`.
 
 You can then call different methods on this object to return the requested information.
 
@@ -760,9 +760,9 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |error.code|error.message|How to fix|
 |:---|:---|:---|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Missing personalisation: [PERSONALISATION FIELD]"`<br>`}]`|Check that the personalisation arguments in the method match the placeholder fields in the template|
-|`400`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|Check the [template ID](/#generate-a-preview-template-required-arguments-template-id)|
+|`400`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|Check the [template ID](/ruby.html#generate-a-preview-template-arguments-id-required)|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/#api-keys) for more information|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
 
 # Get received text messages
 
@@ -799,7 +799,7 @@ The client only returns notifications that are 7 days old or less. If the notifi
 
 ### Response
 
-If the request to the client is successful, the client returns a `Notifications::Client::ReceivedTextCollection` object. In the example shown in the [Method section](/#get-received-text-messages-method), the object is named `response`.
+If the request to the client is successful, the client returns a `Notifications::Client::ReceivedTextCollection` object. In the example shown in the [Method section](/ruby.html#get-received-text-messages-method), the object is named `response`.
 
 You must then call either the `.links` method or the `.collection` method on this object.
 
