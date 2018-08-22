@@ -195,7 +195,7 @@ This is an email reply-to address specified by you to receive replies from your 
 1. Sign into your GOV.UK Notify account.
 1. Go to __Settings__.
 1. If you need to change to another service, select __Switch service__ in the top right corner of the screen and select the correct one.
-1. Go to the __Email__ section and select __Manage__ on the __Email reply to addresses__ row.
+1. Go to the __Email__ section and select __Manage__ on the __Email reply-to addresses__ row.
 1. Select __Change__ to specify the email address to receive replies, and select __Save__.
 
 
@@ -205,7 +205,7 @@ For example:
 email_reply_to_id: '8e222534-7f05-4972-86e3-17c5d9f894e2'
 ```
 
-You can leave out this argument if your service only has one email reply to address, or you want to use the default email address.
+You can leave out this argument if your service only has one email reply-to address, or you want to use the default email address.
 
 ### Response
 
