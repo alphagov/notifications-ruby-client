@@ -33,6 +33,7 @@ describe Notifications::Client do
 
     %w(
       id
+      name
       type
       body
       created_at

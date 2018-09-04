@@ -8,6 +8,7 @@ FactoryBot.define do
     body do
       {
         "id" => "f163deaf-2d3f-4ec6-98fc-f23fa511518f",
+        "name" => "My template name",
         "type" => "email",
         "created_at" => "2016-11-29T11:12:30.12354Z",
         "updated_at" => "2016-11-29T11:12:40.12354Z",

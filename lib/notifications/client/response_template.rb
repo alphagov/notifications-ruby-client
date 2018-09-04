@@ -6,6 +6,7 @@ module Notifications
       FIELDS = %i(
         id
         type
+        name
         created_at
         updated_at
         created_by
