@@ -193,6 +193,7 @@ end
 
 def expected_fields_in_template_response
   %w(id
+     name
      type
      created_at
      created_by

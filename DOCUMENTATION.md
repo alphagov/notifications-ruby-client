@@ -581,6 +581,7 @@ You can then call different methods on this object to return the requested infor
 |Method|Information|Type|
 |:---|:---|:---|
 |`response.id`|Template UUID|String|
+|`response.name`|Template name|String|
 |`response.type`|Template type (email/sms/letter)|String|
 |`response.created_at`|Date and time template created|String|
 |`response.updated_at`|Date and time template last updated (may be nil if version 1)|String|
@@ -633,6 +634,7 @@ You can then call different methods on this object to return the requested infor
 |Method|Information|Type|
 |:---|:---|:---|
 |`response.id`|Template UUID|String|
+|`response.name`|Template name|String|
 |`response.type`|Template type (email/sms/letter)|String|
 |`response.created_at`|Date and time template created|String|
 |`response.updated_at`|Date and time template last updated (may be nil if it is the first version)|String|
@@ -686,6 +688,7 @@ Once the client has returned a template array, you must then call the following 
 |Method|Information|Type|
 |:---|:---|:---|
 |`response.id`|Template UUID|String|
+|`response.name`|Template name|String|
 |`response.type`|Template type (email/sms/letter)|String|
 |`response.created_at`|Date and time template created|String|
 |`response.updated_at`|Date and time template last updated (may be nil if it is the first version)|String|

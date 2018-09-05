@@ -1,3 +1,8 @@
+## 2.8.0
+
+* Updated the Template class to have a `name` property, which is the name of the template as set in Notify.
+
+
 ## 2.7.0
 
 * The Notification class has a new `created_by_name` property.
