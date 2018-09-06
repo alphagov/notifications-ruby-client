@@ -54,6 +54,17 @@ module Notifications
     end
 
     ##
+    # @param reference [String]
+    # @param pdf_file [File]
+    # @see Notifications::Client::Speaker#post_precompiled_letter
+    # @return [ResponseNotification]
+    def send_precompiled_letter(reference, pdf_file)
+      ResponseNotification.new(
+        speaker.post_precompiled_letter(reference, pdf_file)
+      )
+    end
+
+    ##
     # @param id [String]
     # @see Notifications::Client::Speaker#get
     # @return [Notification]

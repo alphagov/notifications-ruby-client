@@ -1,3 +1,9 @@
+## Unreleased
+
+* Added the `send_precompiled_letter` method which allows the client to send letters as PDF files.
+  * This requires two arguments - a reference for the letter and the PDF letter file. The file must conform to the Notify printing template.
+
+
 ## 2.8.0
 
 * Updated the Template class to have a `name` property, which is the name of the template as set in Notify.

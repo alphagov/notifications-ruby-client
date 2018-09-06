@@ -1,3 +1,4 @@
+require "base64"
 require "net/https"
 require "uri"
 require "jwt"
@@ -92,6 +93,22 @@ module Notifications
           headers
         )
         request.body = form_data.is_a?(Hash) ? form_data.to_json : form_data
+        perform_request!(request)
+      end
+
+      ##
+      # @param reference [String] reference of the notification
+      # @param pdf_file [File] PDF file opened for reading
+      # @see #perform_request!
+      def post_precompiled_letter(reference, pdf_file)
+        content = Base64.strict_encode64(pdf_file.read)
+        form_data = { reference: reference, content: content }
+
+        request = Net::HTTP::Post.new(
+          "#{BASE_PATH}/letter",
+          headers
+        )
+        request.body = form_data.to_json
         perform_request!(request)
       end
 

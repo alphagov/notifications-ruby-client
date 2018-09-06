@@ -11,9 +11,11 @@ def main
   email_notification = test_send_email_endpoint(client)
   sms_notification = test_send_sms_endpoint(client)
   letter_notification = test_send_letter_endpoint(client)
+  precompiled_letter_notification = test_send_precompiled_letter_endpoint(client)
   test_get_notification_by_id_endpoint(client, email_notification.id, 'email')
   test_get_notification_by_id_endpoint(client, sms_notification.id, 'sms')
   test_get_notification_by_id_endpoint(client, letter_notification.id, 'letter')
+  test_get_notification_by_id_endpoint(client, precompiled_letter_notification.id, 'precompiled_letter')
   test_get_all_notifications(client)
   test_get_received_texts
   p 'ruby client integration tests pass'
@@ -120,6 +122,16 @@ def test_send_letter_endpoint(client)
   letter_resp
 end
 
+def test_send_precompiled_letter_endpoint(client)
+  precompiled_letter_resp = File.open('spec/test_files/test_pdf.pdf', 'rb') do |file|
+    client.send_precompiled_letter("some reference", file)
+  end
+
+  test_notification_response_data_type(precompiled_letter_resp, 'precompiled_letter')
+
+  precompiled_letter_resp
+end
+
 def test_notification_response_data_type(notification, message_type)
   unless notification.is_a?(Notifications::Client::ResponseNotification)
     p 'failed ' + message_type + ' response is not a Notifications::Client::ResponseNotification'
@@ -129,6 +141,12 @@ def test_notification_response_data_type(notification, message_type)
     p 'failed ' + message_type + 'id is not a String'
     exit 1
   end
+
+  if message_type == 'precompiled_letter'
+    field_should_not_be_nil(expected_fields_in_precompiled_letter_response, notification, 'send_precompiled_letter')
+    return
+  end
+
   field_should_not_be_nil(expected_fields_in_notification_response, notification, 'send_' + message_type)
   hash_key_should_not_be_nil(expected_fields_in_template, notification.send('template'), 'send_' + message_type + '.template')
 
@@ -161,6 +179,10 @@ def test_get_notification_by_id_endpoint(client, id, message_type)
     field_should_not_be_nil(expected_fields_in_letter_notification, get_notification_response, 'Notifications::Client::Notification for type letter')
     field_should_be_nil(expected_fields_in_letter_notification_that_are_nil, get_notification_response, 'Notifications::Client::Notification for type letter')
     hash_key_should_not_be_nil(expected_fields_in_template, get_notification_response.send('template'), 'Notifications::Client::Notification.template for type letter')
+  elsif message_type == 'precompiled_letter'
+    field_should_not_be_nil(expected_fields_in_precompiled_letter_notification, get_notification_response, 'Notifications::Client::Notification for type precompiled letter')
+    field_should_be_nil(expected_fields_in_precompiled_letter_notification_that_are_nil, get_notification_response, 'Notifications::Client::Notification for type precompiled letter')
+    hash_key_should_not_be_nil(expected_fields_in_template, get_notification_response.send('template'), 'Notifications::Client::Notification.template for type precompiled letter')
   end
 end
 
@@ -216,6 +238,11 @@ def expected_fields_in_notification_response
      uri)
 end
 
+def expected_fields_in_precompiled_letter_response
+  %w(id
+     reference)
+end
+
 def expected_fields_in_email_content
   %w(from_email
      body
@@ -223,7 +250,8 @@ def expected_fields_in_email_content
 end
 
 def expected_fields_in_sms_content
-  %w(body)
+  %w(body
+    from_number)
 end
 
 def expected_fields_in_letter_content
@@ -306,6 +334,36 @@ def expected_fields_in_letter_notification_that_are_nil
     line_5
     line_6
     created_by_name
+  )
+end
+
+def expected_fields_in_precompiled_letter_notification
+  %w(
+    body
+    created_at
+    id
+    line_1
+    reference
+    status
+    subject
+    template
+    type
+  )
+end
+
+def expected_fields_in_precompiled_letter_notification_that_are_nil
+  %w(
+    completed_at
+    created_by_name
+    email_address
+    line_2
+    line_3
+    line_4
+    line_5
+    line_6
+    phone_number
+    postcode
+    sent_at
   )
 end
 
