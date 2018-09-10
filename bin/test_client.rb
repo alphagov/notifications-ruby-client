@@ -9,10 +9,12 @@ def main
   test_get_all_templates_filter_by_type(client)
   test_generate_template_preview(client, ENV['EMAIL_TEMPLATE_ID'])
   email_notification = test_send_email_endpoint(client)
+  email_notification_with_document = test_send_email_endpoint_with_document(client)
   sms_notification = test_send_sms_endpoint(client)
   letter_notification = test_send_letter_endpoint(client)
   precompiled_letter_notification = test_send_precompiled_letter_endpoint(client)
   test_get_notification_by_id_endpoint(client, email_notification.id, 'email')
+  test_get_notification_by_id_endpoint(client, email_notification_with_document.id, 'email')
   test_get_notification_by_id_endpoint(client, sms_notification.id, 'sms')
   test_get_notification_by_id_endpoint(client, letter_notification.id, 'letter')
   test_get_notification_by_id_endpoint(client, precompiled_letter_notification.id, 'precompiled_letter')
@@ -95,6 +97,19 @@ def test_send_email_endpoint(client)
                                  personalisation: { "name" => "some name" },
                                  reference: "some reference",
                                  email_reply_to_id: ENV['EMAIL_REPLY_TO_ID'])
+  test_notification_response_data_type(email_resp, 'email')
+  email_resp
+end
+
+def test_send_email_endpoint_with_document(client)
+  email_resp = File.open('spec/test_files/test_pdf.pdf', 'rb') do |f|
+    client.send_email(email_address: ENV['FUNCTIONAL_TEST_EMAIL'],
+      template_id: ENV['EMAIL_TEMPLATE_ID'],
+      personalisation: { name: Notifications.prepare_upload(f) },
+      reference: "some reference",
+      email_reply_to_id: ENV['EMAIL_REPLY_TO_ID'])
+  end
+
   test_notification_response_data_type(email_resp, 'email')
   email_resp
 end
