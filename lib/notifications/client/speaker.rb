@@ -120,7 +120,7 @@ module Notifications
       #   not successful
       def perform_request!(request)
         response = open(request)
-        if response.is_a?(Net::HTTPClientError)
+        if response.is_a?(Net::HTTPClientError) || response.is_a?(Net::HTTPServerError)
           raise RequestError.new(response)
         else
           JSON.parse(response.body)

@@ -9,6 +9,7 @@ require_relative "client/response_template"
 require_relative "client/template_collection"
 require_relative "client/template_preview"
 require_relative "client/uuid_validator"
+require_relative "client/helper_methods"
 require "forwardable"
 
 module Notifications
@@ -16,6 +17,7 @@ module Notifications
     attr_reader :speaker
 
     PRODUCTION_BASE_URL = "https://api.notifications.service.gov.uk".freeze
+    MAX_FILE_UPLOAD_SIZE = 2 * 1024 * 1024 # 2MB limit on uploaded documents
 
     extend Forwardable
     def_delegators :speaker, :service_id, :secret_token, :base_url, :base_url=

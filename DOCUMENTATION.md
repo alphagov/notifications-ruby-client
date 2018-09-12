@@ -207,6 +207,36 @@ email_reply_to_id: '8e222534-7f05-4972-86e3-17c5d9f894e2'
 
 You can leave out this argument if your service only has one email reply-to address, or you want to use the default email address.
 
+### Send a document by email
+Send files without the need for email attachments.
+
+To send a document by email, add a placeholder field to the template then upload a file. The placeholder field will contain a secure link to download the document.
+
+[Contact the GOV.UK Notify team](https://www.notifications.service.gov.uk/support) to enable this function for your service.
+
+#### Add a placeholder field to the template
+
+In Notify, use double brackets to add a placeholder field to the email template. For example:
+
+"Download your document at: ((link_to_document))"
+
+#### Upload your document
+
+The document you upload must be a PDF file smaller than 2MB.
+
+Pass the file object as an argument to the `Notifications.prepare_upload` helper method. Then pass the result into the personalisation argument. For example:
+
+```ruby
+File.open("file.pdf", "rb") do |f|
+    ...
+    personalisation: {
+      first_name: "Amala",
+      application_date: "2018-01-01",
+      link_to_document: Notifications.prepare_upload(f),
+    }
+end
+```
+
 ### Response
 
 If the request to the client is successful, the client returns a `Notifications::Client:ResponseNotification` object. In the example shown in the [Method section](/ruby.html#send-an-email-method), the object is named `emailresponse`.
@@ -229,11 +259,14 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |:--- |:---|:---|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`|Use the correct type of [API key](/ruby.html#api-keys)|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Unsupported document type '{}'. Supported types are: {}"`<br>`}]`|The document you upload must be a PDF file|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Document didn't pass the virus scan"`<br>`}]`|The document you upload must be virus free|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
 |`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/ruby.html#api-rate-limits) for more information|
 |`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/ruby.html#service-limits) for the limit number|
 |`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|Notify was unable to process the request, resend your notification|
+|-|`[{`<br>`"error": "ArgumentError",`<br>`"message": "Document is larger than 2MB")`<br>`}]`|Document size was too large, upload a smaller document|
 
 ## Send a letter
 
@@ -337,6 +370,56 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/ruby.html#api-rate-limits) for more information|
 |`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/ruby.html#service-limits) for the limit number|
 |`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|Notify was unable to process the request, resend your notification|
+
+## Send a pre-compiled letter
+This is an invitation-only feature. Contact the GOV.UK Notify team on the [support page](https://www.notifications.service.gov.uk/support) or through the [Slack channel](https://ukgovernmentdigital.slack.com/messages/govuk-notify) for more information.
+
+### Method
+```ruby
+precompiled_letter = client.send_precompiled_letter(reference, pdf_file)
+```
+
+### Arguments
+
+#### reference (required)
+A unique identifier you create. This reference identifies a single unique notification or a batch of notifications. It must not contain any personal information such as name or postal address.
+
+#### pdf_file (required)
+The pre-compiled letter must be a PDF file.
+
+```ruby
+File.open("path/to/pdf_file", "rb") do |pdf_file|
+    client.send_precompiled_letter("your reference", pdf_file)
+end
+```
+
+### Response
+
+If the request to the client is successful, the client returns a `Notifications::Client:ResponseNotification` object. In the example shown in the [Method section](/ruby.html#send-a-pre-compiled-letter-method), the object is named `precompiled_letter`.
+
+You can then call different methods on this object to return the requested information.
+
+|Method|Information|Type|
+|:---|:---|:---|
+|`precompiled_letter.id`|Notification UUID|String|
+|`precompiled_letter.reference`|`reference` argument|String|
+|`precompiled_letter.content`|Always `nil`|nil|
+|`precompiled_letter.template`|Always `nil`|nil|
+|`precompiled_letter.uri`|Always `nil`|nil|
+
+### Error codes
+
+If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
+
+|error.status_code|error.message|How to fix|
+|:---|:---|:---|
+|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type live of 10 requests per 20 seconds"`<br>`}]`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
+|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`|Refer to [service limits](#service-limits) for the limit number|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters with a team api key"`<br>`]}`|Use the correct type of [API key](#api-keys)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send precompiled letters"`<br>`]}`|This is an invitation-only feature. Contact the GOV.UK Notify team on the [support page](https://www.notifications.service.gov.uk/support) or through the [Slack channel](https://ukgovernmentdigital.slack.com/messages/govuk-notify) for more information|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Letter content is not a valid PDF"`<br>`]}`|PDF file format is required|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "reference is a required property"`<br>`}]`|Add a `reference` argument to the method call|
 
 # Get message status
 
