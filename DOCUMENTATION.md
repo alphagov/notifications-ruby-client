@@ -906,3 +906,12 @@ If you call the `collection` method on this object to return an array, you must 
 |`response.user_number`|Number that received text was sent from|String|
 
 If the notification specified in the `older_than` argument is older than 7 days, the client returns an empty `collection` response.
+
+### Error codes
+
+If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
+
+|error.code|error.message|How to fix|
+|:---|:---|:---|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
