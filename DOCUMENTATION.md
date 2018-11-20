@@ -73,7 +73,7 @@ You can leave out this argument if a template does not have any placeholder fiel
 
 #### reference (optional)
 
-A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. For example:
+A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. It must not contain any personal information such as name or postal address. For example:
 
 ```ruby
 reference: "your_reference_string"
@@ -180,7 +180,7 @@ You can leave out this argument if a template does not have any placeholder fiel
 
 #### reference (optional)
 
-A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. For example:
+A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. It must not contain any personal information such as name or postal address. For example:
 
 ```ruby
 reference: "your_reference_string"
@@ -341,7 +341,7 @@ personalisation: {
 
 #### reference (optional)
 
-A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. For example:
+A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. It must not contain any personal information such as name or postal address. For example:
 
 ```ruby
 reference: 'your_reference_string'
@@ -579,7 +579,7 @@ You can filter by:
 
 #### reference (optional)
 
-A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. For example:
+A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. It must not contain any personal information such as name or postal address. For example:
 
 ```ruby
 reference: 'your_reference_string'
