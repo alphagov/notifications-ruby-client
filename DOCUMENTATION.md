@@ -73,7 +73,7 @@ You can leave out this argument if a template does not have any placeholder fiel
 
 #### reference (optional)
 
-A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. For example:
+A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. It must not contain any personal information such as name or postal address. For example:
 
 ```ruby
 reference: "your_reference_string"
@@ -180,7 +180,7 @@ You can leave out this argument if a template does not have any placeholder fiel
 
 #### reference (optional)
 
-A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. For example:
+A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. It must not contain any personal information such as name or postal address. For example:
 
 ```ruby
 reference: "your_reference_string"
@@ -208,6 +208,7 @@ email_reply_to_id: '8e222534-7f05-4972-86e3-17c5d9f894e2'
 You can leave out this argument if your service only has one email reply-to address, or you want to use the default email address.
 
 ## Send a document by email
+
 Send files without the need for email attachments.
 
 To send a document by email, add a placeholder field to the template then upload a file. The placeholder field will contain a secure link to download the document.
@@ -216,7 +217,9 @@ To send a document by email, add a placeholder field to the template then upload
 
 #### Add a placeholder field to the template
 
-In Notify, use double brackets to add a placeholder field to the email template. For example:
+1. Sign in to [GOV.UK Notify](https://www.notifications.service.gov.uk/). 
+1. Go to the __Templates__ page and select the relevant email template.
+1. Add a placeholder field to the email template using double brackets. For example:
 
 "Download your document at: ((link_to_document))"
 
@@ -224,7 +227,10 @@ In Notify, use double brackets to add a placeholder field to the email template.
 
 The document you upload must be a PDF file smaller than 2MB.
 
-Pass the file object as an argument to the `Notifications.prepare_upload` helper method. Then pass the result into the personalisation argument. For example:
+1. Pass the file object as an argument to the `Notifications.prepare_upload` helper method. 
+1. Pass the result into the personalisation argument. 
+
+For example:
 
 ```ruby
 File.open("file.pdf", "rb") do |f|
@@ -335,7 +341,7 @@ personalisation: {
 
 #### reference (optional)
 
-A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. For example:
+A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. It must not contain any personal information such as name or postal address. For example:
 
 ```ruby
 reference: 'your_reference_string'
@@ -423,9 +429,9 @@ If the request is not successful, the client returns a `Notifications::Client::R
 
 # Get message status
 
-Message status depends on the type of message that you have sent.
+Message status depends on the type of message you have sent.
 
-You can only get the status of messages that are 7 days old or less.
+You can only get the status of messages that are 7 days old or newer.
 
 ## Status - text and email
 
@@ -451,9 +457,16 @@ You can only get the status of messages that are 7 days old or less.
 |Accepted|GOV.UK Notify is printing and posting the letter.|
 |Received|The provider has received the letter to deliver.|
 
+## Status - pre-compiled letter
+
+|Status|information|
+|:---|:---|
+|Pending virus check|GOV.UK Notify virus scan of the pre-compiled letter file is not yet complete.|
+|Virus scan failed|GOV.UK Notify virus scan has identified a potential virus in the pre-compiled letter file.|
+
 ## Get the status of one message
 
-You can only get the status of messages that are 7 days old or less.
+You can only get the status of messages that are 7 days old or newer.
 
 ### Method
 
@@ -518,7 +531,7 @@ If the request is not successful, the client returns a `Notification::Client::Re
 
 This API call returns one page of up to 250 messages and statuses. You can get either the most recent messages, or get older messages by specifying a particular notification ID in the `older_than` argument.
 
-You can only get messages that are 7 days old or less.
+You can only get messages that are 7 days old or newer.
 
 ### Method
 
@@ -566,7 +579,7 @@ You can filter by:
 
 #### reference (optional)
 
-A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. For example:
+A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. It must not contain any personal information such as name or postal address. For example:
 
 ```ruby
 reference: 'your_reference_string'
@@ -582,7 +595,7 @@ older_than: 'e194efd1-c34d-49c9-9915-e4267e01e92e'
 
 If you leave out this argument, the client returns the most recent 250 notifications.
 
-The client only returns notifications that are 7 days old or less. If the notification specified in this argument is older than 7 days, the client returns an empty response.
+The client only returns notifications that are 7 days old or newer. If the notification specified in this argument is older than 7 days, the client returns an empty response.
 
 ### Response
 
@@ -854,7 +867,7 @@ If the request is not successful, the client returns a `Notifications::Client::R
 
 This API call returns one page of up to 250 received text messages. You can get either the most recent messages, or get older messages by specifying a particular notification ID in the `older_than` argument.
 
-You can only get the status of messages that are 7 days old or less.
+You can only get the status of messages that are 7 days old or newer.
 
 ### Method
 
@@ -881,7 +894,7 @@ older_than: '8e222534-7f05-4972-86e3-17c5d9f894e2'
 
 If you leave out the `older_than` argument, the client returns the most recent 250 notifications.
 
-The client only returns notifications that are 7 days old or less. If the notification specified in this argument is older than 7 days, the client returns an empty `collection` response.
+The client only returns notifications that are 7 days old or newer. If the notification specified in this argument is older than 7 days, the client returns an empty `collection` response.
 
 ### Response
 
@@ -906,3 +919,12 @@ If you call the `collection` method on this object to return an array, you must 
 |`response.user_number`|Number that received text was sent from|String|
 
 If the notification specified in the `older_than` argument is older than 7 days, the client returns an empty `collection` response.
+
+### Error codes
+
+If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
+
+|error.code|error.message|How to fix|
+|:---|:---|:---|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
