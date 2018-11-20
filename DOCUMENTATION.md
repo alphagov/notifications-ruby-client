@@ -207,7 +207,8 @@ email_reply_to_id: '8e222534-7f05-4972-86e3-17c5d9f894e2'
 
 You can leave out this argument if your service only has one email reply-to address, or you want to use the default email address.
 
-### Send a document by email
+## Send a document by email
+
 Send files without the need for email attachments.
 
 To send a document by email, add a placeholder field to the template then upload a file. The placeholder field will contain a secure link to download the document.
@@ -216,7 +217,9 @@ To send a document by email, add a placeholder field to the template then upload
 
 #### Add a placeholder field to the template
 
-In Notify, use double brackets to add a placeholder field to the email template. For example:
+1. Sign in to [GOV.UK Notify](https://www.notifications.service.gov.uk/). 
+1. Go to the __Templates__ page and select the relevant email template.
+1. Add a placeholder field to the email template using double brackets. For example:
 
 "Download your document at: ((link_to_document))"
 
@@ -224,7 +227,10 @@ In Notify, use double brackets to add a placeholder field to the email template.
 
 The document you upload must be a PDF file smaller than 2MB.
 
-Pass the file object as an argument to the `Notifications.prepare_upload` helper method. Then pass the result into the personalisation argument. For example:
+1. Pass the file object as an argument to the `Notifications.prepare_upload` helper method. 
+1. Pass the result into the personalisation argument. 
+
+For example:
 
 ```ruby
 File.open("file.pdf", "rb") do |f|
@@ -423,7 +429,7 @@ If the request is not successful, the client returns a `Notifications::Client::R
 
 # Get message status
 
-Message status depends on the type of message that you have sent.
+Message status depends on the type of message you have sent.
 
 You can only get the status of messages that are 7 days old or newer.
 
@@ -450,6 +456,13 @@ You can only get the status of messages that are 7 days old or newer.
 |Failed|The only failure status that applies to letters is `technical-failure`. GOV.UK Notify had an unexpected error while sending to our printing provider.|
 |Accepted|GOV.UK Notify is printing and posting the letter.|
 |Received|The provider has received the letter to deliver.|
+
+## Status - pre-compiled letter
+
+|Status|information|
+|:---|:---|
+|Pending virus check|GOV.UK Notify virus scan of the pre-compiled letter file is not yet complete.|
+|Virus scan failed|GOV.UK Notify virus scan has identified a potential virus in the pre-compiled letter file.|
 
 ## Get the status of one message
 
