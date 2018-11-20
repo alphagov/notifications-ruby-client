@@ -703,8 +703,6 @@ If the request is not successful, the client returns a `Notifications::Client::R
 
 ### Method
 
-This returns the latest version of the template.
-
 ```ruby
 response = client.get_template_version(id, version)
 ```
