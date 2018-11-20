@@ -466,7 +466,7 @@ You can only get the status of messages that are 7 days old or newer.
 
 ## Get the status of one message
 
-You can only get the status of messages that are 7 days old or less.
+You can only get the status of messages that are 7 days old or newer.
 
 ### Method
 
@@ -531,7 +531,7 @@ If the request is not successful, the client returns a `Notification::Client::Re
 
 This API call returns one page of up to 250 messages and statuses. You can get either the most recent messages, or get older messages by specifying a particular notification ID in the `older_than` argument.
 
-You can only get messages that are 7 days old or less.
+You can only get messages that are 7 days old or newer.
 
 ### Method
 
@@ -595,7 +595,7 @@ older_than: 'e194efd1-c34d-49c9-9915-e4267e01e92e'
 
 If you leave out this argument, the client returns the most recent 250 notifications.
 
-The client only returns notifications that are 7 days old or less. If the notification specified in this argument is older than 7 days, the client returns an empty response.
+The client only returns notifications that are 7 days old or newer. If the notification specified in this argument is older than 7 days, the client returns an empty response.
 
 ### Response
 
@@ -867,7 +867,7 @@ If the request is not successful, the client returns a `Notifications::Client::R
 
 This API call returns one page of up to 250 received text messages. You can get either the most recent messages, or get older messages by specifying a particular notification ID in the `older_than` argument.
 
-You can only get the status of messages that are 7 days old or less.
+You can only get the status of messages that are 7 days old or newer.
 
 ### Method
 
@@ -894,7 +894,7 @@ older_than: '8e222534-7f05-4972-86e3-17c5d9f894e2'
 
 If you leave out the `older_than` argument, the client returns the most recent 250 notifications.
 
-The client only returns notifications that are 7 days old or less. If the notification specified in this argument is older than 7 days, the client returns an empty `collection` response.
+The client only returns notifications that are 7 days old or newer. If the notification specified in this argument is older than 7 days, the client returns an empty `collection` response.
 
 ### Response
 
