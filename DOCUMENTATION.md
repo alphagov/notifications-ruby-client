@@ -378,7 +378,7 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/ruby.html#service-limits) for the limit number|
 |`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|Notify was unable to process the request, resend your notification|
 
-## Send a pre-compiled letter
+## Send a precompiled letter
 This is an invitation-only feature. Contact the GOV.UK Notify team on the [support page](https://www.notifications.service.gov.uk/support) or through the [Slack channel](https://ukgovernmentdigital.slack.com/messages/govuk-notify) for more information.
 
 ### Method
@@ -392,7 +392,8 @@ precompiled_letter = client.send_precompiled_letter(reference, pdf_file)
 A unique identifier you create. This reference identifies a single unique notification or a batch of notifications. It must not contain any personal information such as name or postal address.
 
 #### pdf_file (required)
-The pre-compiled letter must be a PDF file.
+
+The precompiled letter must be a PDF file.
 
 ```ruby
 File.open("path/to/pdf_file", "rb") do |pdf_file|
@@ -459,12 +460,12 @@ You can only get the status of messages that are 7 days old or newer.
 |Accepted|GOV.UK Notify is printing and posting the letter.|
 |Received|The provider has received the letter to deliver.|
 
-## Status - pre-compiled letter
+## Status - precompiled letter
 
 |Status|information|
 |:---|:---|
-|Pending virus check|GOV.UK Notify virus scan of the pre-compiled letter file is not yet complete.|
-|Virus scan failed|GOV.UK Notify virus scan has identified a potential virus in the pre-compiled letter file.|
+|Pending virus check|GOV.UK Notify virus scan of the precompiled letter file is not yet complete.|
+|Virus scan failed|GOV.UK Notify virus scan has identified a potential virus in the precompiled letter file.|
 
 ## Get the status of one message
 
