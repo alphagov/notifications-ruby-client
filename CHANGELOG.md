@@ -1,3 +1,7 @@
+## 2.10.0
+
+* Added subclasses of the `RequestError` class to handle specific types of errors.
+
 ## 2.9.0
 
 * Added the `send_precompiled_letter` method which allows the client to send letters as PDF files.
