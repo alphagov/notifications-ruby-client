@@ -12,22 +12,49 @@ describe Notifications::Client do
     expect { client.get_notification("1") }.to raise_error(error_class)
   end
 
-  describe "authorisation error" do
-    before { stub_error_request(403) }
+  shared_examples "raises an error" do |error_class|
+    it "should raise a #{error_class}" do
+      expect_error(error_class)
+    end
 
-    it "raises exception" do
+    it "should be a subclass of Notifications::Client::RequestError" do
       expect_error
     end
   end
 
+  describe "bad request error" do
+    before { stub_error_request(400) }
+    include_examples "raises an error", Notifications::Client::BadRequestError
+  end
+
+  describe "authorisation error" do
+    before { stub_error_request(403) }
+    include_examples "raises an error", Notifications::Client::AuthError
+  end
+
+  describe "not found error" do
+    before { stub_error_request(404) }
+    include_examples "raises an error", Notifications::Client::NotFoundError
+  end
+
+  describe "rate limit error" do
+    before { stub_error_request(429) }
+    include_examples "raises an error", Notifications::Client::RateLimitError
+  end
+
+  describe "other client error" do
+    before { stub_error_request(487) }
+    include_examples "raises an error", Notifications::Client::ClientError
+  end
+
   describe "server error" do
-    it "raises a Notifications::Client::RequestError" do
+    before do
       stub_error_request(503, body: {
         'status_code' => 503,
         'errors' => ['error' => 'BadRequestError', 'message' => 'App error']
       })
-
-      expect_error
     end
+
+    include_examples "raises an error", Notifications::Client::ServerError
   end
 end
