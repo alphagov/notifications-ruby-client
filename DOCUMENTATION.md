@@ -694,7 +694,7 @@ You can then call different methods on this object to return the requested infor
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
 
 |error.code|error.message|class|How to fix|
-|:---|:---|:---|
+|:---|:---|:---|:---|
 |`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|`BadRequestError`|Check the notification ID|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|`AuthError`|Check your system clock|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|`AuthError`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
@@ -745,7 +745,7 @@ You can then call different methods on this object to return the requested infor
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
 
 |error.code|error.message|class|How to fix|
-|:---|:---|:---|
+|:---|:---|:---|:---|
 |`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|`BadRequestError`|Check the notification ID|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|`AuthError`|Check your system clock|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|`AuthError`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
@@ -801,7 +801,7 @@ If no templates exist for a template type or there no templates for a service, t
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
 
 |error.code|error.message|class|How to fix|
-|:---|:---|:---|
+|:---|:---|:---|:---|
 |`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Template type is not one of [sms, email, letter]"`<br>`}]`|`BadRequestError`|Contact the Notify team|
 
 ## Generate a preview template
@@ -858,7 +858,7 @@ You can then call different methods on this object to return the requested infor
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
 
 |error.code|error.message|class|How to fix|
-|:---|:---|:---|
+|:---|:---|:---|:---|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Missing personalisation: [PERSONALISATION FIELD]"`<br>`}]`|`BadRequestError`|Check that the personalisation arguments in the method match the placeholder fields in the template|
 |`400`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|`BadRequestError`|Check the [template ID](/ruby.html#generate-a-preview-template-arguments-id-required)|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|`AuthError`|Check your system clock|
@@ -926,6 +926,6 @@ If the notification specified in the `older_than` argument is older than 7 days,
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
 
 |error.code|error.message|class|How to fix|
-|:---|:---|:---|
+|:---|:---|:---|:---|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|`AuthError`|Check your system clock|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|`AuthError`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
