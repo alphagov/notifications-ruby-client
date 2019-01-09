@@ -7,6 +7,8 @@ require_relative "request_error"
 module Notifications
   class Client
     class Speaker
+      include ErrorHandling
+
       attr_reader :base_url
       attr_reader :service_id
       attr_reader :secret_token
@@ -121,7 +123,7 @@ module Notifications
       def perform_request!(request)
         response = open(request)
         if response.is_a?(Net::HTTPClientError) || response.is_a?(Net::HTTPServerError)
-          raise RequestError.new(response)
+          raise build_error(response)
         else
           JSON.parse(response.body)
         end

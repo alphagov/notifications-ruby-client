@@ -2,44 +2,59 @@ describe Notifications::Client do
   let(:client) { build :notifications_client }
   let(:uri) { URI.parse(Notifications::Client::PRODUCTION_BASE_URL) }
 
-  describe "authorisation error" do
-    let(:error_response) {
-      attributes_for(:client_request_error)[:body]
-    }
+  def stub_error_request(code, body: nil)
+    url = "https://#{uri.host}:#{uri.port}/v2/notifications/1"
+    body = attributes_for(:client_request_error)[:body] unless body
+    stub_request(:get, url).to_return(status: code, body: body.to_json)
+  end
 
-    before do
-      stub_request(
-        :get,
-        "https://#{uri.host}:#{uri.port}/v2/notifications/1"
-      ).to_return(
-        status: 403,
-        body: error_response.to_json
-      )
+  def expect_error(error_class = Notifications::Client::RequestError)
+    expect { client.get_notification("1") }.to raise_error(error_class)
+  end
+
+  shared_examples "raises an error" do |error_class|
+    it "should raise a #{error_class}" do
+      expect_error(error_class)
     end
 
-    it "raises exception" do
-      expect {
-        client.get_notification("1")
-      }.to raise_error(Notifications::Client::RequestError)
+    it "should be a subclass of Notifications::Client::RequestError" do
+      expect_error
     end
   end
 
-  describe "server error" do
-    it "raises a Notifications::Client::RequestError" do
-      stub_request(
-        :get,
-        "https://#{uri.host}:#{uri.port}/v2/notifications/1"
-      ).to_return(
-        status: 503,
-        body: {
-                'status_code' => 503,
-                'errors' => ['error' => 'BadRequestError', 'message' => 'App error']
-              }.to_json
-      )
+  describe "bad request error" do
+    before { stub_error_request(400) }
+    include_examples "raises an error", Notifications::Client::BadRequestError
+  end
 
-      expect {
-        client.get_notification("1")
-      }.to raise_error(Notifications::Client::RequestError)
+  describe "authorisation error" do
+    before { stub_error_request(403) }
+    include_examples "raises an error", Notifications::Client::AuthError
+  end
+
+  describe "not found error" do
+    before { stub_error_request(404) }
+    include_examples "raises an error", Notifications::Client::NotFoundError
+  end
+
+  describe "rate limit error" do
+    before { stub_error_request(429) }
+    include_examples "raises an error", Notifications::Client::RateLimitError
+  end
+
+  describe "other client error" do
+    before { stub_error_request(487) }
+    include_examples "raises an error", Notifications::Client::ClientError
+  end
+
+  describe "server error" do
+    before do
+      stub_error_request(503, body: {
+        'status_code' => 503,
+        'errors' => ['error' => 'BadRequestError', 'message' => 'App error']
+      })
     end
+
+    include_examples "raises an error", Notifications::Client::ServerError
   end
 end

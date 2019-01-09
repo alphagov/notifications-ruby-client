@@ -126,15 +126,15 @@ All messages sent using the [team and whitelist](#team-and-whitelist) or [live](
 
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
 
-|error.code|error.message|How to fix|
-|:---|:---|:---|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`|Use the correct type of [API key](/ruby.html#api-keys)|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/ruby.html#api-rate-limits) for more information|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/ruby.html#service-limits) for the limit number|
-|`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|Notify was unable to process the request, resend your notification|
+|error.code|error.message|class|How to fix|
+|:---|:---|:---|:---|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`|`BadRequestError`|Use the correct type of [API key](/ruby.html#api-keys)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|`AuthError`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|`AuthError`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|`RateLimitError`|Refer to [API rate limits](/ruby.html#api-rate-limits) for more information|
+|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|`ClientError`|Refer to [service limits](/ruby.html#service-limits) for the limit number|
+|`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|`ServerError`|Notify was unable to process the request, resend your notification|
 
 ## Send an email
 
@@ -217,7 +217,7 @@ To send a document by email, add a placeholder field to the template then upload
 
 #### Add a placeholder field to the template
 
-1. Sign in to [GOV.UK Notify](https://www.notifications.service.gov.uk/). 
+1. Sign in to [GOV.UK Notify](https://www.notifications.service.gov.uk/).
 1. Go to the __Templates__ page and select the relevant email template.
 1. Add a placeholder field to the email template using double brackets. For example:
 
@@ -227,8 +227,8 @@ To send a document by email, add a placeholder field to the template then upload
 
 The document you upload must be a PDF file smaller than 2MB.
 
-1. Pass the file object as an argument to the `Notifications.prepare_upload` helper method. 
-1. Pass the result into the personalisation argument. 
+1. Pass the file object as an argument to the `Notifications.prepare_upload` helper method.
+1. Pass the result into the personalisation argument.
 
 For example:
 
@@ -261,19 +261,19 @@ You can then call different methods on this object to return the requested infor
 
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
 
-|error.code|error.message|How to fix|
-|:--- |:---|:---|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`|Use the correct type of [API key](/ruby.html#api-keys)|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Unsupported document type '{}'. Supported types are: {}"`<br>`}]`|The document you upload must be a PDF file|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Document didn't pass the virus scan"`<br>`}]`|The document you upload must be virus free|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Service is not allowed to send documents"`<br>`}]`|Contact the GOV.UK Notify team|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/ruby.html#api-rate-limits) for more information|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/ruby.html#service-limits) for the limit number|
-|`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|Notify was unable to process the request, resend your notification|
-|-|`[{`<br>`"error": "ArgumentError",`<br>`"message": "Document is larger than 2MB")`<br>`}]`|Document size was too large, upload a smaller document|
+|error.code|error.message|class|How to fix|
+|:--- |:---|:---|:---|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`|`BadRequestError`|Use the correct type of [API key](/ruby.html#api-keys)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Unsupported document type '{}'. Supported types are: {}"`<br>`}]`|`BadRequestError`|The document you upload must be a PDF file|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Document didn't pass the virus scan"`<br>`}]`|`BadRequestError`|The document you upload must be virus free|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Service is not allowed to send documents"`<br>`}]`|`BadRequestError`|Contact the GOV.UK Notify team|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|`AuthError`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|`AuthError`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|`RateLimitError`|Refer to [API rate limits](/ruby.html#api-rate-limits) for more information|
+|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|`RateLimitError`|Refer to [service limits](/ruby.html#service-limits) for the limit number|
+|`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|`ServerError`|Notify was unable to process the request, resend your notification|
+|-|`[{`<br>`"error": "ArgumentError",`<br>`"message": "Document is larger than 2MB")`<br>`}]`|-|Document size was too large, upload a smaller document|
 
 ## Send a letter
 
@@ -367,16 +367,16 @@ You can then call different methods on this object to return the requested infor
 
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
 
-|error.code|error.message|How to fix|
-|:--- |:---|:---|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters with a team api key"`<br>`]}`|Use the correct type of [API key](/ruby.html#api-keys)|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "personalisation address_line_1 is a required property"`<br>`}]`|Ensure that your template has a field for the first line of the address, refer to [personalisation](/ruby.html#personalisation-required) for more information|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](/ruby.html#api-rate-limits) for more information|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](/ruby.html#service-limits) for the limit number|
-|`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|Notify was unable to process the request, resend your notification|
+|error.code|error.message|class|How to fix|
+|:--- |:---|:---|:---|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters with a team api key"`<br>`]}`|`BadRequestError`|Use the correct type of [API key](/ruby.html#api-keys)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "personalisation address_line_1 is a required property"`<br>`}]`|`BadRequestError`|Ensure that your template has a field for the first line of the address, refer to [personalisation](/ruby.html#personalisation-required) for more information|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|`AuthError`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|`AuthError`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|`RateLimitError`|Refer to [API rate limits](/ruby.html#api-rate-limits) for more information|
+|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|`RateLimitError`|Refer to [service limits](/ruby.html#service-limits) for the limit number|
+|`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|`ServerError`|Notify was unable to process the request, resend your notification|
 
 ## Send a precompiled letter
 This is an invitation-only feature. Contact the GOV.UK Notify team on the [support page](https://www.notifications.service.gov.uk/support) or through the [Slack channel](https://ukgovernmentdigital.slack.com/messages/govuk-notify) for more information.
@@ -419,16 +419,16 @@ You can then call different methods on this object to return the requested infor
 
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
 
-|error.status_code|error.message|How to fix|
-|:---|:---|:---|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters with a team api key"`<br>`]}`|Use the correct type of [API key](#api-keys)|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send precompiled letters"`<br>`]}`|This is an invitation-only feature. Contact the GOV.UK Notify team on the [support page](https://www.notifications.service.gov.uk/support) or through the [Slack channel](https://ukgovernmentdigital.slack.com/messages/govuk-notify) for more information|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Letter content is not a valid PDF"`<br>`]}`|PDF file format is required|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "reference is a required property"`<br>`}]`|Add a `reference` argument to the method call|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Service is not allowed to send precompiled letters"`<br>`}]`|Contact the GOV.UK Notify team|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type live of 10 requests per 20 seconds"`<br>`}]`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`|Refer to [service limits](#service-limits) for the limit number|
+|error.status_code|error.message|class|How to fix|
+|:---|:---|:---|:---|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters with a team api key"`<br>`]}`|`BadRequestError`|Use the correct type of [API key](#api-keys)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send precompiled letters"`<br>`]}`|`BadRequestError`|This is an invitation-only feature. Contact the GOV.UK Notify team on the [support page](https://www.notifications.service.gov.uk/support) or through the [Slack channel](https://ukgovernmentdigital.slack.com/messages/govuk-notify) for more information|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Letter content is not a valid PDF"`<br>`]}`|`BadRequestError`|PDF file format is required|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "reference is a required property"`<br>`}]`|`BadRequestError`|Add a `reference` argument to the method call|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Service is not allowed to send precompiled letters"`<br>`}]`|`BadRequestError`|Contact the GOV.UK Notify team|
+|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type live of 10 requests per 20 seconds"`<br>`}]`|`RateLimitError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
+|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`|`RateLimitError`|Refer to [service limits](#service-limits) for the limit number|
 
 # Get message status
 
@@ -523,12 +523,12 @@ You can then call different methods on this object to return the requested infor
 
 If the request is not successful, the client returns a `Notification::Client::RequestError` and an error code:
 
-|error.code|error.message|How to fix|
-|:---|:---|:---|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|Check the notification ID|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|Check the notification ID. This error occurs if the notification is more than 7 days old.|
+|error.code|error.message|class|How to fix|
+|:---|:---|:---|:---|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|`BadRequestError`|Check the notification ID|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|`AuthError`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|`AuthError`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|`NotFoundError`|Check the notification ID. This error occurs if the notification is more than 7 days old.|
 
 ## Get the status of multiple messages
 
@@ -642,12 +642,12 @@ If the notification specified in the `older_than` argument is older than 7 days,
 
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
 
-|error.code|error.message|How to fix|
-|:---|:---|:---|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "bad status is not one of [created, sending, sent, delivered, pending, failed, technical-failure, temporary-failure, permanent-failure, accepted, received]"`<br>`}]`|Contact the GOV.UK Notify team|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Template type is not one of [sms, email, letter]"`<br>`}]`|Contact the GOV.UK Notify team|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|error.code|error.message|class|How to fix|
+|:---|:---|:---|:---|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "bad status is not one of [created, sending, sent, delivered, pending, failed, technical-failure, temporary-failure, permanent-failure, accepted, received]"`<br>`}]`|`BadRequestError`|Contact the GOV.UK Notify team|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Template type is not one of [sms, email, letter]"`<br>`}]`|`BadRequestError`|Contact the GOV.UK Notify team|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|`AuthError`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|`AuthError`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
 
 # Get a template
 
@@ -693,12 +693,12 @@ You can then call different methods on this object to return the requested infor
 
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
 
-|error.code|error.message|How to fix|
+|error.code|error.message|class|How to fix|
 |:---|:---|:---|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|Check the notification ID|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No Result Found"`<br>`}]`|Check your [template ID](/ruby.html#get-a-template-by-id-arguments-id-required)|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|`BadRequestError`|Check the notification ID|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|`AuthError`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|`AuthError`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No Result Found"`<br>`}]`|`NotFoundError`|Check your [template ID](/ruby.html#get-a-template-by-id-arguments-id-required)|
 
 ## Get a template by ID and version
 
@@ -744,12 +744,12 @@ You can then call different methods on this object to return the requested infor
 
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
 
-|error.code|error.message|How to fix|
+|error.code|error.message|class|How to fix|
 |:---|:---|:---|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|Check the notification ID|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No Result Found"`<br>`}]`|Check your [template ID](/ruby.html#get-a-template-by-id-and-version-arguments-id-required) and [version](/ruby.html#version-required)|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|`BadRequestError`|Check the notification ID|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|`AuthError`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|`AuthError`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No Result Found"`<br>`}]`|`NotFoundError`|Check your [template ID](/ruby.html#get-a-template-by-id-and-version-arguments-id-required) and [version](/ruby.html#version-required)|
 
 ## Get all templates
 
@@ -800,9 +800,9 @@ If no templates exist for a template type or there no templates for a service, t
 
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
 
-|error.code|error.message|How to fix|
+|error.code|error.message|class|How to fix|
 |:---|:---|:---|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Template type is not one of [sms, email, letter]"`<br>`}]`|Contact the Notify team|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Template type is not one of [sms, email, letter]"`<br>`}]`|`BadRequestError`|Contact the Notify team|
 
 ## Generate a preview template
 
@@ -857,12 +857,12 @@ You can then call different methods on this object to return the requested infor
 
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
 
-|error.code|error.message|How to fix|
+|error.code|error.message|class|How to fix|
 |:---|:---|:---|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Missing personalisation: [PERSONALISATION FIELD]"`<br>`}]`|Check that the personalisation arguments in the method match the placeholder fields in the template|
-|`400`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|Check the [template ID](/ruby.html#generate-a-preview-template-arguments-id-required)|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Missing personalisation: [PERSONALISATION FIELD]"`<br>`}]`|`BadRequestError`|Check that the personalisation arguments in the method match the placeholder fields in the template|
+|`400`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|`BadRequestError`|Check the [template ID](/ruby.html#generate-a-preview-template-arguments-id-required)|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|`AuthError`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|`AuthError`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
 
 # Get received text messages
 
@@ -925,7 +925,7 @@ If the notification specified in the `older_than` argument is older than 7 days,
 
 If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
 
-|error.code|error.message|How to fix|
+|error.code|error.message|class|How to fix|
 |:---|:---|:---|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|`AuthError`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|`AuthError`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
