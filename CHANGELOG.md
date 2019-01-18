@@ -1,3 +1,8 @@
+## 2.11.0
+
+* Added an optional `postage` argument to `post_precompiled_letter` method and `send_precompiled_letter` that calls it.
+* Added postage to `ResponseNotification` and to `Notification` class on the client.
+
 ## 2.10.0
 
 * Added subclasses of the `RequestError` class to handle specific types of errors.

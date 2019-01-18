@@ -401,6 +401,11 @@ File.open("path/to/pdf_file", "rb") do |pdf_file|
 end
 ```
 
+#### postage (optional)
+
+You can select first or second class postage for your precompiled letter. Set the value to `first` for first class, or `second` for second class. If you do not pass in this argument, the postage will default to second class.
+
+
 ### Response
 
 If the request to the client is successful, the client returns a `Notifications::Client:ResponseNotification` object. In the example shown in the [Method section](/ruby.html#send-a-pre-compiled-letter-method), the object is named `precompiled_letter`.
@@ -411,6 +416,7 @@ You can then call different methods on this object to return the requested infor
 |:---|:---|:---|
 |`precompiled_letter.id`|Notification UUID|String|
 |`precompiled_letter.reference`|`reference` argument|String|
+|`precompiled_letter.postage`|`postage` argument|String or nil|
 |`precompiled_letter.content`|Always `nil`|nil|
 |`precompiled_letter.template`|Always `nil`|nil|
 |`precompiled_letter.uri`|Always `nil`|nil|
@@ -426,6 +432,7 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Letter content is not a valid PDF"`<br>`]}`|`BadRequestError`|PDF file format is required|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
 |`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "reference is a required property"`<br>`}]`|`BadRequestError`|Add a `reference` argument to the method call|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "postage invalid. It must be either first or second."`<br>`}]`|Change the value of `postage` argument in the method call to either 'first' or 'second'|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Service is not allowed to send precompiled letters"`<br>`}]`|`BadRequestError`|Contact the GOV.UK Notify team|
 |`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type live of 10 requests per 20 seconds"`<br>`}]`|`RateLimitError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
 |`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`|`RateLimitError`|Refer to [service limits](#service-limits) for the limit number|
