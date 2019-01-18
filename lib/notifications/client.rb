@@ -60,9 +60,9 @@ module Notifications
     # @param pdf_file [File]
     # @see Notifications::Client::Speaker#post_precompiled_letter
     # @return [ResponseNotification]
-    def send_precompiled_letter(reference, pdf_file)
+    def send_precompiled_letter(reference, pdf_file, postage = nil)
       ResponseNotification.new(
-        speaker.post_precompiled_letter(reference, pdf_file)
+        speaker.post_precompiled_letter(reference, pdf_file, postage)
       )
     end
 

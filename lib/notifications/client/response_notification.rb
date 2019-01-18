@@ -7,6 +7,7 @@ module Notifications
       content
       template
       uri
+      postage
     ).freeze
 
       attr_reader(*FIELDS)
