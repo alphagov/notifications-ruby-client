@@ -48,19 +48,15 @@ describe Notifications::Client do
         with(body: { reference: "12345", content: encoded_content, postage: 'first' })
     end
 
-    it "returns a ResponseNotification with an id, postage and reference" do
+    it "returns a ResponsePrecompiledLetter with an id, postage and reference" do
       response = File.open('spec/test_files/test_pdf.pdf', 'rb') do |file|
         client.send_precompiled_letter('my letter', file, 'first')
       end
 
-      expect(response).to be_a(Notifications::Client::ResponseNotification)
+      expect(response).to be_a(Notifications::Client::ResponsePrecompiledLetter)
       expect(response.id).to eq('12345')
       expect(response.reference).to eq('my letter')
       expect(response.postage).to eq('first')
-
-      expect(response.uri).to be_nil
-      expect(response.content).to be_nil
-      expect(response.template).to be_nil
     end
   end
 end

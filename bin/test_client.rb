@@ -148,7 +148,7 @@ def test_send_precompiled_letter_endpoint(client)
 end
 
 def test_notification_response_data_type(notification, message_type)
-  unless notification.is_a?(Notifications::Client::ResponseNotification)
+  unless notification.is_a?(Notifications::Client::ResponseNotification) || (notification.is_a?(Notifications::Client::ResponsePrecompiledLetter) && message_type == "precompiled_letter")
     p 'failed ' + message_type + ' response is not a Notifications::Client::ResponseNotification'
     exit 1
   end

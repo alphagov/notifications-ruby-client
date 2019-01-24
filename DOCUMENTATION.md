@@ -408,7 +408,7 @@ You can select first or second class postage for your precompiled letter. Set th
 
 ### Response
 
-If the request to the client is successful, the client returns a `Notifications::Client:ResponseNotification` object. In the example shown in the [Method section](/ruby.html#send-a-pre-compiled-letter-method), the object is named `precompiled_letter`.
+If the request to the client is successful, the client returns a `Notifications::Client:ResponsePrecompiledLetter` object. In the example shown in the [Method section](/ruby.html#send-a-pre-compiled-letter-method), the object is named `precompiled_letter`.
 
 You can then call different methods on this object to return the requested information.
 
@@ -417,9 +417,7 @@ You can then call different methods on this object to return the requested infor
 |`precompiled_letter.id`|Notification UUID|String|
 |`precompiled_letter.reference`|`reference` argument|String|
 |`precompiled_letter.postage`|`postage` argument|String or nil|
-|`precompiled_letter.content`|Always `nil`|nil|
-|`precompiled_letter.template`|Always `nil`|nil|
-|`precompiled_letter.uri`|Always `nil`|nil|
+
 
 ### Error codes
 
