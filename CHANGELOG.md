@@ -1,6 +1,7 @@
 ## 2.11.0
 
-* Added an optional `postage` argument to `post_precompiled_letter` method and `send_precompiled_letter` that calls it.
+* Added an optional `postage` argument to `send_precompiled_letter` method, so users can specify postage when sending
+a precompiled letter via API.
 * Added postage to `Notification` class on the client.
 * Added new response class: `ResponsePrecompiledLetter`, which makes response object for precompiled letters different
 class to other notification response objects.

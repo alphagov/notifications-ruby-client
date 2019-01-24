@@ -159,8 +159,8 @@ def test_notification_response_data_type(notification, message_type)
 
   if message_type == 'precompiled_letter'
     field_should_not_be_nil(expected_fields_in_precompiled_letter_response, notification, 'send_precompiled_letter')
-    if notification.send(:"postage") != "first"
-      p "Postage should be set to 'first' for precompiled letter sending test. Right now it is set to #{notification[:postage]}"
+    if notification.postage != "first"
+      p "Postage should be set to 'first' for precompiled letter sending test. Right now it is set to #{notification.postage}"
       exit 1
     end
     return
