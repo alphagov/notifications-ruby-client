@@ -102,9 +102,13 @@ module Notifications
       # @param reference [String] reference of the notification
       # @param pdf_file [File] PDF file opened for reading
       # @see #perform_request!
-      def post_precompiled_letter(reference, pdf_file)
+      def post_precompiled_letter(reference, pdf_file, postage = nil)
         content = Base64.strict_encode64(pdf_file.read)
         form_data = { reference: reference, content: content }
+
+        if postage != nil
+          form_data[:postage] = postage
+        end
 
         request = Net::HTTP::Post.new(
           "#{BASE_PATH}/letter",

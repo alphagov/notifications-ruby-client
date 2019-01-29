@@ -1,3 +1,10 @@
+## 3.0.0
+
+* Changed response class for `send_precompiled_letter` request from `ResponseNotification` to a new response class: `ResponsePrecompiledLetter`. This may affect users sending precompiled letters.
+* Added an optional `postage` argument to `send_precompiled_letter` method, so users can specify postage when sending
+a precompiled letter via API.
+* Added postage to `Notification` class on the client.
+
 ## 2.10.0
 
 * Added subclasses of the `RequestError` class to handle specific types of errors.

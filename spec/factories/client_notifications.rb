@@ -18,6 +18,7 @@ FactoryBot.define do
         "line_5" => nil,
         "line_6" => nil,
         "postcode" => nil,
+        "postage" => nil,
         "type" => "sms",
         "status" => "delivered",
         "template" =>
