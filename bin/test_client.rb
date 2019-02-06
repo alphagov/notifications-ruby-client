@@ -139,7 +139,7 @@ end
 
 def test_send_precompiled_letter_endpoint(client)
   precompiled_letter_resp = File.open('spec/test_files/test_pdf.pdf', 'rb') do |file|
-    client.send_precompiled_letter("some reference", file)
+    client.send_precompiled_letter("some reference", file, "first")
   end
 
   test_notification_response_data_type(precompiled_letter_resp, 'precompiled_letter')
@@ -148,7 +148,7 @@ def test_send_precompiled_letter_endpoint(client)
 end
 
 def test_notification_response_data_type(notification, message_type)
-  unless notification.is_a?(Notifications::Client::ResponseNotification)
+  unless notification.is_a?(Notifications::Client::ResponseNotification) || (notification.is_a?(Notifications::Client::ResponsePrecompiledLetter) && message_type == "precompiled_letter")
     p 'failed ' + message_type + ' response is not a Notifications::Client::ResponseNotification'
     exit 1
   end
@@ -159,6 +159,10 @@ def test_notification_response_data_type(notification, message_type)
 
   if message_type == 'precompiled_letter'
     field_should_not_be_nil(expected_fields_in_precompiled_letter_response, notification, 'send_precompiled_letter')
+    if notification.postage != "first"
+      p "Postage should be set to 'first' for precompiled letter sending test. Right now it is set to #{notification.postage}"
+      exit 1
+    end
     return
   end
 
@@ -255,7 +259,8 @@ end
 
 def expected_fields_in_precompiled_letter_response
   %w(id
-     reference)
+     reference
+     postage)
 end
 
 def expected_fields_in_email_content
@@ -297,7 +302,8 @@ def expected_fields_in_email_notification_that_are_nil
      line_5
      line_6
      postcode
-     created_by_name)
+     created_by_name
+     postage)
 end
 
 def expected_fields_in_sms_notification
@@ -321,7 +327,8 @@ def expected_fields_in_sms_notification_that_are_nil
      line_6
      postcode
      subject
-     created_by_name)
+     created_by_name
+     postage)
 end
 
 def expected_fields_in_letter_notification
@@ -336,6 +343,7 @@ def expected_fields_in_letter_notification
     line_2
     postcode
     created_at
+    postage
   )
 end
 
@@ -363,6 +371,7 @@ def expected_fields_in_precompiled_letter_notification
     subject
     template
     type
+    postage
   )
 end
 

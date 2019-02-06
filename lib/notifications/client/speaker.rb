@@ -7,6 +7,8 @@ require_relative "request_error"
 module Notifications
   class Client
     class Speaker
+      include ErrorHandling
+
       attr_reader :base_url
       attr_reader :service_id
       attr_reader :secret_token
@@ -100,9 +102,13 @@ module Notifications
       # @param reference [String] reference of the notification
       # @param pdf_file [File] PDF file opened for reading
       # @see #perform_request!
-      def post_precompiled_letter(reference, pdf_file)
+      def post_precompiled_letter(reference, pdf_file, postage = nil)
         content = Base64.strict_encode64(pdf_file.read)
         form_data = { reference: reference, content: content }
+
+        if postage != nil
+          form_data[:postage] = postage
+        end
 
         request = Net::HTTP::Post.new(
           "#{BASE_PATH}/letter",
@@ -121,7 +127,7 @@ module Notifications
       def perform_request!(request)
         response = open(request)
         if response.is_a?(Net::HTTPClientError) || response.is_a?(Net::HTTPServerError)
-          raise RequestError.new(response)
+          raise build_error(response)
         else
           JSON.parse(response.body)
         end

@@ -15,6 +15,7 @@ module Notifications
         line_5
         line_6
         postcode
+        postage
         type
         status
         template

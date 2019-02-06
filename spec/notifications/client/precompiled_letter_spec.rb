@@ -8,7 +8,7 @@ describe Notifications::Client do
     before do
       stub_request(:post, "https://#{uri.host}/v2/notifications/letter").
         to_return(
-          body: { "id" => "12345", "reference" => "my letter" }.to_json,
+          body: { "id" => "12345", "reference" => "my letter", "postage" => "first" }.to_json,
           status: 201,
           headers: { "Content-Type" => "application/json" }
         )
@@ -37,18 +37,26 @@ describe Notifications::Client do
         with(body: { reference: "12345", content: encoded_content })
     end
 
-    it "returns a ResponseNotification with an id and reference" do
+    it "hits the correct API endpoint with postage" do
+      input_string = StringIO.new("My precompiled letter")
+      encoded_content = Base64.strict_encode64(input_string.read)
+      input_string.rewind
+
+      client.send_precompiled_letter('12345', input_string, 'first')
+
+      expect(WebMock).to have_requested(:post, "https://#{uri.host}/v2/notifications/letter").
+        with(body: { reference: "12345", content: encoded_content, postage: 'first' })
+    end
+
+    it "returns a ResponsePrecompiledLetter with an id, postage and reference" do
       response = File.open('spec/test_files/test_pdf.pdf', 'rb') do |file|
-        client.send_precompiled_letter('my letter', file)
+        client.send_precompiled_letter('my letter', file, 'first')
       end
 
-      expect(response).to be_a(Notifications::Client::ResponseNotification)
+      expect(response).to be_a(Notifications::Client::ResponsePrecompiledLetter)
       expect(response.id).to eq('12345')
       expect(response.reference).to eq('my letter')
-
-      expect(response.uri).to be_nil
-      expect(response.content).to be_nil
-      expect(response.template).to be_nil
+      expect(response.postage).to eq('first')
     end
   end
 end

@@ -2,6 +2,7 @@ require_relative "client/version"
 require_relative "client/speaker"
 require_relative "client/notification"
 require_relative "client/response_notification"
+require_relative "client/response_precompiled_letter"
 require_relative "client/notifications_collection"
 require_relative "client/received_text"
 require_relative "client/received_text_collection"
@@ -59,10 +60,10 @@ module Notifications
     # @param reference [String]
     # @param pdf_file [File]
     # @see Notifications::Client::Speaker#post_precompiled_letter
-    # @return [ResponseNotification]
-    def send_precompiled_letter(reference, pdf_file)
-      ResponseNotification.new(
-        speaker.post_precompiled_letter(reference, pdf_file)
+    # @return [ResponsePrecompiledLetter]
+    def send_precompiled_letter(reference, pdf_file, postage = nil)
+      ResponsePrecompiledLetter.new(
+        speaker.post_precompiled_letter(reference, pdf_file, postage)
       )
     end
 
