@@ -11,7 +11,8 @@ FactoryBot.define do
         "body" => "Contents of template Mr Big Nose",
         "subject" => "Subject of the email",
         "version" => "2",
-        "type" => "email"
+        "type" => "email",
+        "html" => "<p>Contents of template Mr Big Nose</p>"
       }
     end
   end

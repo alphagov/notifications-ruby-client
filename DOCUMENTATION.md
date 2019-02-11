@@ -862,6 +862,7 @@ You can then call different methods on this object to return the requested infor
 |`response.body`|Template content|String|
 |`response.subject`|Template subject (email and letter)|String|
 |`response.type`|Template type (sms/email/letter)|String|
+|`response.html`|Body as rendered HTML (email only)|String|
 
 ### Error codes
 
