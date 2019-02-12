@@ -39,6 +39,7 @@ describe Notifications::Client do
       body
       subject
       version
+      html
     ).each do |field|
       it "expect to include #{field}" do
         expect(

@@ -7,6 +7,7 @@ module Notifications
         body
         subject
         type
+        html
       ).freeze
 
       attr_reader(*FIELDS)

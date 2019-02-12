@@ -246,7 +246,8 @@ def expected_fields_in_template_preview
   %w(id
      body
      version
-     type)
+     type
+     html)
 end
 
 def expected_fields_in_notification_response

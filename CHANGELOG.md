@@ -1,3 +1,8 @@
+## 3.1.0
+
+* Added `html` field to the TemplatePreview response, so users can see
+the rendered HTML of their email templates.
+
 ## 3.0.0
 
 * Changed response class for `send_precompiled_letter` request from `ResponseNotification` to a new response class: `ResponsePrecompiledLetter`. This may affect users sending precompiled letters.
