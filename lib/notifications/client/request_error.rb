@@ -1,21 +1,25 @@
 module Notifications
   class Client
     class RequestError < StandardError
-      attr_reader :code, :message
+      attr_reader :code, :body
 
       def initialize(response)
         @code = response.code
-        @message = message_from(response.body)
+        @body = parse_body(response.body)
       end
 
-      def to_s
-        "#{code} #{message}"
-      end
-
-      def message_from(body)
-        JSON.parse(body).fetch('errors')
+      def parse_body(body)
+        JSON.parse(body)
       rescue JSON::ParserError
         body
+      end
+
+      def message
+        return body if body.is_a?(String)
+
+        error_messages = body.fetch('errors')
+                             .map { |e| "#{e.fetch('error')}: #{e.fetch('message')}" }
+        error_messages.join(", ")
       end
     end
 

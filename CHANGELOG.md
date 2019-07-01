@@ -1,3 +1,7 @@
+## 4.0.0
+
+* `RequestError.message` now returns a string, not an array of hashes – see https://github.com/alphagov/notifications-ruby-client/pull/72
+
 ## 3.1.0
 
 * Added `html` field to the TemplatePreview response, so users can see

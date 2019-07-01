@@ -8,13 +8,13 @@ describe Notifications::Client do
     stub_request(:get, url).to_return(status: code, body: body.to_json)
   end
 
-  def expect_error(error_class = Notifications::Client::RequestError)
-    expect { client.get_notification("1") }.to raise_error(error_class)
+  def expect_error(error_class = Notifications::Client::RequestError, message = nil)
+    expect { client.get_notification("1") }.to raise_error(error_class, message)
   end
 
-  shared_examples "raises an error" do |error_class|
+  shared_examples "raises an error" do |error_class, message|
     it "should raise a #{error_class}" do
-      expect_error(error_class)
+      expect_error(error_class, message)
     end
 
     it "should be a subclass of Notifications::Client::RequestError" do
@@ -55,6 +55,6 @@ describe Notifications::Client do
       })
     end
 
-    include_examples "raises an error", Notifications::Client::ServerError
+    include_examples "raises an error", Notifications::Client::ServerError, "BadRequestError: App error"
   end
 end
