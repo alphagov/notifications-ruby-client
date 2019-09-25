@@ -1,3 +1,7 @@
+## 5.0.0
+
+* Dropped support for Ruby 2.3. Official support for this version ended in March (https://www.ruby-lang.org/en/news/2019/03/31/support-of-ruby-2-3-has-ended/)
+
 ## 4.0.0
 
 * `RequestError.message` now returns a string, not an array of hashes – see https://github.com/alphagov/notifications-ruby-client/pull/72
