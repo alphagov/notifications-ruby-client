@@ -394,7 +394,7 @@ A unique identifier you create. This reference identifies a single unique notifi
 
 #### pdf_file (required)
 
-The precompiled letter must be a PDF file which meets [the GOV.UK Notify PDF letter specification](https://docs.notifications.service.gov.uk/documentation/images/notify-pdf-letter-spec-v2.3.pdf).
+The precompiled letter must be a PDF file which meets [the GOV.UK Notify PDF letter specification](https://docs.notifications.service.gov.uk/documentation/images/notify-pdf-letter-spec-v2.4.pdf).
 
 ```ruby
 File.open("path/to/pdf_file", "rb") do |pdf_file|
