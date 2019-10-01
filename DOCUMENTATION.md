@@ -65,7 +65,7 @@ If a template has placeholder fields for personalised information such as name o
 ```ruby
 personalisation: {
   name: "John Smith",
-  ID: "300241",                      
+  ID: "300241",
 }
 ```
 
@@ -172,7 +172,7 @@ If a template has placeholder fields for personalised information such as name o
 ```ruby
 personalisation: {
   name: "John Smith",
-  year: "2016"                      
+  year: "2016"
 }
 ```
 
@@ -291,7 +291,7 @@ When your service first signs up to GOV.UK Notify, you’ll start in trial mode.
 letterresponse = client.send_letter(
   template_id: "f33517ff-2a88-4f6e-b855-c550268ce08a",
   personalisation: {
-    address_line_1: 'The Occupier',  
+    address_line_1: 'The Occupier',
     address_line_2: '123 High Street',
     postcode: 'SW14 6BH',
   },
@@ -658,6 +658,51 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
 |`403`|`AuthError: Invalid token: signature, api token not found`|`AuthError`|Use the correct API key. Refer to [API keys](/ruby.html#api-keys) for more information|
 
+## Get a PDF for a letter notification
+
+### Method
+
+This returns the pdf contents of a letter notification.
+
+```ruby
+pdf_file = client.get_pdf_for_letter(
+  'f33517ff-2a88-4f6e-b855-c550268ce08a' # notification id (required)
+)
+```
+
+### Arguments
+
+#### id (required)
+
+The ID of the notification. You can find the notification ID in the response to the [original notification method call](/python.html#get-the-status-of-one-message-response).
+
+You can also find it in your [GOV.UK Notify Dashboard](https://www.notifications.service.gov.uk).
+
+1. Sign into GOV.UK Notify and select __Dashboard__.
+1. Select __letters sent__.
+1. Select the relevant notification.
+1. Copy the notification ID from the end of the page URL, for example `https://www.notifications.service.gov.uk/services/af90d4cb-ae88-4a7c-a197-5c30c7db423b/notification/ID`.
+
+### Response
+
+If the request to the client is successful, the client will return a `string` containing the raw PDF data.
+
+### Error codes
+
+If the request is not successful, the client throws a `Notifications::Client::RequestError` and an error code.
+
+|error.status_code|error.message|How to fix|
+|:---|:---|:---|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|Check the notification ID|
+|`400`|`[{`<br>`"error": "PDFNotReadyError",`<br>`"message": "PDF not available yet, try again later"`<br>`}]`|Wait for the notification to finish processing. This usually takes a few seconds|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Document did not pass the virus scan"`<br>`}]`|You cannot retrieve the contents of a letter notification that contains a virus|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "PDF not available for letters in technical-failure"`<br>`}]`|You cannot retrieve the contents of a letter notification in technical-failure|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Notification is not a letter"`<br>`}]`|Check that you are looking up the correct notification|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
+|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
+|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|Check the notification ID|
+
+
 # Get a template
 
 ## Get a template by ID
@@ -842,7 +887,7 @@ If a template has placeholder fields for personalised information such as name o
 ```ruby
 personalisation: {
   name: "John Smith",
-  ID: "300241",                      
+  ID: "300241",
 }
 ```
 

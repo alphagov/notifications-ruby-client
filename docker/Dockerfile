@@ -13,7 +13,6 @@ RUN \
 		make \
 		curl \
 		git \
-
 	&& echo "Clean up" \
 	&& rm -rf /var/lib/apt/lists/* /tmp/*
 

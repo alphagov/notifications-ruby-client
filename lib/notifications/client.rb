@@ -70,6 +70,14 @@ module Notifications
     ##
     # @param id [String]
     # @see Notifications::Client::Speaker#get
+    # @return [String]
+    def get_pdf_for_letter(id)
+      speaker.get_pdf_for_letter(id)
+    end
+
+    ##
+    # @param id [String]
+    # @see Notifications::Client::Speaker#get
     # @return [Notification]
     def get_notification(id)
       Notification.new(
