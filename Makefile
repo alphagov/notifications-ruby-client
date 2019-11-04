@@ -32,45 +32,32 @@ generate-env-file: ## Generate the environment file for running the tests inside
 
 .PHONY: prepare-docker-runner-image
 prepare-docker-runner-image: ## Prepare the Docker builder image
-	make -C docker build
+	docker build \
+		-t ${DOCKER_BUILDER_IMAGE_NAME} \
+		.
 
 .PHONY: build-with-docker
 build-with-docker: prepare-docker-runner-image ## Build inside a Docker container
 	docker run -i --rm \
 		--name "${DOCKER_CONTAINER_PREFIX}-build" \
 		-v "`pwd`:/var/project" \
-		-e http_proxy="${HTTP_PROXY}" \
-		-e HTTP_PROXY="${HTTP_PROXY}" \
-		-e https_proxy="${HTTPS_PROXY}" \
-		-e HTTPS_PROXY="${HTTPS_PROXY}" \
-		-e NO_PROXY="${NO_PROXY}" \
 		${DOCKER_BUILDER_IMAGE_NAME} \
 		make build
 
 .PHONY: test-with-docker
-test-with-docker: prepare-docker-runner-image generate-env-file ## Run tests inside a Docker container
+test-with-docker: generate-env-file ## Run tests inside a Docker container
 	docker run -i --rm \
 		--name "${DOCKER_CONTAINER_PREFIX}-test" \
 		-v "`pwd`:/var/project" \
-		-e http_proxy="${HTTP_PROXY}" \
-		-e HTTP_PROXY="${HTTP_PROXY}" \
-		-e https_proxy="${HTTPS_PROXY}" \
-		-e HTTPS_PROXY="${HTTPS_PROXY}" \
-		-e NO_PROXY="${NO_PROXY}" \
 		--env-file docker.env \
 		${DOCKER_BUILDER_IMAGE_NAME} \
 		make test
 
 .PHONY: integration-test-with-docker
-integration-test-with-docker: prepare-docker-runner-image generate-env-file ## Run integration tests inside a Docker container
+integration-test-with-docker: generate-env-file ## Run integration tests inside a Docker container
 	docker run -i --rm \
 		--name "${DOCKER_CONTAINER_PREFIX}-integration-test" \
 		-v "`pwd`:/var/project" \
-		-e http_proxy="${HTTP_PROXY}" \
-		-e HTTP_PROXY="${HTTP_PROXY}" \
-		-e https_proxy="${HTTPS_PROXY}" \
-		-e HTTPS_PROXY="${HTTPS_PROXY}" \
-		-e NO_PROXY="${NO_PROXY}" \
 		--env-file docker.env \
 		${DOCKER_BUILDER_IMAGE_NAME} \
 		make integration-test
@@ -81,7 +68,7 @@ clean-docker-containers: ## Clean up any remaining docker containers
 
 .PHONY: run-govuk-lint
 run-govuk-lint: ## Runs GOVUK-lint for Ruby
-	bundle exec govuk-lint-ruby lib spec bin/test_client 
+	bundle exec govuk-lint-ruby lib spec bin/test_client
 
 clean:
 	rm -rf vendor
