@@ -1,3 +1,9 @@
+## 5.1.0
+
+* Added new `get_pdf_for_letter` method
+  * accepts a notification id argument
+  * returns a string containing the final printable PDF for a precompiled or templated letter
+
 ## 5.0.0
 
 * Dropped support for Ruby 2.3. Official support for this version ended in March (https://www.ruby-lang.org/en/news/2019/03/31/support-of-ruby-2-3-has-ended/)

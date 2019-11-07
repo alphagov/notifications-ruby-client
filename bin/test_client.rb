@@ -20,6 +20,7 @@ def main
   test_get_notification_by_id_endpoint(client, precompiled_letter_notification.id, 'precompiled_letter')
   test_get_all_notifications(client)
   test_get_received_texts
+  test_get_pdf_for_letter(client, letter_notification.id)
   p 'ruby client integration tests pass'
   exit 0
 end
@@ -202,6 +203,28 @@ def test_get_notification_by_id_endpoint(client, id, message_type)
     field_should_not_be_nil(expected_fields_in_precompiled_letter_notification, get_notification_response, 'Notifications::Client::Notification for type precompiled letter')
     field_should_be_nil(expected_fields_in_precompiled_letter_notification_that_are_nil, get_notification_response, 'Notifications::Client::Notification for type precompiled letter')
     hash_key_should_not_be_nil(expected_fields_in_template, get_notification_response.send('template'), 'Notifications::Client::Notification.template for type precompiled letter')
+  end
+end
+
+def test_get_pdf_for_letter(client, id)
+  response = nil
+
+  # try 15 times with 3 secs sleep between each attempt, to get the PDF
+  15.times do
+    begin
+      response = client.get_pdf_for_letter(id)
+    rescue Notifications::Client::BadRequestError
+      sleep(3)
+    end
+
+    if !response.nil?
+      break
+    end
+  end
+
+  unless !response.nil? && response.start_with?("%PDF-")
+    p "get_pdf_for_letter response for " + id + " is not a PDF: " + response.to_s
+    exit 1
   end
 end
 

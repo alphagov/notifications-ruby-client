@@ -27,3 +27,7 @@ env_vars=(
 for env_var in "${env_vars[@]}"; do
     echo "${env_var}=${!env_var}" >> docker.env
 done
+
+echo BUNDLE_PATH="/var/project/vendor/bundle" >> docker.env
+echo BUNDLE_BIN="/var/project/vendor/bin" >> docker.env
+echo BUNDLE_APP_CONFIG="/var/project/.bundle" >> docker.env
