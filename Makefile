@@ -75,13 +75,20 @@ integration-test-with-docker: prepare-docker-runner-image generate-env-file ## R
 		${DOCKER_BUILDER_IMAGE_NAME} \
 		make integration-test
 
+
+.PHONY: publish-to-rubygems
+publish-to-rubygems:
+	$(if ${GEM_HOST_API_KEY},,$(error Must specify GEM_HOST_API_KEY))
+	gem build notifications-ruby-client.gemspec --output=release.gem
+	gem push release.gem
+
 .PHONY: clean-docker-containers
 clean-docker-containers: ## Clean up any remaining docker containers
 	docker rm -f $(shell docker ps -q -f "name=${DOCKER_CONTAINER_PREFIX}") 2> /dev/null || true
 
 .PHONY: run-govuk-lint
 run-govuk-lint: ## Runs GOVUK-lint for Ruby
-	bundle exec govuk-lint-ruby lib spec bin/test_client 
+	bundle exec govuk-lint-ruby lib spec bin/test_client
 
 clean:
 	rm -rf vendor

@@ -37,3 +37,8 @@ To run the integration tests:
 ```
 make integration-test
 ```
+
+
+## Releasing (for notify developers only)
+
+To release manually, run `make publish-to-rubygems`. You will need to set the environment variable `GEM_HOST_API_KEY`, which can be found in the credentials repo under `credentials/rubygems/api_key`.
