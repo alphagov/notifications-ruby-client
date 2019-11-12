@@ -77,7 +77,7 @@ integration-test-with-docker: prepare-docker-runner-image generate-env-file ## R
 
 
 .PHONY: publish-to-rubygems
-publish-to-rubygems:
+publish-to-rubygems: ## Create gemspec file and publish to rubygems
 	$(if ${GEM_HOST_API_KEY},,$(error Must specify GEM_HOST_API_KEY))
 	gem build notifications-ruby-client.gemspec --output=release.gem
 	gem push release.gem
