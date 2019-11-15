@@ -680,6 +680,7 @@ If the request to the client is successful, the client will return a `string` co
 ### Error codes
 
 If the request is not successful, the client throws a `Notifications::Client::RequestError` and an error code.
+
 |error.code|error.message|class|How to fix|
 |:---|:---|:---|:---|
 |`400`|`ValidationError: id is not a valid UUID`|`BadRequestError`|Check the notification ID|
