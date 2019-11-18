@@ -53,6 +53,7 @@ phone_number:"+447900900123"
 #### template_id (required)
 
 To find the template ID:
+
 1. [Sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/sign-in).
 1. Go to the __Templates__ page and select the relevant template.
 1. Select __Copy template ID to clipboard__.
@@ -166,6 +167,7 @@ email_address: "sender@something.com"
 #### template_id (required)
 
 To find the template ID:
+
 1. [Sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/sign-in).
 1. Go to the __Templates__ page and select the relevant template.
 1. Select __Copy template ID to clipboard__.
@@ -204,6 +206,7 @@ You can leave out this argument if you do not have a reference.
 This is an email address specified by you to receive replies from your users. You must add at least one email reply-to address before your service can go live.
 
 To add a reply-to address:
+
 1. [Sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/sign-in).
 1. Go to the __Settings__ page.
 1. In the Email section, select __Manage__ on the __Email reply-to addresses__ row.
@@ -317,6 +320,7 @@ letterresponse = client.send_letter(
 #### template_id (required)
 
 To find the template ID:
+
 1. [Sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/sign-in).
 1. Go to the __Templates__ page and select the relevant template.
 1. Select __Copy template ID to clipboard__.
