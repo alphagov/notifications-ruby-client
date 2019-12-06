@@ -118,6 +118,19 @@ module Notifications
         perform_request!(request)
       end
 
+      def get_pdf_for_letter(id)
+        path = "/v2/notifications/" << id << "/pdf"
+        request = Net::HTTP::Get.new(path, headers)
+
+        # can't use `perform_request!` because we're just returning raw binary data
+        response = open(request)
+        if response.is_a?(Net::HTTPClientError) || response.is_a?(Net::HTTPServerError)
+          raise build_error(response)
+        else
+          response.body
+        end
+      end
+
     private
 
       ##
