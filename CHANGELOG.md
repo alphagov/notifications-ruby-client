@@ -1,3 +1,7 @@
+## 5.1.1
+
+* Exceptions now return the error message when calling `#to_s` on them. This will make services like Sentry correctly display the full error description.
+
 ## 5.1.0
 
 * Added new `get_pdf_for_letter` method
