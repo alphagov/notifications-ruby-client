@@ -69,7 +69,7 @@ describe Notifications::Client do
     it "returns the message" do
       expect { client.get_notification('1') }.to raise_error do |error|
         expect(error.to_s).to eql('BadRequestError: Can’t send to this recipient using a team-only API key')
-        expect(error.message).to eql('BadRequestError: Can’t send to this recipient using a team-only API key')
+        expect(error.message).to eql('Can’t send to this recipient using a team-only API key')
       end
     end
   end
