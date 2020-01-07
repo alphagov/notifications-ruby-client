@@ -6,7 +6,10 @@ module Notifications
       def initialize(response)
         @code = response.code
         @body = parse_body(response.body)
+        super(build_message)
       end
+
+    private
 
       def parse_body(body)
         JSON.parse(body)
@@ -14,7 +17,7 @@ module Notifications
         body
       end
 
-      def message
+      def build_message
         return body if body.is_a?(String)
 
         error_messages = body.fetch('errors')

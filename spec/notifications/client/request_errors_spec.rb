@@ -57,4 +57,20 @@ describe Notifications::Client do
 
     include_examples "raises an error", Notifications::Client::ServerError, "BadRequestError: App error"
   end
+
+  describe "#message" do
+    before do
+      stub_error_request(401, body: {
+        'status_code' => 401,
+        'errors' => ['error' => 'BadRequestError', 'message' => 'Can’t send to this recipient using a team-only API key']
+      })
+    end
+
+    it "returns the message" do
+      expect { client.get_notification('1') }.to raise_error do |error|
+        expect(error.to_s).to eql('BadRequestError: Can’t send to this recipient using a team-only API key')
+        expect(error.message).to eql('BadRequestError: Can’t send to this recipient using a team-only API key')
+      end
+    end
+  end
 end
