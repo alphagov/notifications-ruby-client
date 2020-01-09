@@ -75,6 +75,9 @@ integration-test-with-docker: prepare-docker-runner-image generate-env-file ## R
 		${DOCKER_BUILDER_IMAGE_NAME} \
 		make integration-test
 
+.PHONY: get-client-version
+get-client-version: ## Retrieve client version number from source code
+	@ruby -e "require './lib/notifications/client/version'; puts Notifications::Client::VERSION"
 
 .PHONY: publish-to-rubygems
 publish-to-rubygems: ## Create gemspec file and publish to rubygems
