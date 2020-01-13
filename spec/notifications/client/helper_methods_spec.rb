@@ -24,7 +24,7 @@ describe Notifications do
       File.open('spec/test_files/test_pdf.pdf', 'rb') do |file|
         allow(file).to receive(:size).and_return(Notifications::Client::MAX_FILE_UPLOAD_SIZE + 1)
 
-        expect { Notifications.prepare_upload(file) }.to raise_error(ArgumentError, "Document is larger than 2MB")
+        expect { Notifications.prepare_upload(file) }.to raise_error(ArgumentError, "File is larger than 2MB")
       end
     end
   end

@@ -238,11 +238,11 @@ The links are unique and unguessable. GOV.UK Notify cannot access or decrypt you
 1. Select __Edit__.
 1. Add a placeholder field to the email template using double brackets. For example:
 
-"Download your file at: ((link_to_document))"
+"Download your file at: ((link_to_file))"
 
 ### Upload your file
 
-The file you upload must be a PDF or CSV file smaller than 2MB. [Contact the GOV.UK Notify team](https://www.notifications.service.gov.uk/support/ask-question-give-feedback) if you need to send other file types.
+The file you upload must be a PDF, CSV, text file or Microsoft Word document smaller than 2MB. [Contact the GOV.UK Notify team](https://www.notifications.service.gov.uk/support/ask-question-give-feedback) if you need to send other file types.
 
 1. Pass the file object as an argument to the `Notifications.prepare_upload` helper method.
 1. Pass the result into the personalisation argument.
@@ -255,7 +255,7 @@ File.open("file.pdf", "rb") do |f|
     personalisation: {
       first_name: "Amala",
       application_date: "2018-01-01",
-      link_to_document: Notifications.prepare_upload(f),
+      link_to_file: Notifications.prepare_upload(f),
     }
 end
 ```
@@ -282,15 +282,15 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |:--- |:---|:---|:---|
 |`400`|`BadRequestError: Can't send to this recipient using a team-only API key`|`BadRequestError`|Use the correct type of [API key](#api-keys)|
 |`400`|`BadRequestError: Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
-|`400`|`BadRequestError: Unsupported document type '{}'. Supported types are: {}`|`BadRequestError`|The document you upload must be a PDF file|
-|`400`|`BadRequestError: Document didn't pass the virus scan`|`BadRequestError`|The document you upload must be virus free|
+|`400`|`BadRequestError: Unsupported file type '(FILE TYPE)'. Supported types are: '(ALLOWED TYPES)'`|`BadRequestError`|Wrong file type. You can only upload .pdf, .csv, .txt, .doc or .docx files|
+|`400`|`BadRequestError: File did not pass the virus scan`|`BadRequestError`|The file contains a virus|
 |`400`|`BadRequestError: Service is not allowed to send documents`|`BadRequestError`|Contact the GOV.UK Notify team|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
 |`403`|`AuthError: Invalid token: signature, api token not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
 |`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#api-rate-limits) for more information|
 |`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`RateLimitError`|Refer to [service limits](#service-limits) for the limit number|
 |`500`|`Exception: Internal server error`|`ServerError`|Notify was unable to process the request, resend your notification|
-|-|`ArgumentError: Document is larger than 2MB")`|-|Document size was too large, upload a smaller document|
+|-|`ArgumentError: File is larger than 2MB")`|-|The file is too big. Files must be smaller than 2MB|
 
 ## Send a letter
 
@@ -708,7 +708,7 @@ If the request is not successful, the client throws a `Notifications::Client::Re
 |:---|:---|:---|:---|
 |`400`|`ValidationError: id is not a valid UUID`|`BadRequestError`|Check the notification ID|
 |`400`|`PDFNotReadyError: PDF not available yet, try again later`|`BadRequestError`|Wait for the notification to finish processing. This usually takes a few seconds|
-|`400`|`BadRequestError: Document did not pass the virus scan`|`BadRequestError`|You cannot retrieve the contents of a letter notification that contains a virus|
+|`400`|`BadRequestError: File did not pass the virus scan`|`BadRequestError`|You cannot retrieve the contents of a letter notification that contains a virus|
 |`400`|`BadRequestError: PDF not available for letters in technical-failure`|`BadRequestError`|You cannot retrieve the contents of a letter notification in technical-failure|
 |`400`|`ValidationError: Notification is not a letter`|`BadRequestError`|Check that you are looking up the correct notification|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`BadRequestError`|Check your system clock|
