@@ -1,3 +1,7 @@
+## 5.1.2
+
+* Change filesize too big exception message to refer to files rather than documents.
+
 ## 5.1.1
 
 * Exceptions now return the error message when calling `#to_s` on them. This will make services like Sentry correctly display the full error description.
