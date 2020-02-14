@@ -138,7 +138,7 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |`400`|`BadRequestError: Can't send to this recipient using a team-only API key`|`BadRequestError`|Use the correct type of [API key](#api-keys)|
 |`400`|`BadRequestError: Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
-|`403`|`AuthError: Invalid token: signature, api token not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
+|`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
 |`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#api-rate-limits) for more information|
 |`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`ClientError`|Refer to [service limits](#service-limits) for the limit number|
 |`500`|`Exception: Internal server error`|`ServerError`|Notify was unable to process the request, resend your notification|
@@ -286,7 +286,7 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |`400`|`BadRequestError: File did not pass the virus scan`|`BadRequestError`|The file contains a virus|
 |`400`|`BadRequestError: Service is not allowed to send documents`|`BadRequestError`|Contact the GOV.UK Notify team|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
-|`403`|`AuthError: Invalid token: signature, api token not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
+|`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
 |`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#api-rate-limits) for more information|
 |`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`RateLimitError`|Refer to [service limits](#service-limits) for the limit number|
 |`500`|`Exception: Internal server error`|`ServerError`|Notify was unable to process the request, resend your notification|
@@ -398,7 +398,7 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |`400`|`BadRequestError: Cannot send letters when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
 |`400`|`ValidationError: personalisation address_line_1 is a required property`|`BadRequestError`|Ensure that your template has a field for the first line of the address, refer to [personalisation](#personalisation-required) for more information|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
-|`403`|`AuthError: Invalid token: signature, api token not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
+|`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
 |`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#api-rate-limits) for more information|
 |`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`RateLimitError`|Refer to [service limits](#service-limits) for the limit number|
 |`500`|`Exception: Internal server error`|`ServerError`|Notify was unable to process the request, resend your notification|
@@ -551,7 +551,7 @@ If the request is not successful, the client returns a `Notification::Client::Re
 |:---|:---|:---|:---|
 |`400`|`ValidationError: id is not a valid UUID`|`BadRequestError`|Check the notification ID|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
-|`403`|`AuthError: Invalid token: signature, api token not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
+|`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
 |`404`|`NoResultFound: No result found`|`NotFoundError`|Check the notification ID. This error occurs if the notification is more than 7 days old.|
 
 ## Get the status of multiple messages
@@ -674,7 +674,7 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |`400`|`ValidationError: bad status is not one of [created, sending, sent, delivered, pending, failed, technical-failure, temporary-failure, permanent-failure, accepted, received]`|`BadRequestError`|Contact the GOV.UK Notify team|
 |`400`|`ValidationError: Template type is not one of [sms, email, letter]`|`BadRequestError`|Contact the GOV.UK Notify team|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
-|`403`|`AuthError: Invalid token: signature, api token not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
+|`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
 
 ## Get a PDF for a letter notification
 
@@ -712,7 +712,7 @@ If the request is not successful, the client throws a `Notifications::Client::Re
 |`400`|`BadRequestError: PDF not available for letters in technical-failure`|`BadRequestError`|You cannot retrieve the contents of a letter notification in technical-failure|
 |`400`|`ValidationError: Notification is not a letter`|`BadRequestError`|Check that you are looking up the correct notification|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`BadRequestError`|Check your system clock|
-|`403`|`AuthError: Invalid token: signature, api token not found`|`BadRequestError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
+|`403`|`AuthError: Invalid token: API key not found`|`BadRequestError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
 |`404`|`NoResultFound: No result found`|`BadRequestError`|Check the notification ID|
 
 
@@ -764,7 +764,7 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |:---|:---|:---|:---|
 |`400`|`ValidationError: id is not a valid UUID`|`BadRequestError`|Check the notification ID|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
-|`403`|`AuthError: Invalid token: signature, api token not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
+|`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
 |`404`|`NoResultFound: No Result Found`|`NotFoundError`|Check your [template ID](#get-a-template-by-id-arguments-id-required)|
 
 ## Get a template by ID and version
@@ -815,7 +815,7 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |:---|:---|:---|:---|
 |`400`|`ValidationError: id is not a valid UUID`|`BadRequestError`|Check the notification ID|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
-|`403`|`AuthError: Invalid token: signature, api token not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
+|`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
 |`404`|`NoResultFound: No Result Found`|`NotFoundError`|Check your [template ID](#get-a-template-by-id-and-version-arguments-id-required) and [version](#version-required)|
 
 ## Get all templates
@@ -930,7 +930,7 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |`400`|`BadRequestError: Missing personalisation: [PERSONALISATION FIELD]`|`BadRequestError`|Check that the personalisation arguments in the method match the placeholder fields in the template|
 |`400`|`NoResultFound: No result found`|`BadRequestError`|Check the [template ID](#generate-a-preview-template-arguments-id-required)|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
-|`403`|`AuthError: Invalid token: signature, api token not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
+|`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
 
 # Get received text messages
 
@@ -1004,4 +1004,4 @@ If the request is not successful, the client returns a `Notifications::Client::R
 |error.code|error.message|class|How to fix|
 |:---|:---|:---|:---|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
-|`403`|`AuthError: Invalid token: signature, api token not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
+|`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
