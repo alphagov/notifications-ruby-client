@@ -131,7 +131,7 @@ All messages sent using the [team and whitelist](#team-and-whitelist) or [live](
 
 ### Error codes
 
-If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
+If the request is not successful, the client raises a `Notifications::Client::RequestError` exception (or a subclass), which contains a code:
 
 |error.code|error.message|class|How to fix|
 |:---|:---|:---|:---|
@@ -276,7 +276,7 @@ You can then call different methods on this object to return the requested infor
 
 ### Error codes
 
-If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
+If the request is not successful, the client raises a `Notifications::Client::RequestError` exception (or a subclass), which contains a code:
 
 |error.code|error.message|class|How to fix|
 |:--- |:---|:---|:---|
@@ -390,7 +390,7 @@ You can then call different methods on this object to return the requested infor
 
 ### Error codes
 
-If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
+If the request is not successful, the client raises a `Notifications::Client::RequestError` exception (or a subclass), which contains a code:
 
 |error.code|error.message|class|How to fix|
 |:--- |:---|:---|:---|
@@ -445,7 +445,7 @@ You can then call different methods on this object to return the requested infor
 
 ### Error codes
 
-If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
+If the request is not successful, the client raises a `Notifications::Client::RequestError` exception (or a subclass), which contains a code:
 
 |error.status_code|error.message|class|How to fix|
 |:---|:---|:---|:---|
@@ -545,7 +545,7 @@ You can then call different methods on this object to return the requested infor
 
 ### Error codes
 
-If the request is not successful, the client returns a `Notification::Client::RequestError` and an error code:
+If the request is not successful, the client raises a `Notifications::Client::RequestError` exception (or a subclass), which contains a code:
 
 |error.code|error.message|class|How to fix|
 |:---|:---|:---|:---|
@@ -667,7 +667,7 @@ If the notification specified in the `older_than` argument is older than 7 days,
 
 ### Error codes
 
-If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
+If the request is not successful, the client raises a `Notifications::Client::RequestError` exception (or a subclass), which contains a code:
 
 |error.code|error.message|class|How to fix|
 |:---|:---|:---|:---|
@@ -702,7 +702,7 @@ If the request to the client is successful, the client will return a `string` co
 
 ### Error codes
 
-If the request is not successful, the client throws a `Notifications::Client::RequestError` and an error code.
+If the request is not successful, the client raises a `Notifications::Client::RequestError` exception (or a subclass), which contains a code:
 
 |error.code|error.message|class|How to fix|
 |:---|:---|:---|:---|
@@ -758,7 +758,7 @@ You can then call different methods on this object to return the requested infor
 
 ### Error codes
 
-If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
+If the request is not successful, the client raises a `Notifications::Client::RequestError` exception (or a subclass), which contains a code:
 
 |error.code|error.message|class|How to fix|
 |:---|:---|:---|:---|
@@ -809,7 +809,7 @@ You can then call different methods on this object to return the requested infor
 
 ### Error codes
 
-If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
+If the request is not successful, the client raises a `Notifications::Client::RequestError` exception (or a subclass), which contains a code:
 
 |error.code|error.message|class|How to fix|
 |:---|:---|:---|:---|
@@ -865,7 +865,7 @@ If no templates exist for a template type or there no templates for a service, t
 
 ### Error codes
 
-If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
+If the request is not successful, the client raises a `Notifications::Client::RequestError` exception (or a subclass), which contains a code:
 
 |error.code|error.message|class|How to fix|
 |:---|:---|:---|:---|
@@ -923,7 +923,7 @@ You can then call different methods on this object to return the requested infor
 
 ### Error codes
 
-If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code:
+If the request is not successful, the client raises a `Notifications::Client::RequestError` exception (or a subclass), which contains a code:
 
 |error.code|error.message|class|How to fix|
 |:---|:---|:---|:---|
@@ -999,7 +999,7 @@ If the notification specified in the `older_than` argument is older than 7 days,
 
 ### Error codes
 
-If the request is not successful, the client returns a `Notifications::Client::RequestError` and an error code.
+If the request is not successful, the client raises a `Notifications::Client::RequestError` exception (or a subclass), which contains a code:
 
 |error.code|error.message|class|How to fix|
 |:---|:---|:---|:---|
