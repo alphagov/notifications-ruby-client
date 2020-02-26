@@ -139,8 +139,8 @@ If the request is not successful, the client raises a `Notifications::Client::Re
 |`400`|`BadRequestError: Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
 |`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
-|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#api-rate-limits) for more information|
-|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`ClientError`|Refer to [service limits](#service-limits) for the limit number|
+|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#rate-limits) for more information|
+|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`ClientError`|Refer to [service limits](#daily-limits) for the limit number|
 |`500`|`Exception: Internal server error`|`ServerError`|Notify was unable to process the request, resend your notification|
 
 ## Send an email
@@ -290,8 +290,8 @@ If the request is not successful, the client raises a `Notifications::Client::Re
 |`400`|`BadRequestError: Service is not allowed to send documents`|`BadRequestError`|Contact the GOV.UK Notify team|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
 |`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
-|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#api-rate-limits) for more information|
-|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`RateLimitError`|Refer to [service limits](#service-limits) for the limit number|
+|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#rate-limits) for more information|
+|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`RateLimitError`|Refer to [service limits](#daily-limits) for the limit number|
 |`500`|`Exception: Internal server error`|`ServerError`|Notify was unable to process the request, resend your notification|
 |-|`ArgumentError: File is larger than 2MB")`|-|The file is too big. Files must be smaller than 2MB|
 
@@ -402,8 +402,8 @@ If the request is not successful, the client raises a `Notifications::Client::Re
 |`400`|`ValidationError: personalisation address_line_1 is a required property`|`BadRequestError`|Ensure that your template has a field for the first line of the address, refer to [personalisation](#personalisation-required) for more information|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
 |`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
-|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#api-rate-limits) for more information|
-|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`RateLimitError`|Refer to [service limits](#service-limits) for the limit number|
+|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#rate-limits) for more information|
+|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`RateLimitError`|Refer to [service limits](#daily-limits) for the limit number|
 |`500`|`Exception: Internal server error`|`ServerError`|Notify was unable to process the request, resend your notification|
 
 ## Send a precompiled letter
