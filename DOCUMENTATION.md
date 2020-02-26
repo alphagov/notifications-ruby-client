@@ -458,7 +458,7 @@ If the request is not successful, the client raises a `Notifications::Client::Re
 |`400`|`ValidationError: reference is a required property`|`BadRequestError`|Add a `reference` argument to the method call|
 |`400`|`ValidationError: postage invalid. It must be either first or second.`|`BadRequestError`|Change the value of `postage` argument in the method call to either 'first' or 'second'|
 |`429`|`RateLimitError: Exceeded rate limit for key type live of 10 requests per 20 seconds`|`RateLimitError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
-|`429`|`TooManyRequestsError: Exceeded send limits (50) for today`|`RateLimitError`|Refer to [service limits](#service-limits) for the limit number|
+|`429`|`TooManyRequestsError: Exceeded send limits (50) for today`|`RateLimitError`|Refer to [service limits](#daily-limits) for the limit number|
 
 # Get message status
 
