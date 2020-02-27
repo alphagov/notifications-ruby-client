@@ -139,8 +139,8 @@ If the request is not successful, the client raises a `Notifications::Client::Re
 |`400`|`BadRequestError: Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
 |`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
-|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#api-rate-limits) for more information|
-|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`ClientError`|Refer to [service limits](#service-limits) for the limit number|
+|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#rate-limits) for more information|
+|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`ClientError`|Refer to [service limits](#daily-limits) for the limit number|
 |`500`|`Exception: Internal server error`|`ServerError`|Notify was unable to process the request, resend your notification|
 
 ## Send an email
@@ -223,20 +223,23 @@ You can leave out this argument if your service only has one email reply-to addr
 
 ## Send a file by email
 
-Send files without the need for email attachments.
-
-This is an invitation-only feature. [Contact the GOV.UK Notify team](https://www.notifications.service.gov.uk/support/ask-question-give-feedback) to enable this function for your service.
-
-To send a file by email, add a placeholder field to the template then upload a file. The placeholder field will contain a secure link to download the file.
+To send a file by email, add a placeholder to the template then upload a file. The placeholder will contain a secure link to download the file.
 
 The links are unique and unguessable. GOV.UK Notify cannot access or decrypt your file.
 
-### Add a placeholder field to the template
+### Add contact details to the file download page
+
+1. [Sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/sign-in).
+1. Go to the __Settings__ page.
+1. In the __Email__ section, select __Manage__ on the __Send files by email__ row.
+1. Enter the contact details you want to use, and select __Save__.
+
+### Add a placeholder to the template
 
 1. [Sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/sign-in).
 1. Go to the __Templates__ page and select the relevant email template.
 1. Select __Edit__.
-1. Add a placeholder field to the email template using double brackets. For example:
+1. Add a placeholder to the email template using double brackets. For example:
 
 "Download your file at: ((link_to_file))"
 
@@ -284,11 +287,11 @@ If the request is not successful, the client raises a `Notifications::Client::Re
 |`400`|`BadRequestError: Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
 |`400`|`BadRequestError: Unsupported file type '(FILE TYPE)'. Supported types are: '(ALLOWED TYPES)'`|`BadRequestError`|Wrong file type. You can only upload .pdf, .csv, .txt, .doc or .docx files|
 |`400`|`BadRequestError: File did not pass the virus scan`|`BadRequestError`|The file contains a virus|
-|`400`|`BadRequestError: Service is not allowed to send documents`|`BadRequestError`|Contact the GOV.UK Notify team|
+|`400`|`BadRequestError: Send files by email has not been set up - add contact details for your service at https://www.notifications.service.gov.uk/services/(SERVICE ID)/service-settings/send-files-by-email`|`BadRequestError`|See how to [add contact details to the file download page](#add-contact-details-to-the-file-download-page)|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
 |`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
-|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#api-rate-limits) for more information|
-|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`RateLimitError`|Refer to [service limits](#service-limits) for the limit number|
+|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#rate-limits) for more information|
+|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`RateLimitError`|Refer to [service limits](#daily-limits) for the limit number|
 |`500`|`Exception: Internal server error`|`ServerError`|Notify was unable to process the request, resend your notification|
 |-|`ArgumentError: File is larger than 2MB")`|-|The file is too big. Files must be smaller than 2MB|
 
@@ -399,8 +402,8 @@ If the request is not successful, the client raises a `Notifications::Client::Re
 |`400`|`ValidationError: personalisation address_line_1 is a required property`|`BadRequestError`|Ensure that your template has a field for the first line of the address, refer to [personalisation](#personalisation-required) for more information|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
 |`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
-|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#api-rate-limits) for more information|
-|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`RateLimitError`|Refer to [service limits](#service-limits) for the limit number|
+|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#rate-limits) for more information|
+|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`RateLimitError`|Refer to [service limits](#daily-limits) for the limit number|
 |`500`|`Exception: Internal server error`|`ServerError`|Notify was unable to process the request, resend your notification|
 
 ## Send a precompiled letter
@@ -455,7 +458,7 @@ If the request is not successful, the client raises a `Notifications::Client::Re
 |`400`|`ValidationError: reference is a required property`|`BadRequestError`|Add a `reference` argument to the method call|
 |`400`|`ValidationError: postage invalid. It must be either first or second.`|`BadRequestError`|Change the value of `postage` argument in the method call to either 'first' or 'second'|
 |`429`|`RateLimitError: Exceeded rate limit for key type live of 10 requests per 20 seconds`|`RateLimitError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
-|`429`|`TooManyRequestsError: Exceeded send limits (50) for today`|`RateLimitError`|Refer to [service limits](#service-limits) for the limit number|
+|`429`|`TooManyRequestsError: Exceeded send limits (50) for today`|`RateLimitError`|Refer to [service limits](#daily-limits) for the limit number|
 
 # Get message status
 
