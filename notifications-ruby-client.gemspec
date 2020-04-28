@@ -27,5 +27,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.7"
   spec.add_development_dependency "webmock", "~> 3.4"
   spec.add_development_dependency "factory_bot", "~> 5.2"
-  spec.add_development_dependency "govuk-lint", "~> 3.8"
 end

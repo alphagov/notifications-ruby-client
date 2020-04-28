@@ -89,9 +89,5 @@ publish-to-rubygems: ## Create gemspec file and publish to rubygems
 clean-docker-containers: ## Clean up any remaining docker containers
 	docker rm -f $(shell docker ps -q -f "name=${DOCKER_CONTAINER_PREFIX}") 2> /dev/null || true
 
-.PHONY: run-govuk-lint
-run-govuk-lint: ## Runs GOVUK-lint for Ruby
-	bundle exec govuk-lint-ruby lib spec bin/test_client
-
 clean:
 	rm -rf vendor
