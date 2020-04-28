@@ -1,4 +1,4 @@
-FROM ruby:2.4-slim
+FROM ruby:2.6-slim
 
 ARG HTTP_PROXY
 ARG HTTPS_PROXY
