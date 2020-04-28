@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :client_request_error,
           class: Notifications::Client::RequestError do
-    code '403'
+    code { '403' }
     body do
       {
           'status_code' => 400,

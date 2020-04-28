@@ -1,4 +1,4 @@
-FROM ruby:2.4-slim
+FROM ruby:2.6-slim
 
 RUN \
 	echo "Install Debian packages" \

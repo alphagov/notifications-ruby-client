@@ -22,10 +22,10 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "jwt", ">= 1.5", "< 3"
 
-  spec.add_development_dependency "bundler", "~> 1.13"
-  spec.add_development_dependency "rake", "~> 12.3"
+  spec.add_development_dependency "bundler", "~> 1.7"
+  spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.7"
   spec.add_development_dependency "webmock", "~> 3.4"
-  spec.add_development_dependency "factory_bot", "~> 4.10"
+  spec.add_development_dependency "factory_bot", "~> 5.2"
   spec.add_development_dependency "govuk-lint", "~> 3.8"
 end
