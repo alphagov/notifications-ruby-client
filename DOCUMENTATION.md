@@ -590,22 +590,14 @@ You can leave out these arguments to ignore these filters.
 
 #### status (optional)
 
-| status | description | text | email | letter |Precompiled letter|
-|:--- |:--- |:--- |:--- |:--- |:--- |
-|created|GOV.UK Notify has placed the message in a queue, ready to be sent to the provider.|Yes|Yes|||
-|sending|GOV.UK Notify has sent the message to the provider and is waiting for delivery information.|Yes|Yes|||
-|delivered|The message was successfully delivered|Yes|Yes|||
-|sent / sent internationally|The message was sent to an international number.|Yes||||
-|pending|GOV.UK Notify is waiting for more delivery information.|Yes||||
-|failed|This returns all failure statuses:<br>- permanent-failure<br>- temporary-failure<br>- technical-failure|Yes|Yes|||
-|permanent-failure|The provider could not deliver the message because the email address or phone number was wrong, or the network rejected the message.|Yes|Yes|||
-|temporary-failure|The provider could not deliver the message. This can happen when the recipient’s inbox is full or their phone is off.|Yes|Yes|||
-|technical-failure|GOV.UK Notify had an unexpected error while sending the message to the provider.|Yes|Yes|||
-|accepted|GOV.UK Notify has sent the letter to the provider to be printed.|||Yes||
-|received|The provider has printed and dispatched the letter.|||Yes||
-|pending-virus-check|GOV.UK Notify is scanning the precompiled letter file for viruses.||||Yes|
-|virus-scan-failed|GOV.UK Notify found a potential virus in the precompiled letter file.||||Yes|
-|validation-failed|Content in the precompiled letter file is outside the printable area.||||Yes|
+You can filter by each:
+
+* [email status](#status---email)
+* [text message status](#status---text-message)
+* [letter status](#status---letter)
+* [precompiled letter status](#status---precompiled-letter)
+
+You can leave out this argument to ignore this filter.
 
 #### templateType (optional)
 
