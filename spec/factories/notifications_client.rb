@@ -2,9 +2,10 @@ FactoryBot.define do
   factory :notifications_client,
           class: Notifications::Client do
     base_url { nil }
+    http_opts { nil }
     jwt_secret { "test-key-fa80e418-ff49-445c-a29b-92c04a181207-7aaec57c-2dc9-4d31-8f5c-7225fe79516a" }
     initialize_with do
-      new(jwt_secret, base_url)
+      new(jwt_secret, base_url, http_opts)
     end
   end
 

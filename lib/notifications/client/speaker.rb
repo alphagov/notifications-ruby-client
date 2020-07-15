@@ -12,18 +12,27 @@ module Notifications
       attr_reader :base_url
       attr_reader :service_id
       attr_reader :secret_token
+      attr_reader :http_opts
 
       BASE_PATH = "/v2/notifications".freeze
       USER_AGENT = "NOTIFY-API-RUBY-CLIENT/#{Notifications::Client::VERSION}".freeze
 
+      # 60 seconds is the default that Net::HTTP uses internally
+      DEFAULT_HTTP_OPTS = {
+        open_timeout: 60,
+        read_timeout: 60,
+      }.freeze
+
       ##
-      # @param secret [String] your service API secret
+      # @param secret_token [String] your service API secret
       # @param base_url [String] host URL. This is the address to perform the requests.
-      #                          If left nil the production url is used.
-      def initialize(secret_token = nil, base_url = nil)
+      #   If left nil the production url is used.
+      # @param http_opts [Hash] optional arguments to be passed to the HTTP client
+      def initialize(secret_token = nil, base_url = nil, http_opts = nil)
         @service_id = secret_token[secret_token.length - 73..secret_token.length - 38]
         @secret_token = secret_token[secret_token.length - 36..secret_token.length]
         @base_url = base_url || PRODUCTION_BASE_URL
+        @http_opts = DEFAULT_HTTP_OPTS.merge(http_opts || {})
 
         validate_uuids!
       end
@@ -148,7 +157,12 @@ module Notifications
 
       def open(request)
         uri = URI.parse(@base_url)
-        Net::HTTP.start(uri.host, uri.port, :ENV, use_ssl: uri.scheme == 'https') do |http|
+
+        options = {
+          use_ssl: uri.scheme == 'https'
+        }.merge(@http_opts)
+
+        Net::HTTP.start(uri.host, uri.port, :ENV, options) do |http|
           http.request(request)
         end
       end
