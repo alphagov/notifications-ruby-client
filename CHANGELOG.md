@@ -1,3 +1,7 @@
+## 5.2.0
+
+* Add support for an optional `is_csv` parameter in the `prepare_upload()` function. This fixes a bug when sending a CSV file by email. This ensures that the file is downloaded as a CSV rather than a TXT file.
+
 ## 5.1.2
 
 * Change filesize too big exception message to refer to files rather than documents.
