@@ -263,6 +263,21 @@ File.open("file.pdf", "rb") do |f|
 end
 ```
 
+#### CSV Files
+
+Uploads for CSV files should use the `is_csv` parameter on the `prepare_upload()` helper method.  For example:
+
+```ruby
+File.open("file.csv", "rb") do |f|
+    ...
+    personalisation: {
+      first_name: "Amala",
+      application_date: "2018-01-01",
+      link_to_file: Notifications.prepare_upload(f, is_csv=true),
+    }
+end
+```
+
 ### Response
 
 If the request to the client is successful, the client returns a `Notifications::Client:ResponseNotification` object. In the example shown in the [Method section](#send-an-email-method), the object is named `emailresponse`.

@@ -10,14 +10,19 @@ describe Notifications do
         result = Notifications.prepare_upload(f)
         f.rewind
 
-        expect(result).to eq(file: encoded_content)
+        expect(result).to eq(file: encoded_content, is_csv: false)
         expect(Base64.strict_decode64(encoded_content)).to eq(f.read)
       end
     end
 
     it "encodes a StringIO object" do
       input_string = StringIO.new("My document to send")
-      expect(Notifications.prepare_upload(input_string)).to eq(file: "TXkgZG9jdW1lbnQgdG8gc2VuZA==")
+      expect(Notifications.prepare_upload(input_string)).to eq(file: "TXkgZG9jdW1lbnQgdG8gc2VuZA==", is_csv: false)
+    end
+
+    it "allows is_csv to be set to true" do
+      input_string = StringIO.new("My document to send")
+      expect(Notifications.prepare_upload(input_string, true)).to eq(file: "TXkgZG9jdW1lbnQgdG8gc2VuZA==", is_csv: true)
     end
 
     it "raises an error when the file size is too large" do
