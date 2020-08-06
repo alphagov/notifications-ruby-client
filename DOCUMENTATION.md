@@ -770,6 +770,7 @@ You can then call different methods on this object to return the requested infor
 |`response.version`|Template version|String|
 |`response.body`|Template content|String|
 |`response.subject`|Template subject (email and letter)|String|
+|`response.letter_contact_block`|Template letter contact block (letter)|String|
 
 ### Error codes
 
@@ -821,6 +822,7 @@ You can then call different methods on this object to return the requested infor
 |`response.version`|Template version|String|
 |`response.body`|Template content|String|
 |`response.subject`|Template subject (email and letter)|String|
+|`response.letter_contact_block`|Template letter contact block (letter)|String|
 
 ### Error codes
 
@@ -875,6 +877,7 @@ Once the client has returned a template array, you must then call the following 
 |`response.version`|Template version|String|
 |`response.body`|Template content|String|
 |`response.subject`|Template subject (email and letter)|String|
+|`response.letter_contact_block`|Template letter contact block (letter)|String|
 
 If no templates exist for a template type or there no templates for a service, the templates array will be empty.
 
