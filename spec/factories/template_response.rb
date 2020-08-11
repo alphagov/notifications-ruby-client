@@ -9,13 +9,14 @@ FactoryBot.define do
       {
         "id" => "f163deaf-2d3f-4ec6-98fc-f23fa511518f",
         "name" => "My template name",
-        "type" => "email",
+        "type" => "letter",
         "created_at" => "2016-11-29T11:12:30.12354Z",
         "updated_at" => "2016-11-29T11:12:40.12354Z",
         "created_by" => "jane.doe@gmail.com",
         "body" => "Contents of template ((place_holder))",
-        "subject" => "Subject of the email",
-        "version" => "2"
+        "subject" => "Subject of the letter",
+        "version" => "2",
+        "letter_contact_block" => "The return address"
       }
     end
   end

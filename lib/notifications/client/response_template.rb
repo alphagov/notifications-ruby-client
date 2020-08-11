@@ -13,6 +13,7 @@ module Notifications
         version
         body
         subject
+        letter_contact_block
       ).freeze
 
       attr_reader(*FIELDS)

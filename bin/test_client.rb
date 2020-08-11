@@ -3,7 +3,9 @@ require './lib/notifications/client'
 
 def main
   client = Notifications::Client.new(ENV['API_KEY'], ENV['NOTIFY_API_URL'])
-  test_get_template_by_id(client, ENV['EMAIL_TEMPLATE_ID'])
+  test_get_email_template_by_id(client, ENV['EMAIL_TEMPLATE_ID'])
+  test_get_sms_template_by_id(client, ENV['SMS_TEMPLATE_ID'])
+  test_get_letter_template_by_id(client, ENV['LETTER_TEMPLATE_ID'])
   test_get_template_version(client, ENV['SMS_TEMPLATE_ID'], 1)
   test_get_all_templates(client)
   test_get_all_templates_filter_by_type(client)
@@ -25,14 +27,24 @@ def main
   exit 0
 end
 
-def test_get_template_by_id(client, id)
+def test_get_email_template_by_id(client, id)
   response = client.get_template_by_id(id)
-  test_template_response(response, 'test_get_template_by_id')
+  test_template_response(response, 'email', 'test_get_email_template_by_id')
+end
+
+def test_get_sms_template_by_id(client, id)
+  response = client.get_template_by_id(id)
+  test_template_response(response, 'sms', 'test_get_sms_template_by_id')
+end
+
+def test_get_letter_template_by_id(client, id)
+  response = client.get_template_by_id(id)
+  test_template_response(response, 'letter', 'test_get_letter_template_by_id')
 end
 
 def test_get_template_version(client, id, version)
   response = client.get_template_version(id, version)
-  test_template_response(response, 'test_get_template_version')
+  test_template_response(response, 'sms', 'test_get_template_version')
 end
 
 def test_get_all_templates(client)
@@ -45,9 +57,9 @@ def test_get_all_templates(client)
     p 'failed test_get_all_templates, expected at least 3 templates returned.'
     exit 1
   end
-  test_template_response(response.collection[0], 'test_get_all_templates')
-  test_template_response(response.collection[1], 'test_get_all_templates')
-  test_template_response(response.collection[2], 'test_get_all_templates')
+  test_template_response(response.collection[0], 'letter', 'test_get_all_templates')
+  test_template_response(response.collection[1], 'email', 'test_get_all_templates')
+  test_template_response(response.collection[2], 'sms', 'test_get_all_templates')
 end
 
 def test_get_all_templates_filter_by_type(client)
@@ -60,7 +72,7 @@ def test_get_all_templates_filter_by_type(client)
     p 'failed test_get_all_templates, expected at least 2 templates returned.'
     exit 1
   end
-  test_template_response(response.collection[0], 'test_get_all_templates')
+  test_template_response(response.collection[0], 'sms', 'test_get_all_templates')
 end
 
 def test_generate_template_preview(client, id)
@@ -68,7 +80,7 @@ def test_generate_template_preview(client, id)
   test_template_preview(response)
 end
 
-def test_template_response(response, test_method)
+def test_template_response(response, template_type, test_method)
   unless response.is_a?(Notifications::Client::Template)
     p 'failed test_get_template_by_id response is not a Notifications::Client::Template'
     exit 1
@@ -77,7 +89,17 @@ def test_template_response(response, test_method)
     p 'failed template id is not a String'
     exit 1
   end
-  field_should_not_be_nil(expected_fields_in_template_response, response, test_method)
+
+  field_should_not_be_nil(
+    expected_fields_in_template_response(template_type),
+    response,
+    test_method
+  )
+  field_should_be_nil(
+    expected_nil_fields_in_template_response(template_type),
+    response,
+    test_method
+  )
 end
 
 def test_template_preview(response)
@@ -255,14 +277,21 @@ def field_should_be_nil(fields, obj, method_name)
   end
 end
 
-def expected_fields_in_template_response
-  %w(id
-     name
-     type
-     created_at
-     created_by
-     body
-     version)
+def expected_fields_in_template_response(template_type)
+  {
+    "email" => ["id", "name", "type", "created_at", "created_by", "version", "body", "subject"],
+    "sms" => ["id", "name", "type", "created_at", "created_by", "version", "body"],
+    "letter" => ["id", "name", "type", "created_at", "created_by", "version", "body", "subject",
+                 "letter_contact_block"],
+  }[template_type]
+end
+
+def expected_nil_fields_in_template_response(template_type)
+  {
+    "email" => ["letter_contact_block"],
+    "sms" => ["subject", "letter_contact_block"],
+    "letter" => [],
+  }[template_type]
 end
 
 def expected_fields_in_template_preview
