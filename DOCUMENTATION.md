@@ -328,7 +328,7 @@ letterresponse = client.send_letter(
   personalisation: {
     address_line_1: 'The Occupier',
     address_line_2: '123 High Street',
-    postcode: 'SW14 6BH',
+    address_line_3: 'SW14 6BH',
   },
 )
 ```
@@ -355,7 +355,19 @@ The personalisation argument always contains the following parameters for the le
 
 - `address_line_1`
 - `address_line_2`
-- `postcode` (this needs to be a real UK postcode)
+– `address_line_3` 
+– `address_line_4` 
+– `address_line_5` 
+– `address_line_6`
+– `address_line_7`
+
+The address must have at least 3 lines.
+
+The last line needs to be a real UK postcode or the name of a country outside the UK.
+
+Notify checks for international addresses and will automatically charge you the correct postage.
+
+The `postcode` personalisation argument has been replaced. If your template still uses `postcode`, Notify will treat it as the last line of the address.
 
 Any other placeholder fields included in the letter template also count as required parameters. You must provide their values in a hash. For example:
 
@@ -364,22 +376,9 @@ Any other placeholder fields included in the letter template also count as requi
 personalisation: {
   address_line_1: 'The Occupier',  # mandatory address field
   address_line_2: '123 High Street', # mandatory address field
-  postcode: 'SW14 6BH',  # mandatory address field
+  address_line_3: 'SW14 6BH',  # mandatory address field
   name: 'John Smith', # field from template
   application_date: '2018-01-01' # field from template
-},
-```
-
-#### personalisation (optional)
-
-The following parameters in the letter recipient’s address are optional:
-
-```ruby
-personalisation: {
-  address_line_3: 'Richmond',  # optional address field
-  address_line_4: 'London', # optional address field
-  address_line_5: 'Middlesex', # optional address field
-  address_line_6: 'UK', # optional address field
 },
 ```
 
@@ -412,15 +411,16 @@ If the request is not successful, the client raises a `Notifications::Client::Re
 
 |error.code|error.message|class|How to fix|
 |:--- |:---|:---|:---|
-|`400`|`BadRequestError: Cannot send letters with a team api key`|`BadRequestError`|Use the correct type of [API key](#api-keys)|
-|`400`|`BadRequestError: Cannot send letters when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
-|`400`|`ValidationError: personalisation address_line_1 is a required property`|`BadRequestError`|Ensure that your template has a field for the first line of the address, refer to [personalisation](#personalisation-required) for more information|
-|`400`|`ValidationError: Must be a real UK postcode`|`BadRequestError`|Ensure that the value for the postcode field in your letter is a real UK postcode|
-|`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
-|`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
-|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#rate-limits) for more information|
-|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`RateLimitError`|Refer to [service limits](#daily-limits) for the limit number|
-|`500`|`Exception: Internal server error`|`ServerError`|Notify was unable to process the request, resend your notification|
+|`400`|`BadRequestError: Cannot send letters with a team api key`|`BadRequestError`|Use the correct type of [API key](#api-keys).|
+|`400`|`BadRequestError: Cannot send letters when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode).|
+|`400`|`ValidationError: personalisation address_line_1 is a required property`|`BadRequestError`|Ensure that your template has a field for the first line of the address, refer to [personalisation](#personalisation-required) for more information.|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Must be a real UK postcode"`<br>`}]`|Ensure that the value for the last line of the address is a real UK postcode.|
+|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "Last line of address must be a real UK postcode or another country"`<br>`}]`|Ensure that the value for the last line of the address is a real UK postcode or the name of a country outside the UK.|
+|`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock.|
+|`403`|`AuthError: Invalid token: API key not found`|`AuthError`|Use the correct API key. Refer to [API keys](#api-keys) for more information.|
+|`429`|`RateLimitError: Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds`|`RateLimitError`|Refer to [API rate limits](#rate-limits) for more information.|
+|`429`|`TooManyRequestsError: Exceeded send limits (LIMIT NUMBER) for today`|`RateLimitError`|Refer to [service limits](#daily-limits) for the limit number.|
+|`500`|`Exception: Internal server error`|`ServerError`|Notify was unable to process the request, resend your notification.|
 
 ## Send a precompiled letter
 
@@ -554,7 +554,7 @@ You can then call different methods on this object to return the requested infor
 |`response.line_4`|Recipient address line 4 of the address (letter only)|String|
 |`response.line_5`|Recipient address line 5 of the address (letter only)|String|
 |`response.line_6`|Recipient address line 6 of the address (letter only)|String|
-|`response.postcode`|Recipient postcode (letter only)|String|
+|`response.line_7`|Recipient address line 7 of the address (letter only)|String|
 |`response.postage`|Postage class of the notification sent (letter only)|String|
 |`response.type`|Type of notification sent (sms, email or letter)|String|
 |`response.status`|Notification status (sending / delivered / permanent-failure / temporary-failure / technical-failure)|String|
