@@ -355,9 +355,9 @@ The personalisation argument always contains the following parameters for the le
 
 - `address_line_1`
 - `address_line_2`
-- `address_line_3` 
-- `address_line_4` 
-- `address_line_5` 
+- `address_line_3`
+- `address_line_4`
+- `address_line_5`
 - `address_line_6`
 - `address_line_7`
 
@@ -451,7 +451,7 @@ You can choose first or second class postage for your precompiled letter. Set th
 
 ### Response
 
-If the request to the client is successful, the client returns a `Notifications::Client:ResponsePrecompiledLetter` object. In the example shown in the [Method section](#send-a-pre-compiled-letter-method), the object is named `precompiled_letter`.
+If the request to the client is successful, the client returns a `Notifications::Client:ResponsePrecompiledLetter` object. In the example shown in the [Method section](#send-a-precompiled-letter-method), the object is named `precompiled_letter`.
 
 You can then call different methods on this object to return the requested information.
 
@@ -993,7 +993,7 @@ The client only returns notifications that are 7 days old or newer. If the notif
 
 ### Response
 
-If the request to the client is successful, the client returns a `Notifications::Client::ReceivedTextCollection` object. In the example shown in the [Method section](#get-received-text-messages-method), the object is named `response`.
+If the request to the client is successful, the client returns a `Notifications::Client::ReceivedTextCollection` object. In the example shown in the [Method section](#get-a-page-of-received-text-messages-method), the object is named `response`.
 
 You must then call either the `.links` method or the `.collection` method on this object.
 
