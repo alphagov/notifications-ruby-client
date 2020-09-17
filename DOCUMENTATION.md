@@ -355,9 +355,9 @@ The personalisation argument always contains the following parameters for the le
 
 - `address_line_1`
 - `address_line_2`
-- `address_line_3` 
-- `address_line_4` 
-- `address_line_5` 
+- `address_line_3`
+- `address_line_4`
+- `address_line_5`
 - `address_line_6`
 - `address_line_7`
 
@@ -451,7 +451,7 @@ You can choose first or second class postage for your precompiled letter. Set th
 
 ### Response
 
-If the request to the client is successful, the client returns a `Notifications::Client:ResponsePrecompiledLetter` object. In the example shown in the [Method section](#send-a-pre-compiled-letter-method), the object is named `precompiled_letter`.
+If the request to the client is successful, the client returns a `Notifications::Client:ResponsePrecompiledLetter` object. In the example shown in the [Method section](#send-a-precompiled-letter-method), the object is named `precompiled_letter`.
 
 You can then call different methods on this object to return the requested information.
 
@@ -516,7 +516,7 @@ You can only get the status of messages that are 7 days old or newer.
 |:---|:---|
 |Pending virus check|GOV.UK Notify has not completed a virus scan of the precompiled letter file.|
 |Virus scan failed|GOV.UK Notify found a potential virus in the precompiled letter file.|
-|Validation failed|Content in the precompiled letter file is outside the printable area. See the [GOV.UK Notify PDF letter specification](https://docs.notifications.service.gov.uk/documentation/images/notify-pdf-letter-spec-v2.3.pdf) for more information.|
+|Validation failed|Content in the precompiled letter file is outside the printable area. See the [GOV.UK Notify PDF letter specification](https://docs.notifications.service.gov.uk/documentation/images/notify-pdf-letter-spec-v2.4.pdf) for more information.|
 
 ## Get the status of one message
 
@@ -532,9 +532,10 @@ response = client.get_notification(id)
 
 #### id (required)
 
-The ID of the notification. You can find the notification ID in the response to the [original notification method call](#response).
+The ID of the notification. To find the notification ID, you can either:
 
-You can also find it by [signing in to GOV.UK Notify](https://www.notifications.service.gov.uk/sign-in) and going to the __API integration__ page.
+* check the response to the [original notification method call](#response)
+* [sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/sign-in) and go to the __API integration__ page
 
 ### Response
 
@@ -707,9 +708,10 @@ pdf_file = client.get_pdf_for_letter(
 
 #### id (required)
 
-The ID of the notification. You can find the notification ID in the response to the [original notification method call](#get-the-status-of-one-message-response).
+The ID of the notification. To find the notification ID, you can either:
 
-You can also find it by [signing in to GOV.UK Notify](https://www.notifications.service.gov.uk/sign-in) and going to the __API integration__ page.
+* check the response to the [original notification method call](#get-the-status-of-one-message-response)
+* [sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/sign-in) and go to the __API integration__ page
 
 ### Response
 
@@ -993,7 +995,7 @@ The client only returns notifications that are 7 days old or newer. If the notif
 
 ### Response
 
-If the request to the client is successful, the client returns a `Notifications::Client::ReceivedTextCollection` object. In the example shown in the [Method section](#get-received-text-messages-method), the object is named `response`.
+If the request to the client is successful, the client returns a `Notifications::Client::ReceivedTextCollection` object. In the example shown in the [Method section](#get-a-page-of-received-text-messages-method), the object is named `response`.
 
 You must then call either the `.links` method or the `.collection` method on this object.
 
