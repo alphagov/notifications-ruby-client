@@ -119,11 +119,11 @@ You can then call different methods on this object:
 
 |Method|Information|Type|
 |:---|:---|:---|
-|`smsresponse.id`|Notification UUID|String|
-|`smsresponse.reference`|`reference` argument|String|
-|`smsresponse.content`|- `body`: Message body sent to the recipient<br>- `from_number`: SMS sender number of your service|Hash|
-|`smsresponse.template`|Contains the `id`, `version` and `uri` of the template|Hash|
-|`smsresponse.uri`|Notification URL|String|
+|#`smsresponse.id`|Notification UUID|String|
+|#`smsresponse.reference`|`reference` argument|String|
+|#`smsresponse.content`|- `body`: Message body sent to the recipient<br>- `from_number`: SMS sender number of your service|Hash|
+|#`smsresponse.template`|Contains the `id`, `version` and `uri` of the template|Hash|
+|#`smsresponse.uri`|Notification URL|String|
 
 If you are using the [test API key](#test), all your messages come back with a `delivered` status.
 
@@ -286,11 +286,11 @@ You can then call different methods on this object to return the requested infor
 
 |Method|Information|Type|
 |:---|:---|:---|
-|`emailresponse.id`|Notification UUID|String|
-|`emailresponse.reference`|`reference` argument|String|
-|`emailresponse.content`|- `body`: Message body<br>- `subject`: Message subject<br>- `from_email`: From email address of your service found on the **Settings** page|Hash|
-|`emailresponse.template`|Contains the `id`, `version` and `uri` of the template|Hash|
-|`emailresponse.uri`|Notification URL|String|
+|#`emailresponse.id`|Notification UUID|String|
+|#`emailresponse.reference`|`reference` argument|String|
+|#`emailresponse.content`|- `body`: Message body<br>- `subject`: Message subject<br>- `from_email`: From email address of your service found on the **Settings** page|Hash|
+|#`emailresponse.template`|Contains the `id`, `version` and `uri` of the template|Hash|
+|#`emailresponse.uri`|Notification URL|String|
 
 #### Error codes
 
@@ -398,11 +398,11 @@ You can then call different methods on this object to return the requested infor
 
 |Method|Information|Type|
 |:---|:---|:---|
-|`letterresponse.id`|Notification UUID|String|
-|`letterresponse.reference`|`reference` argument|String|
-|`letterresponse.content`|- `body`: Letter body<br>- `subject`: Letter subject or main heading|Hash|
-|`letterresponse.template`|Contains the `id`, `version` and `uri` of the template|Hash|
-|`letterresponse.uri`|Notification URL|String|
+|#`letterresponse.id`|Notification UUID|String|
+|#`letterresponse.reference`|`reference` argument|String|
+|#`letterresponse.content`|- `body`: Letter body<br>- `subject`: Letter subject or main heading|Hash|
+|#`letterresponse.template`|Contains the `id`, `version` and `uri` of the template|Hash|
+|#`letterresponse.uri`|Notification URL|String|
 
 
 #### Error codes
@@ -457,9 +457,9 @@ You can then call different methods on this object to return the requested infor
 
 |Method|Information|Type|
 |:---|:---|:---|
-|`precompiled_letter.id`|Notification UUID|String|
-|`precompiled_letter.reference`|`reference` argument|String|
-|`precompiled_letter.postage`|`postage` argument|String|
+|#`precompiled_letter.id`|Notification UUID|String|
+|#`precompiled_letter.reference`|`reference` argument|String|
+|#`precompiled_letter.postage`|`postage` argument|String|
 
 
 #### Error codes
@@ -486,37 +486,37 @@ You can only get the status of messages that are 7 days old or newer.
 
 |Status|Information|
 |:---|:---|
-|Created|GOV.UK Notify has placed the message in a queue, ready to be sent to the provider. It should only remain in this state for a few seconds.|
-|Sending|GOV.UK Notify has sent the message to the provider. The provider will try to deliver the message to the recipient for up to 72 hours. GOV.UK Notify is waiting for delivery information.|
-|Delivered|The message was successfully delivered.|
-|Failed|This covers all failure statuses:<br>- `permanent-failure` - "The provider could not deliver the message because the email address was wrong. You should remove these email addresses from your database."<br>- `temporary-failure` - "The provider could not deliver the message. This can happen when the recipient’s inbox is full. You can try to send the message again."<br>- `technical-failure` - "Your message was not sent because there was a problem between Notify and the provider.<br>You’ll have to try sending your messages again."|
+|#Created|GOV.UK Notify has placed the message in a queue, ready to be sent to the provider. It should only remain in this state for a few seconds.|
+|#Sending|GOV.UK Notify has sent the message to the provider. The provider will try to deliver the message to the recipient for up to 72 hours. GOV.UK Notify is waiting for delivery information.|
+|#Delivered|The message was successfully delivered.|
+|#Failed|This covers all failure statuses:<br>- `permanent-failure` - "The provider could not deliver the message because the email address was wrong. You should remove these email addresses from your database."<br>- `temporary-failure` - "The provider could not deliver the message. This can happen when the recipient’s inbox is full. You can try to send the message again."<br>- `technical-failure` - "Your message was not sent because there was a problem between Notify and the provider.<br>You’ll have to try sending your messages again."|
 
 ### Status - text message
 
 |Status|Information|
 |:---|:---|
-|Created|GOV.UK Notify has placed the message in a queue, ready to be sent to the provider. It should only remain in this state for a few seconds.|
-|Sending|GOV.UK Notify has sent the message to the provider. The provider will try to deliver the message to the recipient for up to 72 hours. GOV.UK Notify is waiting for delivery information.|
-|Pending|GOV.UK Notify is waiting for more delivery information.<br>GOV.UK Notify received a callback from the provider but the recipient’s device has not yet responded. Another callback from the provider determines the final status of the notification.|
-|Sent / Sent internationally|The message was sent to an international number. The mobile networks in some countries do not provide any more delivery information. The GOV.UK Notify client API returns this status as `sent`. The GOV.UK Notify client app returns this status as `Sent to an international number`.|
-|Delivered|The message was successfully delivered.|
-|Failed|This covers all failure statuses:<br>- `permanent-failure` - "The provider could not deliver the message. This can happen if the phone number was wrong or if the network operator rejects the message. If you’re sure that these phone numbers are correct, you should [contact GOV.UK Notify support](https://www.notifications.service.gov.uk/support). If not, you should remove them from your database. You’ll still be charged for text messages that cannot be delivered."<br>- `temporary-failure` - "The provider could not deliver the message. This can happen when the recipient’s phone is off, has no signal, or their text message inbox is full. You can try to send the message again. You’ll still be charged for text messages to phones that are not accepting messages."<br>- `technical-failure` - "Your message was not sent because there was a problem between Notify and the provider.<br>You’ll have to try sending your messages again. You will not be charged for text messages that are affected by a technical failure."|
+|#Created|GOV.UK Notify has placed the message in a queue, ready to be sent to the provider. It should only remain in this state for a few seconds.|
+|#Sending|GOV.UK Notify has sent the message to the provider. The provider will try to deliver the message to the recipient for up to 72 hours. GOV.UK Notify is waiting for delivery information.|
+|#Pending|GOV.UK Notify is waiting for more delivery information.<br>GOV.UK Notify received a callback from the provider but the recipient’s device has not yet responded. Another callback from the provider determines the final status of the notification.|
+|#Sent / Sent internationally|The message was sent to an international number. The mobile networks in some countries do not provide any more delivery information. The GOV.UK Notify client API returns this status as `sent`. The GOV.UK Notify client app returns this status as `Sent to an international number`.|
+|#Delivered|The message was successfully delivered.|
+|#Failed|This covers all failure statuses:<br>- `permanent-failure` - "The provider could not deliver the message. This can happen if the phone number was wrong or if the network operator rejects the message. If you’re sure that these phone numbers are correct, you should [contact GOV.UK Notify support](https://www.notifications.service.gov.uk/support). If not, you should remove them from your database. You’ll still be charged for text messages that cannot be delivered."<br>- `temporary-failure` - "The provider could not deliver the message. This can happen when the recipient’s phone is off, has no signal, or their text message inbox is full. You can try to send the message again. You’ll still be charged for text messages to phones that are not accepting messages."<br>- `technical-failure` - "Your message was not sent because there was a problem between Notify and the provider.<br>You’ll have to try sending your messages again. You will not be charged for text messages that are affected by a technical failure."|
 
 ### Status - letter
 
 |Status|information|
 |:---|:---|
-|Failed|The only failure status that applies to letters is `technical-failure`. GOV.UK Notify had an unexpected error while sending to our printing provider.|
-|Accepted|GOV.UK Notify has sent the letter to the provider to be printed.|
-|Received|The provider has printed and dispatched the letter.|
+|#Failed|The only failure status that applies to letters is `technical-failure`. GOV.UK Notify had an unexpected error while sending to our printing provider.|
+|#Accepted|GOV.UK Notify has sent the letter to the provider to be printed.|
+|#Received|The provider has printed and dispatched the letter.|
 
 ### Status - precompiled letter
 
 |Status|information|
 |:---|:---|
-|Pending virus check|GOV.UK Notify has not completed a virus scan of the precompiled letter file.|
-|Virus scan failed|GOV.UK Notify found a potential virus in the precompiled letter file.|
-|Validation failed|Content in the precompiled letter file is outside the printable area. See the [GOV.UK Notify letter specification](https://www.notifications.service.gov.uk/using-notify/guidance/letter-specification) for more information.|
+|#Pending virus check|GOV.UK Notify has not completed a virus scan of the precompiled letter file.|
+|#Virus scan failed|GOV.UK Notify found a potential virus in the precompiled letter file.|
+|#Validation failed|Content in the precompiled letter file is outside the printable area. See the [GOV.UK Notify letter specification](https://www.notifications.service.gov.uk/using-notify/guidance/letter-specification) for more information.|
 
 ### Get the status of one message
 
@@ -545,27 +545,27 @@ You can then call different methods on this object to return the requested infor
 
 |Method|Information|Type|
 |:---|:---|:---|
-|`response.id`|Notification UUID|String|
-|`response.reference`| String supplied in `reference` argument|String|
-|`response.email_address`|Recipient email address (email only)|String|
-|`response.phone_number`|Recipient phone number (SMS only)|String|
-|`response.line_1`|Recipient address line 1 of the address (letter only)|String|
-|`response.line_2`|Recipient address line 2 of the address (letter only)|String|
-|`response.line_3`|Recipient address line 3 of the address (letter only)|String|
-|`response.line_4`|Recipient address line 4 of the address (letter only)|String|
-|`response.line_5`|Recipient address line 5 of the address (letter only)|String|
-|`response.line_6`|Recipient address line 6 of the address (letter only)|String|
-|`response.line_7`|Recipient address line 7 of the address (letter only)|String|
-|`response.postage`|Postage class of the notification sent (letter only)|String|
-|`response.type`|Type of notification sent (sms, email or letter)|String|
-|`response.status`|Notification status (sending / delivered / permanent-failure / temporary-failure / technical-failure)|String|
-|`response.template`|Template UUID|String|
-|`response.body`|Notification body|String|
-|`response.subject`|Notification subject (email and letter)|String|
-|`response.sent_at`|Date and time notification sent to provider|String|
-|`response.created_at`|Date and time notification created|String|
-|`response.completed_at`|Date and time notification delivered or failed|String|
-|`response.created_by_name`|Name of sender if notification sent manually|String|
+|#`response.id`|Notification UUID|String|
+|#`response.reference`| String supplied in `reference` argument|String|
+|#`response.email_address`|Recipient email address (email only)|String|
+|#`response.phone_number`|Recipient phone number (SMS only)|String|
+|#`response.line_1`|Recipient address line 1 of the address (letter only)|String|
+|#`response.line_2`|Recipient address line 2 of the address (letter only)|String|
+|#`response.line_3`|Recipient address line 3 of the address (letter only)|String|
+|#`response.line_4`|Recipient address line 4 of the address (letter only)|String|
+|#`response.line_5`|Recipient address line 5 of the address (letter only)|String|
+|#`response.line_6`|Recipient address line 6 of the address (letter only)|String|
+|#`response.line_7`|Recipient address line 7 of the address (letter only)|String|
+|#`response.postage`|Postage class of the notification sent (letter only)|String|
+|#`response.type`|Type of notification sent (sms, email or letter)|String|
+|#`response.status`|Notification status (sending / delivered / permanent-failure / temporary-failure / technical-failure)|String|
+|#`response.template`|Template UUID|String|
+|#`response.body`|Notification body|String|
+|#`response.subject`|Notification subject (email and letter)|String|
+|#`response.sent_at`|Date and time notification sent to provider|String|
+|#`response.created_at`|Date and time notification created|String|
+|#`response.completed_at`|Date and time notification delivered or failed|String|
+|#`response.created_by_name`|Name of sender if notification sent manually|String|
 
 #### Error codes
 
@@ -651,33 +651,33 @@ You must then call either the `.links` method or the `.collection` method on thi
 
 |Method|Information|
 |:---|:---|
-|`response.links`|Returns a hash linking to the requested notifications (limited to 250)|
-|`response.collection`|Returns an array of the required notifications|
+|#`response.links`|Returns a hash linking to the requested notifications (limited to 250)|
+|#`response.collection`|Returns an array of the required notifications|
 
 If you call the `collection` method on this object to return a notification array, you must then call the following methods on the notifications in this array to return information on those notifications:
 
 |Method|Information|Type|
 |:---|:---|:---|
-|`response.id`|Notification UUID|String|
-|`response.reference`| String supplied in `reference` argument|String|
-|`response.email_address`|Recipient email address (email only)|String|
-|`response.phone_number`|Recipient phone number (SMS only)|String|
-|`response.line_1`|Recipient address line 1 of the address (letter only)|String|
-|`response.line_2`|Recipient address line 2 of the address (letter only)|String|
-|`response.line_3`|Recipient address line 3 of the address (letter only)|String|
-|`response.line_4`|Recipient address line 4 of the address (letter only)|String|
-|`response.line_5`|Recipient address line 5 of the address (letter only)|String|
-|`response.line_6`|Recipient address line 6 of the address (letter only)|String|
-|`response.postcode`|Recipient postcode (letter only)|String|
-|`response.type`|Type of notification sent (sms, email or letter)|String|
-|`response.status`|Notification status (sending / delivered / permanent-failure / temporary-failure / technical-failure)|String|
-|`response.template`|Template UUID|String|
-|`response.body`|Notification body|String|
-|`response.subject`|Notification subject (email and letter)|String|
-|`response.sent_at`|Date and time notification sent to provider|String|
-|`response.created_at`|Date and time notification created|String|
-|`response.completed_at`|Date and time notification delivered or failed|String|
-|`response.created_by_name`|Name of sender if notification sent manually|String|
+|#`response.id`|Notification UUID|String|
+|#`response.reference`| String supplied in `reference` argument|String|
+|#`response.email_address`|Recipient email address (email only)|String|
+|#`response.phone_number`|Recipient phone number (SMS only)|String|
+|#`response.line_1`|Recipient address line 1 of the address (letter only)|String|
+|#`response.line_2`|Recipient address line 2 of the address (letter only)|String|
+|#`response.line_3`|Recipient address line 3 of the address (letter only)|String|
+|#`response.line_4`|Recipient address line 4 of the address (letter only)|String|
+|#`response.line_5`|Recipient address line 5 of the address (letter only)|String|
+|#`response.line_6`|Recipient address line 6 of the address (letter only)|String|
+|#`response.postcode`|Recipient postcode (letter only)|String|
+|#`response.type`|Type of notification sent (sms, email or letter)|String|
+|#`response.status`|Notification status (sending / delivered / permanent-failure / temporary-failure / technical-failure)|String|
+|#`response.template`|Template UUID|String|
+|#`response.body`|Notification body|String|
+|#`response.subject`|Notification subject (email and letter)|String|
+|#`response.sent_at`|Date and time notification sent to provider|String|
+|#`response.created_at`|Date and time notification created|String|
+|#`response.completed_at`|Date and time notification delivered or failed|String|
+|#`response.created_by_name`|Name of sender if notification sent manually|String|
 
 If the notification specified in the `older_than` argument is older than 7 days, the client returns an empty `collection` response.
 
@@ -763,16 +763,16 @@ You can then call different methods on this object to return the requested infor
 
 |Method|Information|Type|
 |:---|:---|:---|
-|`response.id`|Template UUID|String|
-|`response.name`|Template name|String|
-|`response.type`|Template type (email/sms/letter)|String|
-|`response.created_at`|Date and time template created|String|
-|`response.updated_at`|Date and time template last updated (may be nil if version 1)|String|
-|`response.created_by`|Email address of person that created the template|String|
-|`response.version`|Template version|String|
-|`response.body`|Template content|String|
-|`response.subject`|Template subject (email and letter)|String|
-|`response.letter_contact_block`|Template letter contact block (letter)|String|
+|#`response.id`|Template UUID|String|
+|#`response.name`|Template name|String|
+|#`response.type`|Template type (email/sms/letter)|String|
+|#`response.created_at`|Date and time template created|String|
+|#`response.updated_at`|Date and time template last updated (may be nil if version 1)|String|
+|#`response.created_by`|Email address of person that created the template|String|
+|#`response.version`|Template version|String|
+|#`response.body`|Template content|String|
+|#`response.subject`|Template subject (email and letter)|String|
+|#`response.letter_contact_block`|Template letter contact block (letter)|String|
 
 #### Error codes
 
@@ -815,16 +815,16 @@ You can then call different methods on this object to return the requested infor
 
 |Method|Information|Type|
 |:---|:---|:---|
-|`response.id`|Template UUID|String|
-|`response.name`|Template name|String|
-|`response.type`|Template type (email/sms/letter)|String|
-|`response.created_at`|Date and time template created|String|
-|`response.updated_at`|Date and time template last updated (may be nil if it is the first version)|String|
-|`response.created_by`|Email address of person that created the template|String|
-|`response.version`|Template version|String|
-|`response.body`|Template content|String|
-|`response.subject`|Template subject (email and letter)|String|
-|`response.letter_contact_block`|Template letter contact block (letter)|String|
+|#`response.id`|Template UUID|String|
+|#`response.name`|Template name|String|
+|#`response.type`|Template type (email/sms/letter)|String|
+|#`response.created_at`|Date and time template created|String|
+|#`response.updated_at`|Date and time template last updated (may be nil if it is the first version)|String|
+|#`response.created_by`|Email address of person that created the template|String|
+|#`response.version`|Template version|String|
+|#`response.body`|Template content|String|
+|#`response.subject`|Template subject (email and letter)|String|
+|#`response.letter_contact_block`|Template letter contact block (letter)|String|
 
 #### Error codes
 
@@ -870,16 +870,16 @@ Once the client has returned a template array, you must then call the following 
 
 |Method|Information|Type|
 |:---|:---|:---|
-|`response.id`|Template UUID|String|
-|`response.name`|Template name|String|
-|`response.type`|Template type (email/sms/letter)|String|
-|`response.created_at`|Date and time template created|String|
-|`response.updated_at`|Date and time template last updated (may be nil if it is the first version)|String|
-|`response.created_by`|Email address of person that created the template|String|
-|`response.version`|Template version|String|
-|`response.body`|Template content|String|
-|`response.subject`|Template subject (email and letter)|String|
-|`response.letter_contact_block`|Template letter contact block (letter)|String|
+|#`response.id`|Template UUID|String|
+|#`response.name`|Template name|String|
+|#`response.type`|Template type (email/sms/letter)|String|
+|#`response.created_at`|Date and time template created|String|
+|#`response.updated_at`|Date and time template last updated (may be nil if it is the first version)|String|
+|#`response.created_by`|Email address of person that created the template|String|
+|#`response.version`|Template version|String|
+|#`response.body`|Template content|String|
+|#`response.subject`|Template subject (email and letter)|String|
+|#`response.letter_contact_block`|Template letter contact block (letter)|String|
 
 If no templates exist for a template type or there no templates for a service, the templates array will be empty.
 
@@ -934,12 +934,12 @@ You can then call different methods on this object to return the requested infor
 
 |Method|Information|Type|
 |:---|:---|:---|
-|`response.id`|Template UUID|String|
-|`response.version`|Template version|String|
-|`response.body`|Template content|String|
-|`response.subject`|Template subject (email and letter)|String|
-|`response.type`|Template type (sms/email/letter)|String|
-|`response.html`|Body as rendered HTML (email only)|String|
+|#`response.id`|Template UUID|String|
+|#`response.version`|Template version|String|
+|#`response.body`|Template content|String|
+|#`response.subject`|Template subject (email and letter)|String|
+|#`response.type`|Template type (sms/email/letter)|String|
+|#`response.html`|Body as rendered HTML (email only)|String|
 
 #### Error codes
 
@@ -1001,19 +1001,19 @@ You must then call either the `.links` method or the `.collection` method on thi
 
 |Method|Information|
 |:---|:---|
-|`response.links`|Returns a hash linking to the requested texts (limited to 250)|
-|`response.collection`|Returns an array of the required texts|
+|#`response.links`|Returns a hash linking to the requested texts (limited to 250)|
+|#`response.collection`|Returns an array of the required texts|
 
 If you call the `collection` method on this object to return an array, you must then call the following methods on the received texts in this array to return information on those texts:
 
 |Method|Information|Type|
 |:---|:---|:---|
-|`response.id`|Received text UUID|String|
-|`response.created_at`|Date and time of received text|String|
-|`response.content`|Received text content|String|
-|`response.notify_number`|Number that received text was sent to|String|
-|`response.service_id`|Received text service ID|String|
-|`response.user_number`|Number that received text was sent from|String|
+|#`response.id`|Received text UUID|String|
+|#`response.created_at`|Date and time of received text|String|
+|#`response.content`|Received text content|String|
+|#`response.notify_number`|Number that received text was sent to|String|
+|#`response.service_id`|Received text service ID|String|
+|#`response.user_number`|Number that received text was sent from|String|
 
 If the notification specified in the `older_than` argument is older than 7 days, the client returns an empty `collection` response.
 
