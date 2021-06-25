@@ -2,6 +2,18 @@
 
 Pull requests are welcome.
 
+## Setting Up
+
+### Docker container
+
+This app uses dependencies that are difficult to install locally. In order to make local development easy, we run app commands through a Docker container. Run the following to set this up:
+
+```shell
+make prepare-docker-runner-image
+```
+
+Because the container caches things like packages, you will need to run this again if you change the package versions.
+
 ## Tests
 
 There are unit and integration tests that can be run to test functionality of the client.
@@ -11,7 +23,7 @@ There are unit and integration tests that can be run to test functionality of th
 To run the unit tests:
 
 ```
-make test
+make test-with-docker
 ```
 
 ## Integration Tests
@@ -35,9 +47,8 @@ export INBOUND_SMS_QUERY_KEY="API_test_key to get received text messages"
 To run the integration tests:
 
 ```
-make integration-test
+make integration-test-with-docker
 ```
-
 
 ## Releasing (for notify developers only)
 
