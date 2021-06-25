@@ -1,12 +1,6 @@
 .DEFAULT_GOAL := help
 SHELL := /bin/bash
 
-DOCKER_BUILDER_IMAGE_NAME = govuk/notify-ruby-client-builder
-
-BUILD_TAG ?= notifications-ruby-client-manual
-
-DOCKER_CONTAINER_PREFIX = ${USER}-${BUILD_TAG}
-
 .PHONY: help
 help:
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -32,25 +26,15 @@ generate-env-file: ## Generate the environment file for running the tests inside
 
 .PHONY: bootstrap-with-docker
 bootstrap-with-docker: generate-env-file ## Prepare the Docker builder image
-	docker build -t ${DOCKER_BUILDER_IMAGE_NAME} .
+	docker build -t notifications-ruby-client .
 
 .PHONY: test-with-docker
 test-with-docker: ## Run tests inside a Docker container
-	docker run -i --rm \
-		--name "${DOCKER_CONTAINER_PREFIX}-test" \
-		-v "`pwd`:/var/project" \
-		--env-file docker.env \
-		${DOCKER_BUILDER_IMAGE_NAME} \
-		make test
+	./scripts/run_with_docker.sh make test
 
 .PHONY: integration-test-with-docker
 integration-test-with-docker: ## Run integration tests inside a Docker container
-	docker run -i --rm \
-		--name "${DOCKER_CONTAINER_PREFIX}-integration-test" \
-		-v "`pwd`:/var/project" \
-		--env-file docker.env \
-		${DOCKER_BUILDER_IMAGE_NAME} \
-		make integration-test
+	./scripts/run_with_docker.sh make integration-test
 
 .PHONY: get-client-version
 get-client-version: ## Retrieve client version number from source code
