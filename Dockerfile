@@ -11,3 +11,6 @@ RUN \
     gnupg
 
 WORKDIR /var/project
+
+COPY . .
+RUN make bootstrap

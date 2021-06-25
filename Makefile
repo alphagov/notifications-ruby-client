@@ -41,7 +41,7 @@ test-with-docker: ## Run tests inside a Docker container
 		-v "`pwd`:/var/project" \
 		--env-file docker.env \
 		${DOCKER_BUILDER_IMAGE_NAME} \
-		make build test
+		make test
 
 .PHONY: integration-test-with-docker
 integration-test-with-docker: ## Run integration tests inside a Docker container
@@ -50,7 +50,7 @@ integration-test-with-docker: ## Run integration tests inside a Docker container
 		-v "`pwd`:/var/project" \
 		--env-file docker.env \
 		${DOCKER_BUILDER_IMAGE_NAME} \
-		make build integration-test
+		make integration-test
 
 .PHONY: get-client-version
 get-client-version: ## Retrieve client version number from source code
