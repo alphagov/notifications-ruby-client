@@ -20,12 +20,8 @@ test: ## Run tests
 integration-test: ## Run integration tests
 	bundle exec bin/test_client.rb
 
-.PHONY: generate-env-file
-generate-env-file: ## Generate the environment file for running the tests inside a Docker container
-	bin/generate_docker_env.sh
-
 .PHONY: bootstrap-with-docker
-bootstrap-with-docker: generate-env-file ## Prepare the Docker builder image
+bootstrap-with-docker: ## Prepare the Docker builder image
 	docker build -t notifications-ruby-client .
 
 .PHONY: test-with-docker
