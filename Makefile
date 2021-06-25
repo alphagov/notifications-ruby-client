@@ -30,13 +30,13 @@ integration-test: ## Run integration tests
 generate-env-file: ## Generate the environment file for running the tests inside a Docker container
 	bin/generate_docker_env.sh
 
-.PHONY: prepare-docker-runner-image
-prepare-docker-runner-image: ## Prepare the Docker builder image
+.PHONY: bootstrap-with-docker
+bootstrap-with-docker: generate-env-file ## Prepare the Docker builder image
 	docker pull `grep "FROM " Dockerfile | cut -d ' ' -f 2` || true
 	docker build -t ${DOCKER_BUILDER_IMAGE_NAME} .
 
 .PHONY: test-with-docker
-test-with-docker: prepare-docker-runner-image generate-env-file ## Run tests inside a Docker container
+test-with-docker: ## Run tests inside a Docker container
 	docker run -i --rm \
 		--name "${DOCKER_CONTAINER_PREFIX}-test" \
 		-v "`pwd`:/var/project" \
@@ -45,7 +45,7 @@ test-with-docker: prepare-docker-runner-image generate-env-file ## Run tests ins
 		make build test
 
 .PHONY: integration-test-with-docker
-integration-test-with-docker: prepare-docker-runner-image generate-env-file ## Run integration tests inside a Docker container
+integration-test-with-docker: ## Run integration tests inside a Docker container
 	docker run -i --rm \
 		--name "${DOCKER_CONTAINER_PREFIX}-integration-test" \
 		-v "`pwd`:/var/project" \
