@@ -32,7 +32,6 @@ generate-env-file: ## Generate the environment file for running the tests inside
 
 .PHONY: bootstrap-with-docker
 bootstrap-with-docker: generate-env-file ## Prepare the Docker builder image
-	docker pull `grep "FROM " Dockerfile | cut -d ' ' -f 2` || true
 	docker build -t ${DOCKER_BUILDER_IMAGE_NAME} .
 
 .PHONY: test-with-docker
