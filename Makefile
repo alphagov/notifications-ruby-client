@@ -7,7 +7,7 @@ help:
 
 .PHONY: bootstrap
 bootstrap: ## Install build dependencies
-	bundle install --path=vendor/bundle --binstubs=vendor/bin
+	bundle install
 
 .PHONY: build
 build: bootstrap ## Build project (dummy task for CI)
