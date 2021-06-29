@@ -14,25 +14,15 @@ make bootstrap-with-docker
 
 Because the container caches things like packages, you will need to run this again if you change the package versions.
 
-### `docker.env`
+### `environment.sh`
 
 In the root directory of the repo, run:
 
 ```
-echo "
-NOTIFY_API_URL="https://example.notify-api.url"
-API_KEY="example_API_test_key"
-FUNCTIONAL_TEST_NUMBER="valid mobile number"
-FUNCTIONAL_TEST_EMAIL="valid email address"
-EMAIL_TEMPLATE_ID="valid email_template_id"
-SMS_TEMPLATE_ID="valid sms_template_id"
-LETTER_TEMPLATE_ID="valid letter_template_id"
-EMAIL_REPLY_TO_ID="valid email reply to id"
-SMS_SENDER_ID="valid sms_sender_id - to test sending to a receiving number, so needs to be a valid number"
-API_SENDING_KEY="API_team_key for sending a SMS to a receiving number"
-INBOUND_SMS_QUERY_KEY="API_test_key to get received text messages"
-"> docker.env
+notify-pass credentials/client-integration-tests > environment.sh
 ```
+
+Unless you're part of the GOV.UK Notify team, you won't be able to run this command or the Integration Tests. However, the file still needs to exist - run `touch environment.sh` instead.
 
 ## Tests
 
