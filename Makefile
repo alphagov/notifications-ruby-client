@@ -42,9 +42,5 @@ publish-to-rubygems: ## Create gemspec file and publish to rubygems
 	gem build notifications-ruby-client.gemspec --output=release.gem
 	gem push release.gem
 
-.PHONY: clean-docker-containers
-clean-docker-containers: ## Clean up any remaining docker containers
-	docker rm -f $(shell docker ps -q -f "name=${DOCKER_CONTAINER_PREFIX}") 2> /dev/null || true
-
 clean:
 	rm -rf vendor
