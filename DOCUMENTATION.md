@@ -247,7 +247,7 @@ The links are unique and unguessable. GOV.UK Notify cannot access or decrypt you
 
 #### Upload your file
 
-You can upload PDF, CSV, .odt, .txt, .rtf and MS Word Document files. Your file must be smaller than 2MB. [Contact the GOV.UK Notify team](https://www.notifications.service.gov.uk/support/ask-question-give-feedback) if you need to send other file types.
+You can upload PDF, CSV, .odt, .txt, .rtf, .xlsx and MS Word Document files. Your file must be smaller than 2MB. [Contact the GOV.UK Notify team](https://www.notifications.service.gov.uk/support/ask-question-give-feedback) if you need to send other file types.
 
 1. Pass the file object as an argument to the `Notifications.prepare_upload` helper method.
 1. Pass the result into the personalisation argument.
@@ -302,7 +302,7 @@ If the request is not successful, the client raises a `Notifications::Client::Re
 |:--- |:---|:---|:---|
 |`400`|`BadRequestError: Can't send to this recipient using a team-only API key`|`BadRequestError`|Use the correct type of [API key](#api-keys)|
 |`400`|`BadRequestError: Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
-|`400`|`BadRequestError: Unsupported file type '(FILE TYPE)'. Supported types are: '(ALLOWED TYPES)'`|`BadRequestError`|Wrong file type. You can only upload .pdf, .csv, .txt, .doc, .docx, .rtf or .odt files|
+|`400`|`BadRequestError: Unsupported file type '(FILE TYPE)'. Supported types are: '(ALLOWED TYPES)'`|`BadRequestError`|Wrong file type. You can only upload .pdf, .csv, .txt, .doc, .docx, .xlsx, .rtf or .odt files|
 |`400`|`BadRequestError: File did not pass the virus scan`|`BadRequestError`|The file contains a virus|
 |`400`|`BadRequestError: Send files by email has not been set up - add contact details for your service at https://www.notifications.service.gov.uk/services/(SERVICE ID)/service-settings/send-files-by-email`|`BadRequestError`|See how to [add contact details to the file download page](#add-contact-details-to-the-file-download-page)|
 |`403`|`AuthError: Error: Your system clock must be accurate to within 30 seconds`|`AuthError`|Check your system clock|
