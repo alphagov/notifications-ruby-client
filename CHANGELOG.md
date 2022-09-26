@@ -1,3 +1,9 @@
+## 5.4.0
+
+* Add support for new security features when sending a file by email:
+  * `confirm_email_before_download` can be set to `true` to require the user to enter their email address before accessing the file.
+  * `retention_period` can be set to `<1-78> weeks` to set how long the file should be made available.
+
 ## 5.3.0
 
 * Added `letter_contact_block` as a new attribute of the `Notifications::Client::Template` class. This affects the responses from the `get_template_by_id`, `get_template_version` and `get_all_templates` methods.
