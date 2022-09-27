@@ -299,7 +299,7 @@ From 29 March 2023, we will turn this feature on by default for every file you s
 
 To use this feature before 29 March 2023 you will need version X.X.X of the Ruby client library, or a more recent version.
 
-To make the recipient confirm their email address before downloading the file, set the `verify_email_before_download` flag to `True`.
+To make the recipient confirm their email address before downloading the file, set the `confirm_email_before_download` flag to `true`.
 
 You will not need to do this after 29 March.
 
@@ -309,7 +309,7 @@ File.open("file.pdf", "rb") do |f|
     personalisation: {
       first_name: "Amala",
       application_date: "2018-01-01",
-      link_to_file: Notifications.prepare_upload(f),
+      link_to_file: Notifications.prepare_upload(f, confirm_email_before_download: true),
     }
 end
 ```
@@ -326,7 +326,7 @@ You should not turn this feature off if you send files that contain:
 * commercially sensitive information
 * information classified as ‘OFFICIAL’ or ‘OFFICIAL-SENSITIVE’ under the [Government Security Classifications](https://www.gov.uk/government/publications/government-security-classifications) policy
 
-To let the recipient download the file without confirming their email address, set the `verify_email_before_download` flag to `False`.
+To let the recipient download the file without confirming their email address, set the `confirm_email_before_download` flag to `false`.
 
 
 
@@ -336,7 +336,7 @@ File.open("file.pdf", "rb") do |f|
     personalisation: {
       first_name: "Amala",
       application_date: "2018-01-01",
-      link_to_file: Notifications.prepare_upload(f),
+      link_to_file: Notifications.prepare_upload(f, confirm_email_before_download: false),
     }
 end
 ```
@@ -357,7 +357,7 @@ File.open("file.pdf", "rb") do |f|
     personalisation: {
       first_name: "Amala",
       application_date: "2018-01-01",
-      link_to_file: Notifications.prepare_upload(f),
+      link_to_file: Notifications.prepare_upload(f, retention_period: '52 weeks'),
     }
 end
 ```
