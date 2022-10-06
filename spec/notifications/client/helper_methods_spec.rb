@@ -10,19 +10,29 @@ describe Notifications do
         result = Notifications.prepare_upload(f)
         f.rewind
 
-        expect(result).to eq(file: encoded_content, is_csv: false)
+        expect(result).to eq(file: encoded_content, is_csv: false, confirm_email_before_download: nil, retention_period: nil)
         expect(Base64.strict_decode64(encoded_content)).to eq(f.read)
       end
     end
 
     it "encodes a StringIO object" do
       input_string = StringIO.new("My document to send")
-      expect(Notifications.prepare_upload(input_string)).to eq(file: "TXkgZG9jdW1lbnQgdG8gc2VuZA==", is_csv: false)
+      expect(Notifications.prepare_upload(input_string)).to eq(file: "TXkgZG9jdW1lbnQgdG8gc2VuZA==", is_csv: false, confirm_email_before_download: nil, retention_period: nil)
     end
 
     it "allows is_csv to be set to true" do
       input_string = StringIO.new("My document to send")
-      expect(Notifications.prepare_upload(input_string, true)).to eq(file: "TXkgZG9jdW1lbnQgdG8gc2VuZA==", is_csv: true)
+      expect(Notifications.prepare_upload(input_string, true)).to eq(file: "TXkgZG9jdW1lbnQgdG8gc2VuZA==", is_csv: true, confirm_email_before_download: nil, retention_period: nil)
+    end
+
+    it "allows confirm_email_before_download to be set to true" do
+      input_string = StringIO.new("My document to send")
+      expect(Notifications.prepare_upload(input_string, confirm_email_before_download: true)).to eq(file: "TXkgZG9jdW1lbnQgdG8gc2VuZA==", is_csv: false, confirm_email_before_download: true, retention_period: nil)
+    end
+
+    it "allows retention_period to be set" do
+      input_string = StringIO.new("My document to send")
+      expect(Notifications.prepare_upload(input_string, retention_period: '1 weeks')).to eq(file: "TXkgZG9jdW1lbnQgdG8gc2VuZA==", is_csv: false, confirm_email_before_download: nil, retention_period: '1 weeks')
     end
 
     it "raises an error when the file size is too large" do
