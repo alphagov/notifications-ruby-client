@@ -385,8 +385,8 @@ If the request is not successful, the client raises a `Notifications::Client::Re
 |`400`|`BadRequestError: Can't send to this recipient using a team-only API key`|`BadRequestError`|Use the correct type of [API key](#api-keys)|
 |`400`|`BadRequestError: Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode`|`BadRequestError`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
 |`400`|`BadRequestError: Unsupported file type '(FILE TYPE)'. Supported types are: '(ALLOWED TYPES)'`|`BadRequestError`|Wrong file type. You can only upload .pdf, .csv, .txt, .doc, .docx, .xlsx, .rtf or .odt files|
-|`400`|`BadRequestError: Unsupported value for retention_period '(PERIOD)'. Supported periods are from 1 to 78 weeks.`|Choose a period between 1 and 78 weeks|
-|`400`|`BadRequestError: Unsupported value for confirm_email_before_download: '(VALUE)'. Use a boolean true or false value.`|Use either true or false|
+|`400`|`BadRequestError: Unsupported value for retention_period '(PERIOD)'. Supported periods are from 1 to 78 weeks.`|`BadRequestError`|Choose a period between 1 and 78 weeks|
+|`400`|`BadRequestError: Unsupported value for confirm_email_before_download: '(VALUE)'. Use a boolean true or false value.`|`BadRequestError`|Use either true or false|
 |`400`|`BadRequestError: File did not pass the virus scan`|`BadRequestError`|The file contains a virus|
 |`400`|`BadRequestError: Send files by email has not been set up - add contact details for your service at https://www.notifications.service.gov.uk/services/(SERVICE ID)/service-settings/send-files-by-email`|`BadRequestError`|See how to [add contact details to the file download page](#add-contact-details-to-the-file-download-page)|
 |`400`|`BadRequestError: Can only send a file by email` | `BadRequestError`|Make sure you are using an email template|
