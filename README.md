@@ -6,5 +6,5 @@ Useful links:
 
 - [Documentation](https://docs.notifications.service.gov.uk/ruby.html)
 - [Ruby gem](https://rubygems.org/gems/notifications-ruby-client)
-- [Changelog](https://github.com/alphagov/notifications-ruby-client/blob/master/CHANGELOG.md)
-- [Contributing to this client](https://github.com/alphagov/notifications-ruby-client/blob/master/CONTRIBUTING.md)
+- [Changelog](https://github.com/alphagov/notifications-ruby-client/blob/main/CHANGELOG.md)
+- [Contributing to this client](https://github.com/alphagov/notifications-ruby-client/blob/main/CONTRIBUTING.md)
