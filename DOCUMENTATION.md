@@ -12,7 +12,7 @@ Run the following in the command line:
 gem install 'notifications-ruby-client'
 ```
 
-Refer to the [client changelog](https://github.com/alphagov/notifications-ruby-client/blob/master/CHANGELOG.md) for the version number and the latest updates.
+Refer to the [client changelog](https://github.com/alphagov/notifications-ruby-client/blob/main/CHANGELOG.md) for the version number and the latest updates.
 
 ### Create a new instance of the client
 
