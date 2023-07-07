@@ -2,9 +2,9 @@
 
 This documentation is for developers interested in using the GOV.UK Notify Ruby client to send emails, text messages or letters.
 
-## Set up the client
+# Set up the client
 
-### Install the client
+## Install the client
 
 Run the following in the command line:
 
@@ -14,7 +14,7 @@ gem install 'notifications-ruby-client'
 
 Refer to the [client changelog](https://github.com/alphagov/notifications-ruby-client/blob/main/CHANGELOG.md) for the version number and the latest updates.
 
-### Create a new instance of the client
+## Create a new instance of the client
 
 Add this code to your application:
 
@@ -25,13 +25,13 @@ client = Notifications::Client.new(api_key)
 
 To get an API key, [sign in to GOV.UK Notify](https://www.notifications.service.gov.uk/sign-in) and go to the __API integration__ page. You can find more information in the [API keys](#api-keys) section of this documentation.
 
-## Send a message
+# Send a message
 
 You can use GOV.UK Notify to send text messages, emails or letters.
 
-### Send a text message
+## Send a text message
 
-#### Method
+### Method
 
 ```ruby
 smsresponse = client.send_sms(
@@ -40,9 +40,9 @@ smsresponse = client.send_sms(
 )
 ```
 
-#### Arguments
+### Arguments
 
-##### phone_number (required)
+#### phone_number (required)
 
 The phone number of the text message recipient. This can be a UK or international number. For example:
 
@@ -50,7 +50,7 @@ The phone number of the text message recipient. This can be a UK or internationa
 phone_number:"+447900900123"
 ```
 
-##### template_id (required)
+#### template_id (required)
 
 To find the template ID:
 
