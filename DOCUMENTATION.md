@@ -191,6 +191,23 @@ personalisation: {
 
 You can leave out this argument if a template does not have any placeholder fields for personalised information.
 
+You can personalise the bullet points in your template. For example:
+
+```ruby
+Introduce bullet points with a lead-in line ending in a colon:
+((mybullets))
+Leave one empty line space before the next paragraph.
+
+```
+Make an API call pass in a list of strings for the value of the  mybullets placeholder instead of just a single string. This will automatically format the list as bullet points:
+
+```ruby
+"personalisation": {
+  "mybullets": ["item 1", "item 2", "item 3"],
+}
+
+```
+
 ##### reference (optional)
 
 A unique identifier you can create if necessary. This reference identifies a single unique notification or a batch of notifications. It must not contain any personal information such as name or postal address. For example:
@@ -449,6 +466,22 @@ personalisation: {
   name: 'John Smith', # field from template
   application_date: '2018-01-01' # field from template
 },
+```
+You can personalise the bullet points in your template. For example:
+
+```ruby
+Introduce bullet points with a lead-in line ending in a colon:
+((mybullets))
+Leave one empty line space before the next paragraph.
+
+```
+Make an API call pass in a list of strings for the value of the  mybullets placeholder instead of just a single string. This will automatically format the list as bullet points:
+
+```ruby
+"personalisation": {
+  "mybullets": ["item 1", "item 2", "item 3"],
+}
+
 ```
 
 ##### reference (optional)
