@@ -450,7 +450,7 @@ personalisation: {
   address_line_3: 'SW14 6BH',  # mandatory address field
   name: 'John Smith', # field from template
   application_date: '2018-01-01' # field from template,
-  # pass in a list and it will appear as bullet points in the letter:
+  # pass in an array and it will appear as bullet points in the letter:
   required_documents: ["passport", "utility bill", "other id"],
 },
 ```
