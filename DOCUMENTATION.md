@@ -186,7 +186,7 @@ If a template has placeholder fields for personalised information such as name o
 personalisation: {
   name: "John Smith",
   year: "2016",
-  # pass in a list and it will appear as bullet points in the message:
+  # pass in an array and it will appear as bullet points in the message:
   required_documents: ["passport", "utility bill", "other id"],
 }
 ```
