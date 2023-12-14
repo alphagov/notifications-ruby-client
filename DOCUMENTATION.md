@@ -185,7 +185,9 @@ If a template has placeholder fields for personalised information such as name o
 ```ruby
 personalisation: {
   name: "John Smith",
-  year: "2016"
+  year: "2016",
+  # pass in an array and it will appear as bullet points in the message:
+  required_documents: ["passport", "utility bill", "other id"],
 }
 ```
 
@@ -447,7 +449,9 @@ personalisation: {
   address_line_2: '123 High Street', # mandatory address field
   address_line_3: 'SW14 6BH',  # mandatory address field
   name: 'John Smith', # field from template
-  application_date: '2018-01-01' # field from template
+  application_date: '2018-01-01' # field from template,
+  # pass in an array and it will appear as bullet points in the letter:
+  required_documents: ["passport", "utility bill", "other id"],
 },
 ```
 
