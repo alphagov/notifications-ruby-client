@@ -1,3 +1,8 @@
+## 6.0.0
+
+* Removes the `is_csv` parameter from `prepare_upload`
+* Adds a `filename` parameter to `prepare_upload` to set the filename of the document upon download. See the documentation for more information.
+
 ## 5.4.0
 
 * Add support for new security features when sending a file by email:
