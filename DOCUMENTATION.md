@@ -272,9 +272,22 @@ File.open("file.pdf", "rb") do |f|
 end
 ```
 
-##### CSV Files
+#### Set the filename
 
-Uploads for CSV files should use the `is_csv` parameter on the `prepare_upload()` helper method.  For example:
+To do this you will need version 6.0.0 of the Ruby client library, or a more recent version.
+
+You should provide a filename when you upload your file.
+
+The filename should tell the recipient what the file contains. A memorable filename can help the recipient to find the file again later.
+
+The filename must end with a file extension. For example, `.csv` for a CSV file. If you include the wrong file extension, recipients may not be able to open your file.
+
+If you do not provide a filename for your file, Notify will:
+
+* generate a random filename
+* try to add the correct file extension
+
+If Notify cannot add the correct file extension, recipients may not be able to open your file.
 
 ```ruby
 File.open("file.csv", "rb") do |f|
@@ -282,7 +295,7 @@ File.open("file.csv", "rb") do |f|
     personalisation: {
       first_name: "Amala",
       application_date: "2018-01-01",
-      link_to_file: Notifications.prepare_upload(f, is_csv=true),
+      link_to_file: Notifications.prepare_upload(f, filename="2023-12-25-daily-report.csv"),
     }
 end
 ```
