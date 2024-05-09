@@ -48,7 +48,7 @@ module Notifications
       # @option form_data [String] :sms_sender_id
       #   id of the sender to be used for an sms notification
       # @option form_data [String] :unsubscribe_link
-      #   link that user can click to unsubscribe from the distribution list. We will pass this link in the email headers.
+      #   link that end user can click to unsubscribe from the distribution list. We will pass this link in the email headers.
       # @see #perform_request!
       def post(kind, form_data)
         request = Net::HTTP::Post.new(

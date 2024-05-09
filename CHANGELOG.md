@@ -1,3 +1,8 @@
+## 6.1.0
+
+* Adds a `unsubscribe_link` parameter to `send_email` so services can allow users to easily unsubscribe from distribution lists.
+* Adds a `unsubscribe_link` attribute to `Notification` class, so responses for get_notification include the unsubscribe link.
+
 ## 6.0.0
 
 * Removes the `is_csv` parameter from `prepare_upload`
