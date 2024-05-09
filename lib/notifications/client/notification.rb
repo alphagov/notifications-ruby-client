@@ -25,6 +25,7 @@ module Notifications
         created_at
         completed_at
         created_by_name
+        unsubscribe_link
       ).freeze
 
       attr_reader(*FIELDS)
