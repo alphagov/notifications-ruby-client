@@ -121,7 +121,7 @@ def test_send_email_endpoint(client)
     personalisation: { "name" => "some name" },
     reference: "some reference",
     email_reply_to_id: ENV['EMAIL_REPLY_TO_ID'],
-    unsubscribe_link: "https://www.clovercouncil.gov.uk/unsubscribe?email_address=faye@example.com"
+    one_click_unsubscribe_url: "https://www.clovercouncil.gov.uk/unsubscribe?email_address=faye@example.com"
   )
   test_notification_response_data_type(email_resp, 'email')
   email_resp
@@ -134,7 +134,7 @@ def test_send_email_endpoint_with_document(client)
       personalisation: { name: Notifications.prepare_upload(f) },
       reference: "some reference",
       email_reply_to_id: ENV['EMAIL_REPLY_TO_ID'],
-      unsubscribe_link: "https://www.clovercouncil.gov.uk/unsubscribe?email_address=faye@example.com")
+      one_click_unsubscribe_url: "https://www.clovercouncil.gov.uk/unsubscribe?email_address=faye@example.com")
   end
 
   test_notification_response_data_type(email_resp, 'email')
@@ -324,7 +324,7 @@ def expected_fields_in_email_content
   %w(from_email
      body
      subject
-     unsubscribe_link)
+     one_click_unsubscribe_url)
 end
 
 def expected_fields_in_sms_content
@@ -348,7 +348,7 @@ def expected_fields_in_email_notification
      body
      subject
      created_at
-     unsubscribe_link)
+     one_click_unsubscribe_url)
 end
 
 def expected_fields_in_email_notification_that_are_nil
@@ -388,7 +388,7 @@ def expected_fields_in_sms_notification_that_are_nil
      subject
      created_by_name
      postage
-     unsubscribe_link)
+     one_click_unsubscribe_url)
 end
 
 def expected_fields_in_letter_notification
@@ -417,7 +417,7 @@ def expected_fields_in_letter_notification_that_are_nil
     line_5
     line_6
     created_by_name
-    unsubscribe_link
+    one_click_unsubscribe_url
   )
 end
 
@@ -449,7 +449,7 @@ def expected_fields_in_precompiled_letter_notification_that_are_nil
     phone_number
     postcode
     sent_at
-    unsubscribe_link
+    one_click_unsubscribe_url
   )
 end
 
