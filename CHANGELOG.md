@@ -1,3 +1,8 @@
+## 6.1.0
+
+* Adds a `one_click_unsubscribe_url` parameter to `send_email` so services can allow users to easily unsubscribe from distribution lists.
+* Adds a `one_click_unsubscribe_url` attribute to `Notification` class, so responses for get_notification include the unsubscribe link.
+
 ## 6.0.0
 
 * Removes the `is_csv` parameter from `prepare_upload`
