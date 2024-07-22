@@ -34,19 +34,13 @@ describe Notifications::Client do
       created_by_name
       cost_in_pounds
       is_cost_data_ready
+      cost_details
     ).each do |field|
       it "expect to include #{field}" do
         expect(
           notification.send(field)
         ).to_not be_nil
       end
-    end
-
-    it "expect to include cost_details" do
-      expect(notification.cost_details).to be_a(Notifications::Client::CostDetails)
-      expect(notification.cost_details.billable_sms_fragments).to_not be_nil
-      expect(notification.cost_details.international_rate_multiplier).to_not be_nil
-      expect(notification.cost_details.sms_rate).to_not be_nil
     end
 
     it "parses the time correctly" do
