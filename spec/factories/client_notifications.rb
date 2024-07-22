@@ -33,6 +33,11 @@ FactoryBot.define do
         "sent_at" => "2016-11-29T11:12:40.12354Z",
         "completed_at" => "2016-11-29T11:12:52.12354Z",
         "created_by_name" => "A. Sender",
+        "cost_details" => {
+            "billable_sms_fragments" => 1,
+            "international_rate_multiplier" => 1.0,
+            "sms_rate" => 0.05
+        }
       }
     end
   end

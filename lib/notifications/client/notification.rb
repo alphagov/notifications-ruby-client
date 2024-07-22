@@ -26,6 +26,9 @@ module Notifications
         completed_at
         created_by_name
         one_click_unsubscribe_url
+        cost_in_pounds
+        is_cost_data_ready
+        cost_details
       ).freeze
 
       attr_reader(*FIELDS)
