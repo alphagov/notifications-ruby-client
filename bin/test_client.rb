@@ -217,18 +217,26 @@ def test_get_notification_by_id_endpoint(client, id, message_type)
     field_should_not_be_nil(expected_fields_in_email_notification, get_notification_response, 'Notifications::Client::Notification for type email')
     field_should_be_nil(expected_fields_in_email_notification_that_are_nil, get_notification_response, 'Notifications::Client::Notification for type email')
     hash_key_should_not_be_nil(expected_fields_in_template, get_notification_response.send('template'), 'Notifications::Client::Notification.template for type email')
+    hash_should_be_empty(get_notification_response.send('cost_details'), 'Notifications::Client::Notification.cost_details for type sms')
+
   elsif message_type == 'sms'
     field_should_not_be_nil(expected_fields_in_sms_notification, get_notification_response, 'Notifications::Client::Notification for type sms')
     field_should_be_nil(expected_fields_in_sms_notification_that_are_nil, get_notification_response, 'Notifications::Client::Notification for type sms')
     hash_key_should_not_be_nil(expected_fields_in_template, get_notification_response.send('template'), 'Notifications::Client::Notification.template for type sms')
+    hash_key_should_not_be_nil(expected_cost_details_fields, get_notification_response.send('cost_details'), 'Notifications::Client::Notification.cost_details for type sms')
+
   elsif message_type == 'letter'
     field_should_not_be_nil(expected_fields_in_letter_notification, get_notification_response, 'Notifications::Client::Notification for type letter')
     field_should_be_nil(expected_fields_in_letter_notification_that_are_nil, get_notification_response, 'Notifications::Client::Notification for type letter')
     hash_key_should_not_be_nil(expected_fields_in_template, get_notification_response.send('template'), 'Notifications::Client::Notification.template for type letter')
+    hash_key_should_not_be_nil(expected_cost_details_fields, get_notification_response.send('cost_details'), 'Notifications::Client::Notification.cost_details for type sms')
+
   elsif message_type == 'precompiled_letter'
     field_should_not_be_nil(expected_fields_in_precompiled_letter_notification, get_notification_response, 'Notifications::Client::Notification for type precompiled letter')
     field_should_be_nil(expected_fields_in_precompiled_letter_notification_that_are_nil, get_notification_response, 'Notifications::Client::Notification for type precompiled letter')
     hash_key_should_not_be_nil(expected_fields_in_template, get_notification_response.send('template'), 'Notifications::Client::Notification.template for type precompiled letter')
+    hash_key_should_not_be_nil(expected_cost_details_fields, get_notification_response.send('cost_details'), 'Notifications::Client::Notification.cost_details for type sms')
+
   end
 end
 
@@ -260,6 +268,13 @@ def hash_key_should_not_be_nil(fields, obj, method_name)
       p 'contract test failed because ' + field + ' should not be nil for ' + method_name + ' response'
       exit 1
     end
+  end
+end
+
+def hash_should_be_empty(hash, method_name)
+  if !hash.empty?
+      p "contract test failed because #{hash} should be empty for #{method_name} response"
+      exit 1
   end
 end
 
@@ -348,7 +363,11 @@ def expected_fields_in_email_notification
      body
      subject
      created_at
-     one_click_unsubscribe_url)
+     one_click_unsubscribe_url
+     is_cost_data_ready
+     cost_in_pounds
+     cost_details
+     )
 end
 
 def expected_fields_in_email_notification_that_are_nil
@@ -372,7 +391,10 @@ def expected_fields_in_sms_notification
      status
      template
      body
-     created_at)
+     created_at
+     is_cost_data_ready
+     cost_in_pounds
+     cost_details)
 end
 
 def expected_fields_in_sms_notification_that_are_nil
@@ -404,6 +426,9 @@ def expected_fields_in_letter_notification
     postcode
     created_at
     postage
+    is_cost_data_ready
+    cost_in_pounds
+    cost_details
   )
 end
 
@@ -457,6 +482,14 @@ def expected_fields_in_template
   %w(id
      version
      uri)
+end
+
+def expected_cost_details_fields
+  %w(billable_sms_fragments
+     international_rate_multiplier
+     sms_rate
+     billable_sheets_of_paper
+     postage)
 end
 
 def expected_fields_in_received_text_response
