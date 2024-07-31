@@ -1,9 +1,6 @@
 describe Notifications::Client do
   let(:client) { build :notifications_client }
-
-  let(:uri) {
-    URI.parse(Notifications::Client::PRODUCTION_BASE_URL)
-  }
+  let(:uri) { URI.parse(Notifications::Client::PRODUCTION_BASE_URL) }
 
   describe "get a notification by id" do
     before do
@@ -13,17 +10,9 @@ describe Notifications::Client do
       ).to_return(body: mocked_response.to_json)
     end
 
-    let(:id) {
-      "1"
-    }
-
-    let!(:notification) {
-      client.get_notification(id)
-    }
-
-    let(:mocked_response) {
-      attributes_for(:client_notification)[:body]
-    }
+    let(:id) { "1" }
+    let!(:notification) { client.get_notification(id) }
+    let(:mocked_response) { attributes_for(:client_notification)[:body] }
 
     it "expects notification" do
       expect(notification).to be_a(
@@ -43,6 +32,9 @@ describe Notifications::Client do
       sent_at
       completed_at
       created_by_name
+      cost_in_pounds
+      is_cost_data_ready
+      cost_details
     ).each do |field|
       it "expect to include #{field}" do
         expect(
