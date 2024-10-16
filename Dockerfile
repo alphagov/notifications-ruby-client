@@ -1,4 +1,5 @@
 FROM ruby:2.6-slim
+COPY ./ /notifications-ruby-client
 
 RUN \
 	echo "Install Debian packages" \
