@@ -4,11 +4,13 @@ RUN \
 	echo "Install Debian packages" \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends \
+		awscli \
 		gcc \
 		make \
 		curl \
 		git \
-    gnupg
+		gnupg \
+		jq
 
 WORKDIR /var/project
 
