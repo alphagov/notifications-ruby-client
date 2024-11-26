@@ -2,14 +2,14 @@
 require './lib/notifications/client'
 
 def main
-  client = Notifications::Client.new(ENV['API_KEY'], ENV['NOTIFY_API_URL'])
-  test_get_email_template_by_id(client, ENV['EMAIL_TEMPLATE_ID'])
-  test_get_sms_template_by_id(client, ENV['SMS_TEMPLATE_ID'])
-  test_get_letter_template_by_id(client, ENV['LETTER_TEMPLATE_ID'])
-  test_get_template_version(client, ENV['SMS_TEMPLATE_ID'], 1)
+  client = Notifications::Client.new(ENV['FUNCTIONAL_TESTS_SERVICE_API_TEST_KEY'], ENV['FUNCTIONAL_TESTS_API_HOST'])
+  test_get_email_template_by_id(client, ENV['FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'])
+  test_get_sms_template_by_id(client, ENV['FUNCTIONAL_TEST_SMS_TEMPLATE_ID'])
+  test_get_letter_template_by_id(client, ENV['FUNCTIONAL_TEST_LETTER_TEMPLATE_ID'])
+  test_get_template_version(client, ENV['FUNCTIONAL_TEST_SMS_TEMPLATE_ID'], 1)
   test_get_all_templates(client)
   test_get_all_templates_filter_by_type(client)
-  test_generate_template_preview(client, ENV['EMAIL_TEMPLATE_ID'])
+  test_generate_template_preview(client, ENV['FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'])
   email_notification = test_send_email_endpoint(client)
   email_notification_with_document = test_send_email_endpoint_with_document(client)
   sms_notification = test_send_sms_endpoint(client)
@@ -117,10 +117,10 @@ end
 def test_send_email_endpoint(client)
   email_resp = client.send_email(
     email_address: ENV['FUNCTIONAL_TEST_EMAIL'],
-    template_id: ENV['EMAIL_TEMPLATE_ID'],
+    template_id: ENV['FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'],
     personalisation: { "name" => "some name" },
     reference: "some reference",
-    email_reply_to_id: ENV['EMAIL_REPLY_TO_ID'],
+    email_reply_to_id: ENV['FUNCTIONAL_TESTS_SERVICE_EMAIL_REPLY_TO_ID'],
     one_click_unsubscribe_url: "https://www.clovercouncil.gov.uk/unsubscribe?email_address=faye@example.com"
   )
   test_notification_response_data_type(email_resp, 'email')
@@ -130,10 +130,10 @@ end
 def test_send_email_endpoint_with_document(client)
   email_resp = File.open('spec/test_files/test_pdf.pdf', 'rb') do |f|
     client.send_email(email_address: ENV['FUNCTIONAL_TEST_EMAIL'],
-      template_id: ENV['EMAIL_TEMPLATE_ID'],
+      template_id: ENV['FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'],
       personalisation: { name: Notifications.prepare_upload(f) },
       reference: "some reference",
-      email_reply_to_id: ENV['EMAIL_REPLY_TO_ID'],
+      email_reply_to_id: ENV['FUNCTIONAL_TESTS_SERVICE_EMAIL_REPLY_TO_ID'],
       one_click_unsubscribe_url: "https://www.clovercouncil.gov.uk/unsubscribe?email_address=faye@example.com")
   end
 
@@ -142,17 +142,17 @@ def test_send_email_endpoint_with_document(client)
 end
 
 def test_send_sms_endpoint(client)
-  sms_resp = client.send_sms(phone_number: ENV['FUNCTIONAL_TEST_NUMBER'], template_id: ENV['SMS_TEMPLATE_ID'],
+  sms_resp = client.send_sms(phone_number: ENV['TEST_NUMBER'], template_id: ENV['FUNCTIONAL_TEST_SMS_TEMPLATE_ID'],
                              personalisation: { "name" => "some name" },
                              reference: "some reference",
-                             sms_sender_id: ENV['SMS_SENDER_ID'])
+                             sms_sender_id: ENV['FUNCTIONAL_TESTS_SERVICE_SMS_SENDER_ID'])
   test_notification_response_data_type(sms_resp, 'sms')
   sms_resp
 end
 
 def test_send_letter_endpoint(client)
   letter_resp = client.send_letter(
-    template_id: ENV['LETTER_TEMPLATE_ID'],
+    template_id: ENV['FUNCTIONAL_TEST_LETTER_TEMPLATE_ID'],
     personalisation: {
       address_line_1: "Her Majesty The Queen",
       address_line_2: "Buckingham Palace",
@@ -511,7 +511,7 @@ def test_get_all_notifications(client)
 end
 
 def test_get_received_texts
-  client = Notifications::Client.new(ENV['INBOUND_SMS_QUERY_KEY'], ENV['NOTIFY_API_URL'])
+  client = Notifications::Client.new(ENV['FUNCTIONAL_TESTS_SERVICE_API_TEST_KEY'], ENV['FUNCTIONAL_TESTS_API_HOST'])
   response = client.get_received_texts
   unless response.is_a?(Notifications::Client::ReceivedTextCollection)
     p 'failed test_get_received_texts response is not a Notifications::Client::ReceivedTextCollection'
