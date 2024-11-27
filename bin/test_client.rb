@@ -24,7 +24,6 @@ def main
   test_get_received_texts
   test_get_pdf_for_letter(client, letter_notification.id)
   p 'ruby client integration tests pass'
-  exit 0
 end
 
 def test_get_email_template_by_id(client, id)
@@ -50,12 +49,10 @@ end
 def test_get_all_templates(client)
   response = client.get_all_templates
   unless response.is_a?(Notifications::Client::TemplateCollection)
-    p 'failed test_get_all_templates response is not a Notifications::Client::TemplateCollection'
-    exit 1
+    raise 'failed test_get_all_templates response is not a Notifications::Client::TemplateCollection'
   end
   unless response.collection.length >= 3
-    p 'failed test_get_all_templates, expected at least 3 templates returned.'
-    exit 1
+    raise 'failed test_get_all_templates, expected at least 3 templates returned.'
   end
   test_template_response(response.collection[0], 'letter', 'test_get_all_templates')
   test_template_response(response.collection[1], 'email', 'test_get_all_templates')
@@ -65,12 +62,10 @@ end
 def test_get_all_templates_filter_by_type(client)
   response = client.get_all_templates('type' => 'sms')
   unless response.is_a?(Notifications::Client::TemplateCollection)
-    p 'failed test_get_all_templates response is not a Notifications::Client::TemplateCollection'
-    exit 1
+    raise 'failed test_get_all_templates response is not a Notifications::Client::TemplateCollection'
   end
   unless response.collection.length >= 1
-    p 'failed test_get_all_templates, expected at least 2 templates returned.'
-    exit 1
+    raise 'failed test_get_all_templates, expected at least 2 templates returned.'
   end
   test_template_response(response.collection[0], 'sms', 'test_get_all_templates')
 end
@@ -82,12 +77,10 @@ end
 
 def test_template_response(response, template_type, test_method)
   unless response.is_a?(Notifications::Client::Template)
-    p 'failed test_get_template_by_id response is not a Notifications::Client::Template'
-    exit 1
+    raise 'failed test_get_template_by_id response is not a Notifications::Client::Template'
   end
   unless response.id.is_a?(String)
-    p 'failed template id is not a String'
-    exit 1
+    raise 'failed template id is not a String'
   end
 
   field_should_not_be_nil(
@@ -104,12 +97,10 @@ end
 
 def test_template_preview(response)
   unless response.is_a?(Notifications::Client::TemplatePreview)
-    p 'failed test_generate_template_preview response is not a Notifications::Client::TemplatePreview'
-    exit 1
+    raise 'failed test_generate_template_preview response is not a Notifications::Client::TemplatePreview'
   end
   unless response.id.is_a?(String)
-    p 'failed template id is not a String'
-    exit 1
+    raise 'failed template id is not a String'
   end
   field_should_not_be_nil(expected_fields_in_template_preview, response, 'generate_template_preview')
 end
@@ -176,19 +167,16 @@ end
 
 def test_notification_response_data_type(notification, message_type)
   unless notification.is_a?(Notifications::Client::ResponseNotification) || (notification.is_a?(Notifications::Client::ResponsePrecompiledLetter) && message_type == "precompiled_letter")
-    p 'failed ' + message_type + ' response is not a Notifications::Client::ResponseNotification'
-    exit 1
+    raise 'failed ' + message_type + ' response is not a Notifications::Client::ResponseNotification'
   end
   unless notification.id.is_a?(String)
-    p 'failed ' + message_type + 'id is not a String'
-    exit 1
+    raise 'failed ' + message_type + 'id is not a String'
   end
 
   if message_type == 'precompiled_letter'
     field_should_not_be_nil(expected_fields_in_precompiled_letter_response, notification, 'send_precompiled_letter')
     if notification.postage != "first"
-      p "Postage should be set to 'first' for precompiled letter sending test. Right now it is set to #{notification.postage}"
-      exit 1
+      raise "Postage should be set to 'first' for precompiled letter sending test. Right now it is set to #{notification.postage}"
     end
     return
   end
@@ -209,8 +197,7 @@ def test_get_notification_by_id_endpoint(client, id, message_type)
   get_notification_response = client.get_notification(id)
 
   unless get_notification_response.is_a?(Notifications::Client::Notification)
-    p 'get notification is not a Notifications::Client::Notification for id ' + id
-    exit 1
+    raise 'get notification is not a Notifications::Client::Notification for id ' + id
   end
 
   if message_type == 'email'
@@ -257,32 +244,28 @@ def test_get_pdf_for_letter(client, id)
   end
 
   unless !response.nil? && response.start_with?("%PDF-")
-    p "get_pdf_for_letter response for " + id + " is not a PDF: " + response.to_s
-    exit 1
+    raise "get_pdf_for_letter response for " + id + " is not a PDF: " + response.to_s
   end
 end
 
 def hash_key_should_not_be_nil(fields, obj, method_name)
   fields.each do |field|
     if obj.has_value?(:"#{field}")
-      p 'contract test failed because ' + field + ' should not be nil for ' + method_name + ' response'
-      exit 1
+      raise 'contract test failed because ' + field + ' should not be nil for ' + method_name + ' response'
     end
   end
 end
 
 def hash_should_be_empty(hash, method_name)
   if !hash.empty?
-      p "contract test failed because #{hash} should be empty for #{method_name} response"
-      exit 1
+      raise "contract test failed because #{hash} should be empty for #{method_name} response"
   end
 end
 
 def field_should_not_be_nil(fields, obj, method_name)
   fields.each do |field|
     if obj.send(:"#{field}") == nil
-      p 'contract test failed because ' + field + ' should not be nil for ' + method_name + ' response'
-      exit 1
+      raise 'contract test failed because ' + field + ' should not be nil for ' + method_name + ' response'
     end
   end
 end
@@ -290,8 +273,7 @@ end
 def field_should_be_nil(fields, obj, method_name)
   fields.each do |field|
     if obj.send(:"#{field}") != nil
-      p 'contract test failed because ' + field + ' should be nil for ' + method_name + ' response'
-      exit 1
+      raise 'contract test failed because ' + field + ' should be nil for ' + method_name + ' response'
     end
   end
 end
@@ -504,8 +486,7 @@ end
 def test_get_all_notifications(client)
   notifications = client.get_notifications
   unless notifications.is_a?(Notifications::Client::NotificationsCollection)
-    p 'get all notifications is not Notifications::Client::NotificationsCollection'
-    exit 1
+    raise 'get all notifications is not Notifications::Client::NotificationsCollection'
   end
   field_should_not_be_nil(expected_fields_for_get_all_notifications, notifications, 'get_notifications')
 end
@@ -514,12 +495,10 @@ def test_get_received_texts
   client = Notifications::Client.new(ENV['FUNCTIONAL_TESTS_SERVICE_API_TEST_KEY'], ENV['FUNCTIONAL_TESTS_API_HOST'])
   response = client.get_received_texts
   unless response.is_a?(Notifications::Client::ReceivedTextCollection)
-    p 'failed test_get_received_texts response is not a Notifications::Client::ReceivedTextCollection'
-    exit 1
+    raise 'failed test_get_received_texts response is not a Notifications::Client::ReceivedTextCollection'
   end
   unless response.collection.length >= 0
-    p 'failed test_get_received_texts, expected at least 1 received text returned.'
-    exit 1
+    raise 'failed test_get_received_texts, expected at least 1 received text returned.'
   end
   test_received_text_response(response.collection[0], 'test_received_text_response')
   test_received_text_response(response.collection[1], 'test_received_text_response')
@@ -528,12 +507,10 @@ end
 
 def test_received_text_response(response, test_method)
   unless response.is_a?(Notifications::Client::ReceivedText)
-    p 'failed test_get_received_texts response is not a Notifications::Client::ReceivedText'
-    exit 1
+    raise 'failed test_get_received_texts response is not a Notifications::Client::ReceivedText'
   end
   unless response.id.is_a?(String)
-    p 'failed received text id is not a String'
-    exit 1
+    raise 'failed received text id is not a String'
   end
   field_should_not_be_nil(expected_fields_in_received_text_response, response, test_method)
 end
