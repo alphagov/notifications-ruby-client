@@ -54,9 +54,9 @@ def test_get_all_templates(client)
   unless response.collection.length >= 3
     raise 'failed test_get_all_templates, expected at least 3 templates returned.'
   end
-  test_template_response(response.collection[0], 'letter', 'test_get_all_templates')
-  test_template_response(response.collection[1], 'email', 'test_get_all_templates')
-  test_template_response(response.collection[2], 'sms', 'test_get_all_templates')
+  test_template_response(response.collection.find { |template| template.id == ENV['FUNCTIONAL_TEST_LETTER_TEMPLATE_ID'] }, 'letter', 'test_get_all_templates')
+  test_template_response(response.collection.find { |template| template.id == ENV['FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'] }, 'email', 'test_get_all_templates')
+  test_template_response(response.collection.find { |template| template.id == ENV['FUNCTIONAL_TEST_SMS_TEMPLATE_ID'] }, 'sms', 'test_get_all_templates')
 end
 
 def test_get_all_templates_filter_by_type(client)
@@ -71,7 +71,7 @@ def test_get_all_templates_filter_by_type(client)
 end
 
 def test_generate_template_preview(client, id)
-  response = client.generate_template_preview(id, personalisation: { "name" => "some name" })
+  response = client.generate_template_preview(id, personalisation: { "build_id" => "some build id" })
   test_template_preview(response)
 end
 
@@ -109,7 +109,7 @@ def test_send_email_endpoint(client)
   email_resp = client.send_email(
     email_address: ENV['FUNCTIONAL_TEST_EMAIL'],
     template_id: ENV['FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'],
-    personalisation: { "name" => "some name" },
+    personalisation: { "build_id" => "some build id" },
     reference: "some reference",
     email_reply_to_id: ENV['FUNCTIONAL_TESTS_SERVICE_EMAIL_REPLY_TO_ID'],
     one_click_unsubscribe_url: "https://www.clovercouncil.gov.uk/unsubscribe?email_address=faye@example.com"
@@ -122,7 +122,7 @@ def test_send_email_endpoint_with_document(client)
   email_resp = File.open('spec/test_files/test_pdf.pdf', 'rb') do |f|
     client.send_email(email_address: ENV['FUNCTIONAL_TEST_EMAIL'],
       template_id: ENV['FUNCTIONAL_TEST_EMAIL_TEMPLATE_ID'],
-      personalisation: { name: Notifications.prepare_upload(f) },
+      personalisation: { build_id: Notifications.prepare_upload(f) },
       reference: "some reference",
       email_reply_to_id: ENV['FUNCTIONAL_TESTS_SERVICE_EMAIL_REPLY_TO_ID'],
       one_click_unsubscribe_url: "https://www.clovercouncil.gov.uk/unsubscribe?email_address=faye@example.com")
@@ -134,7 +134,7 @@ end
 
 def test_send_sms_endpoint(client)
   sms_resp = client.send_sms(phone_number: ENV['TEST_NUMBER'], template_id: ENV['FUNCTIONAL_TEST_SMS_TEMPLATE_ID'],
-                             personalisation: { "name" => "some name" },
+                             personalisation: { "build_id" => "some build_id" },
                              reference: "some reference",
                              sms_sender_id: ENV['FUNCTIONAL_TESTS_SERVICE_SMS_SENDER_ID'])
   test_notification_response_data_type(sms_resp, 'sms')
@@ -147,7 +147,8 @@ def test_send_letter_endpoint(client)
     personalisation: {
       address_line_1: "Her Majesty The Queen",
       address_line_2: "Buckingham Palace",
-      postcode: "SW1 1AA"
+      postcode: "SW1 1AA",
+      build_id: "bome build id",
     },
     reference: "some reference"
   )
@@ -194,7 +195,14 @@ def test_notification_response_data_type(notification, message_type)
 end
 
 def test_get_notification_by_id_endpoint(client, id, message_type)
-  get_notification_response = client.get_notification(id)
+  get_notification_response = nil
+  24.times do
+    get_notification_response = client.get_notification(id)
+    break if get_notification_response&.is_cost_data_ready
+    sleep 5
+  end
+
+  raise "cost data didn't become ready in time" unless get_notification_response&.is_cost_data_ready
 
   unless get_notification_response.is_a?(Notifications::Client::Notification)
     raise 'get notification is not a Notifications::Client::Notification for id ' + id
@@ -230,22 +238,17 @@ end
 def test_get_pdf_for_letter(client, id)
   response = nil
 
-  # try 15 times with 3 secs sleep between each attempt, to get the PDF
-  15.times do
+  24.times do
     begin
       response = client.get_pdf_for_letter(id)
-    rescue Notifications::Client::BadRequestError
-      sleep(3)
-    end
-
-    if !response.nil?
       break
+    rescue Notifications::Client::BadRequestError
+      sleep(5)
     end
   end
 
-  unless !response.nil? && response.start_with?("%PDF-")
-    raise "get_pdf_for_letter response for " + id + " is not a PDF: " + response.to_s
-  end
+  raise "pdf didn't become ready in time" if response.nil?
+  raise "get_pdf_for_letter response for #{id} is not a PDF: #{response}" unless response.start_with?('%PDF-')
 end
 
 def hash_key_should_not_be_nil(fields, obj, method_name)
