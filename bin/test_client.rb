@@ -54,9 +54,9 @@ def test_get_all_templates(client)
   unless response.collection.length >= 3
     raise 'failed test_get_all_templates, expected at least 3 templates returned.'
   end
-  test_template_response(response.collection[0], 'letter', 'test_get_all_templates')
-  test_template_response(response.collection[1], 'email', 'test_get_all_templates')
-  test_template_response(response.collection[2], 'sms', 'test_get_all_templates')
+  test_template_response(response.collection.find { |template| template.id == ENV['LETTER_TEMPLATE_ID'] }, 'letter', 'test_get_all_templates')
+  test_template_response(response.collection.find { |template| template.id == ENV['EMAIL_TEMPLATE_ID'] }, 'email', 'test_get_all_templates')
+  test_template_response(response.collection.find { |template| template.id == ENV['SMS_TEMPLATE_ID'] }, 'sms', 'test_get_all_templates')
 end
 
 def test_get_all_templates_filter_by_type(client)
@@ -194,7 +194,14 @@ def test_notification_response_data_type(notification, message_type)
 end
 
 def test_get_notification_by_id_endpoint(client, id, message_type)
-  get_notification_response = client.get_notification(id)
+  get_notification_response = nil
+  24.times do
+    get_notification_response = client.get_notification(id)
+    break if get_notification_response&.is_cost_data_ready
+    sleep 5
+  end
+
+  raise "cost data didn't become ready in time" unless get_notification_response&.is_cost_data_ready
 
   unless get_notification_response.is_a?(Notifications::Client::Notification)
     raise 'get notification is not a Notifications::Client::Notification for id ' + id
@@ -230,22 +237,17 @@ end
 def test_get_pdf_for_letter(client, id)
   response = nil
 
-  # try 15 times with 3 secs sleep between each attempt, to get the PDF
-  15.times do
+  24.times do
     begin
       response = client.get_pdf_for_letter(id)
-    rescue Notifications::Client::BadRequestError
-      sleep(3)
-    end
-
-    if !response.nil?
       break
+    rescue Notifications::Client::BadRequestError
+      sleep(5)
     end
   end
 
-  unless !response.nil? && response.start_with?("%PDF-")
-    raise "get_pdf_for_letter response for " + id + " is not a PDF: " + response.to_s
-  end
+  raise "pdf didn't become ready in time" if response.nil?
+  raise "get_pdf_for_letter response for #{id} is not a PDF: #{response}" unless response.start_with?('%PDF-')
 end
 
 def hash_key_should_not_be_nil(fields, obj, method_name)
