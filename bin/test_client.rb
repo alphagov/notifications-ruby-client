@@ -65,7 +65,7 @@ def test_get_all_templates_filter_by_type(client)
     raise 'failed test_get_all_templates response is not a Notifications::Client::TemplateCollection'
   end
   unless response.collection.length >= 1
-    raise 'failed test_get_all_templates, expected at least 2 templates returned.'
+    raise 'failed test_get_all_templates, expected at least 1 template to be returned.'
   end
   test_template_response(response.collection[0], 'sms', 'test_get_all_templates')
 end
