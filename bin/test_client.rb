@@ -503,8 +503,6 @@ def test_get_received_texts
     raise 'failed test_get_received_texts, expected at least 1 received text returned.'
   end
   test_received_text_response(response.collection[0], 'test_received_text_response')
-  test_received_text_response(response.collection[1], 'test_received_text_response')
-  test_received_text_response(response.collection[2], 'test_received_text_response')
 end
 
 def test_received_text_response(response, test_method)
