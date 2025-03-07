@@ -447,7 +447,6 @@ end
 
 def expected_fields_in_precompiled_letter_notification_that_are_nil
   %w(
-    completed_at
     created_by_name
     email_address
     line_2
