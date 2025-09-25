@@ -1,3 +1,9 @@
+## 6.3.0
+* Update dependencies
+  * Permit the `jwt` gem to be upgraded to version 3
+  * Remove the `bundler` gem dependency
+  * Allow the `factory_bot` gem to be upgraded whilst keeping the restriction in place for Ruby versions below 3
+
 ## 6.2.0
 * Added fields related to cost data in response:
   * `is_cost_data_ready`: This field is true if cost data is ready, and false if it isn't (Boolean).
