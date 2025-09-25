@@ -20,11 +20,14 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "jwt", ">= 1.5", "< 3"
+  spec.add_runtime_dependency "jwt", ">= 1.5", "< 4"
 
-  spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.7"
   spec.add_development_dependency "webmock", "~> 3.4"
-  spec.add_development_dependency "factory_bot", "~> 6.1", "<6.4.5"
+  if RUBY_VERSION < '3.0.0'
+    spec.add_development_dependency "factory_bot", "~> 6.1", "< 6.4.5"
+  else
+    spec.add_development_dependency "factory_bot", "~> 6.1"
+  end
 end
