@@ -26,5 +26,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.7"
   spec.add_development_dependency "webmock", "~> 3.4"
-  spec.add_development_dependency "factory_bot", "~> 6.1", "<6.4.5"
+  if RUBY_VERSION < '3.0.0'
+    spec.add_development_dependency "factory_bot", "~> 6.1", "< 6.4.5"
+  else
+    spec.add_development_dependency "factory_bot", "~> 6.1"
+  end
 end
