@@ -8,5 +8,3 @@ Useful links:
 - [Ruby gem](https://rubygems.org/gems/notifications-ruby-client)
 - [Changelog](https://github.com/alphagov/notifications-ruby-client/blob/main/CHANGELOG.md)
 - [Contributing to this client](https://github.com/alphagov/notifications-ruby-client/blob/main/CONTRIBUTING.md)
-
-#
