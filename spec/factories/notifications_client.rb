@@ -81,7 +81,8 @@ FactoryBot.define do
                         "version" => 1,
                         "uri" => "/v2/templates/f6895ff7-86e0-4d38-80ab-c9525856c3ff"
                       },
-        "uri" => "/notifications/aceed36e-6aee-494c-a09f-88b68904bad6"
+        "uri" => "/notifications/aceed36e-6aee-494c-a09f-88b68904bad6",
+        "sanitised_content" => {}
       }
     end
 

@@ -30,7 +30,8 @@ module Notifications
     end
 
     ##
-    # @see Notifications::Client::Speaker#post
+    # @see Notifications::Client::Speaker#post
+    # Optional email-only keys are documented on {Notifications::Client::Speaker#post}.
     # @return [ResponseNotification]
     def send_email(args)
       ResponseNotification.new(
