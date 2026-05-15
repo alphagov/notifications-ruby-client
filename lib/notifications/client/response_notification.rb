@@ -7,6 +7,7 @@ module Notifications
       content
       template
       uri
+      sanitised_content
     ).freeze
 
       attr_reader(*FIELDS)

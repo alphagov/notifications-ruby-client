@@ -35,6 +35,7 @@ describe Notifications::Client do
       content
       uri
       template
+      sanitised_content
     ).each do |field|
       it "expect to include #{field}" do
         expect(
@@ -46,6 +47,45 @@ describe Notifications::Client do
     it "hits the correct API endpoint" do
       expect(WebMock).to have_requested(:post, "https://#{uri.host}:#{uri.port}/v2/notifications/email").
         with(body: { email_address: "email@gov.uk", template_id: "f6895ff7-86e0-4d38-80ab-c9525856c3ff" })
+    end
+
+    context "when sanitise_content_for is passed" do
+      let!(:sent_email) {
+        client.send_email(
+          email_address: "email@gov.uk",
+          template_id: "f6895ff7-86e0-4d38-80ab-c9525856c3ff",
+          sanitise_content_for: ["user_name"]
+        )
+      }
+
+      it "includes sanitise_content_for in the JSON request body" do
+        expect(WebMock).to have_requested(:post, "https://#{uri.host}:#{uri.port}/v2/notifications/email").with { |req|
+          body = JSON.parse(req.body)
+          body["sanitise_content_for"] == ["user_name"] &&
+            body["email_address"] == "email@gov.uk" &&
+            body["template_id"] == "f6895ff7-86e0-4d38-80ab-c9525856c3ff"
+        }
+      end
+    end
+
+    context "when sanitise_content_for is an empty array" do
+      let!(:sent_email) {
+        client.send_email(
+          email_address: "email@gov.uk",
+          template_id: "f6895ff7-86e0-4d38-80ab-c9525856c3ff",
+          sanitise_content_for: []
+        )
+      }
+
+      it "serialises sanitise_content_for as an empty JSON array" do
+        expect(WebMock).to have_requested(:post, "https://#{uri.host}:#{uri.port}/v2/notifications/email").with { |req|
+          JSON.parse(req.body)["sanitise_content_for"] == []
+        }
+      end
+    end
+
+    it "exposes sanitised_content as a Hash (JSON object), which may be empty when nothing was sanitised" do
+      expect(sent_email.sanitised_content).to be_a(Hash)
     end
   end
 end

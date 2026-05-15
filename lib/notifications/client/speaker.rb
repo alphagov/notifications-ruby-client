@@ -49,6 +49,8 @@ module Notifications
       #   id of the sender to be used for an sms notification
       # @option form_data [String] :one_click_unsubscribe_url
       #   link that end user can click to unsubscribe from the distribution list. We will pass this link in the email headers.
+      # @option form_data [Array<String>] :sanitise_content_for
+      #   email only: optional list of personalisation placeholder keys to sanitise for Markdown before the template is rendered.
       # @see #perform_request!
       def post(kind, form_data)
         request = Net::HTTP::Post.new(

@@ -1,3 +1,8 @@
+## 6.4.0
+
+* Add support for the optional `sanitise_content_for` parameter when sending email (list of personalisation placeholder keys to sanitise for Markdown). Documented on `Notifications::Client::Speaker#post`.
+* Add `sanitised_content` to the send-email response object (`Notifications::Client::ResponseNotification`). The API returns a JSON object (Ruby `Hash`): keys are personalisation placeholder names, and each value is another object with `unsanitised` and `sanitised` for placeholders that were rewritten; the object is empty when nothing changed. If the key is absent from the JSON, the client exposes `nil`.
+
 ## 6.3.0
 * Update dependencies
   * Permit the `jwt` gem to be upgraded to version 3

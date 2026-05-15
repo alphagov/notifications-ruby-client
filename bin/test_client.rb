@@ -112,7 +112,8 @@ def test_send_email_endpoint(client)
     personalisation: { "name" => "some name" },
     reference: "some reference",
     email_reply_to_id: ENV['EMAIL_REPLY_TO_ID'],
-    one_click_unsubscribe_url: "https://www.clovercouncil.gov.uk/unsubscribe?email_address=faye@example.com"
+    one_click_unsubscribe_url: "https://www.clovercouncil.gov.uk/unsubscribe?email_address=faye@example.com",
+    sanitise_content_for: ["name"]
   )
   test_notification_response_data_type(email_resp, 'email')
   email_resp
@@ -186,6 +187,10 @@ def test_notification_response_data_type(notification, message_type)
 
   if message_type == 'email'
     hash_key_should_not_be_nil(expected_fields_in_email_content, notification.send('content'), 'send_' + message_type + '.content')
+    unless sanitised_content_matches_email_send_api_response?(notification.sanitised_content)
+      raise 'contract test failed: sanitised_content should be a JSON object whose keys are placeholder names ' \
+            'and whose values are objects with unsanitised and sanitised (see notifications-api post v2/email response)'
+    end
   elsif message_type == 'sms'
     hash_key_should_not_be_nil(expected_fields_in_sms_content, notification.send('content'), 'send_' + message_type + '.content')
   elsif message_type == 'letter'
@@ -248,6 +253,19 @@ def test_get_pdf_for_letter(client, id)
 
   raise "pdf didn't become ready in time" if response.nil?
   raise "get_pdf_for_letter response for #{id} is not a PDF: #{response}" unless response.start_with?('%PDF-')
+end
+
+# POST /v2/notifications/email merges sanitised_content from the API: a JSON object mapping each changed
+# placeholder to { "unsanitised" => ..., "sanitised" => ... }. It is {} when no placeholders differ.
+def sanitised_content_matches_email_send_api_response?(sanitised_content)
+  return false unless sanitised_content.is_a?(Hash)
+
+  sanitised_content.all? do |placeholder_key, entry|
+    placeholder_key.is_a?(String) &&
+      entry.is_a?(Hash) &&
+      entry.key?('unsanitised') &&
+      entry.key?('sanitised')
+  end
 end
 
 def hash_key_should_not_be_nil(fields, obj, method_name)
