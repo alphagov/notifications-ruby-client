@@ -1,3 +1,7 @@
+## 6.5.0
+
+* Add `personalisation` to the `Notifications::Client::Template` object returned by `get_template_by_id`, `get_template_version` and `get_all_templates`. This is a hash of placeholder names, for example `{"name" => {"required" => true}}`.
+
 ## 6.4.0
 
 * Add support for the optional `sanitise_content_for` parameter when sending email (list of personalisation placeholder keys to sanitise for Markdown). Documented on `Notifications::Client::Speaker#post`.

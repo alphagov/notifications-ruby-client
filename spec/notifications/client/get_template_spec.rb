@@ -42,6 +42,7 @@ describe Notifications::Client do
       subject
       version
       letter_contact_block
+      personalisation
     ).each do |field|
       it "expect to include #{field}" do
         expect(
@@ -52,6 +53,10 @@ describe Notifications::Client do
 
     it "parses the time correctly" do
       expect(template.created_at.to_s).to eq("2016-11-29 11:12:30 UTC")
+    end
+
+    it "returns the personalisation placeholders" do
+      expect(template.personalisation).to eq("place_holder" => {"required" => true})
     end
 
     it "hits the correct API endpoint" do

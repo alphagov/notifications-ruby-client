@@ -14,6 +14,7 @@ module Notifications
         body
         subject
         letter_contact_block
+        personalisation
       ).freeze
 
       attr_reader(*FIELDS)
