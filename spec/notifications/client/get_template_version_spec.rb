@@ -44,6 +44,7 @@ describe Notifications::Client do
       subject
       version
       letter_contact_block
+      personalisation
     ).each do |field|
       it "expect to include #{field}" do
         expect(

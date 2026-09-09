@@ -16,7 +16,8 @@ FactoryBot.define do
         "body" => "Contents of template ((place_holder))",
         "subject" => "Subject of the letter",
         "version" => "2",
-        "letter_contact_block" => "The return address"
+        "letter_contact_block" => "The return address",
+        "personalisation" => {"place_holder" => {"required" => true}}
       }
     end
   end
