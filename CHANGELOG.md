@@ -1,6 +1,12 @@
+## 6.5.1
+
+* Same contents as 6.5.0. That version was never published because the CI image failed to build after Debian 11 LTS ended.
+* Move the CI Docker image from `ruby:2.6-slim` (Debian 11) to `ruby:3.4-slim`. This does not change the gem for users.
+
 ## 6.5.0
 
 * Add `personalisation` to the `Notifications::Client::Template` object returned by `get_template_by_id`, `get_template_version` and `get_all_templates`. This is a hash of placeholder names, for example `{"name" => {"required" => true}}`.
+* Not published to RubyGems. Use 6.5.1.
 
 ## 6.4.0
 
