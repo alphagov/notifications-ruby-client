@@ -1,12 +1,11 @@
-FROM ruby:2.6-slim
+FROM ruby:3.4-slim
 
 RUN \
 	echo "Install Debian packages" \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends \
 		awscli \
-		gcc \
-		make \
+		build-essential \
 		curl \
 		git \
 		gnupg \
