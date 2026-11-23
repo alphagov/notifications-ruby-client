@@ -26,7 +26,7 @@ describe Notifications::Client do
     }
 
     it "expects pdf to be returned" do
-      expect(pdf).to equal(mocked_response)
+      expect(pdf).to eq(mocked_response)
     end
 
     it "hits the correct API endpoint" do
